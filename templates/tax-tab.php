@@ -8,11 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Tax settings template.
  */
 
-if ( function_exists( 'does_vendor_collect_tax' ) ) {
-	$collect_tax = does_vendor_collect_tax();
-} else {
-	$collect_tax = false;
-} ?>
+$collect_tax = WCV_Taxes_Util::does_vendor_collect_tax();
+?>
 
 <div class="tabs-content hide-all" id="tax">
 	<div class="wcv-cols-group wcv-horizontal-gutters">
