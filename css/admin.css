@@ -1,0 +1,8 @@
+/**
+ * Admin CSS
+ */
+
+/* Hide "Tax Class" option */
+#woocommerce-fields-bulk label:nth-of-type(2), .woocommerce_variable_attributes .data > div:nth-of-type(5), .form-field._use_my_store_tax_class_field  {
+	display: none;
+}
