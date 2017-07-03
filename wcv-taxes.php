@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:         WC Vendors Taxes
- * Description:         The ultimate sales tax compliance solution for WC Vendors marketplaces.
+ * Description:         The ultimate sales tax compliance solution for WC Vendors.
  * Author:              The Plugin Pros
  * Author URI:          thepluginpros.com
  *
