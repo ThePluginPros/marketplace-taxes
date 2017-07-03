@@ -1,30 +1,185 @@
 <?php
 
 /**
- * Plugin Name: Vendor Taxes
- * Author: Brett Porcelli
- * Version: 1.1
- * Description: Enhances the WC Vendors tax system by using a single tax table for all vendors.
+ * Plugin Name:         WC Vendors Taxes
+ * Description:         The ultimate sales tax compliance solution for WC Vendors marketplaces.
+ * Author:              The Plugin Pros
+ * Author URI:          thepluginpros.com
+ *
+ * Version:             0.0.1
+ * Requires at least:   4.4.0
+ * Tested up to:        4.8.0
+ *
+ * Text Domain:         wcv-taxes
+ * Domain Path:         /languages/
+ *
+ * @category            Plugin
+ * @copyright           Copyright &copy; 2017 The Plugin Pros
+ * @author              The Plugin Pros, Brett Porcelli
+ * @package             WCV_Taxes
  */
 
-if ( !defined( 'ABSPATH' ) )
-	exit; // Exit if accessed directly
-
-define( 'VENDOR_TAXES_URI', plugin_dir_url( __FILE__ ) );
-define( 'VENDOR_TAXES_PATH', plugin_dir_path( __FILE__ ) );
-
-function maybe_enable_plugin() {
-	if ( class_exists( 'WooCommerce' ) && class_exists( 'WCV_Vendors' ) ) {
-		require 'includes/essential-functions.php';
-	}
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
 }
 
-add_action( 'plugins_loaded', 'maybe_enable_plugin', 25 );
+/**
+ * Define constants.
+ */
+define( 'WCV_TAX_VERSION', '0.0.1' );
+define( 'WCV_TAX_MIN_WOOCOMMERCE', '2.6.0' );
+define( 'WCV_TAX_MIN_WCVENDORS_PRO', '1.3.0' );
+define( 'WCV_TAX_FILE', __FILE__ );
+define( 'WCV_TAX_PATH', untrailingslashit( dirname( __FILE__ ) ) );
+define( 'WCV_TAX_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 
-// Remove rates with class "vendor-VENDORID" from database on activation
-function activate_vendor_taxes() {
-	global $wpdb;
-	$wpdb->query( "DELETE FROM {$wpdb->prefix}woocommerce_tax_rates WHERE tax_rate_class LIKE 'vendor-%'" );
+/**
+ * Check for updates
+ */
+if ( ! class_exists( 'WC_Software_License_Client' ) ) {
+    require 'includes/lib/class-wc-software-license-client.php';
 }
 
-register_activation_hook( __FILE__, 'activate_vendor_taxes' );
+WC_Software_License_Client::get_instance( 'https://www.wcvendors.com/', WCV_TAX_VERSION, 'wcv-taxes', __FILE__, 'WC Vendors Taxes' );
+
+final class WCV_Taxes {
+
+    /**
+     * @var WCV_Taxes Singleton instance of this class
+     */
+    private static $_instance;
+
+    /**
+     * @var array Admin notices.
+     */
+    private $notices = array();
+
+    /**
+     * Return the singleton instance of this class.
+     *
+     * @since 0.0.1
+     *
+     * @return WCV_Taxes
+     */
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Prevent cloning of the singleton instance.
+     *
+     * @since 0.0.1
+     */
+    private function __clone() {}
+
+    /**
+     * Prevent unserializing of the singleton instance.
+     *
+     * @since 0.0.1
+     */
+    private function __wakeup() {}
+
+    /**
+     * Constructor. Protected so new instances can't be created outside of
+     * this class.
+     *
+     * @since 0.1.0
+     */
+    protected function __construct() {
+        add_action( 'plugins_loaded', array( $this, 'init' ) );
+        add_action( 'admin_notices', array( $this, 'display_notices' ) );
+    }
+
+    /**
+     * Initialize plugin on plugins_loaded if all requirements are met.
+     *
+     * @since 0.0.1
+     */
+    public function init() {
+        load_plugin_textdomain( 'wcv-taxes', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+
+        $warning = $this->get_requirements_warning();
+
+        if ( $warning ) { // requirements not met
+            $this->add_admin_notice( 'requirements', 'error', $warning );
+            return;
+        }
+
+        require 'includes/essential-functions.php';
+    }
+
+    /**
+     * Checks the environment to determine whether the minimum requirements are
+     * met. Returns a string describing the first issue found, or false if the
+     * environment checks out.
+     *
+     * @since 0.0.1
+     *
+     * @return string|bool
+     */
+    private function get_requirements_warning() {
+        if ( ! defined( 'WC_VERSION' ) ) {
+            return __( 'WC Vendors Taxes requires WooCommerce to be activated.', 'wcv-taxes' );
+        }
+
+        if ( version_compare( WC_VERSION, WCV_TAX_MIN_WOOCOMMERCE, '<' ) ) {
+            $message = __( 'WC Vendors Taxes - WooCommerce %1$s or later is required. You have version %2$s installed.', 'wcv-taxes' );
+        
+            return sprintf( $message, WCV_TAX_MIN_WOOCOMMERCE, WC_VERSION );
+        }
+
+        if ( ! defined( 'WCV_PRO_VERSION' ) ) {
+            return __( 'WC Vendors Taxes requires WC Vendors Pro to be activated.', 'wcv-taxes' );
+        }
+
+        if ( version_compare( WCV_PRO_VERSION, WCV_TAX_MIN_WCVENDORS_PRO, '<' ) ) {
+            $message = __( 'WC Vendors Taxes - WC Vendors Pro %1$s or later is required. You have version %2$s installed.', 'wcv-taxes' );
+            
+            return sprintf( $message, WCV_TAX_MIN_WCVENDORS_PRO, WCV_PRO_VERSION );
+        }
+
+        return false;
+    }
+
+    /**
+     * Add an admin notice.
+     *
+     * @since 0.0.1
+     *
+     * @param string $slug
+     * @param string $type 'error' or 'success'
+     * @param string $content
+     */
+    public function add_admin_notice( $slug, $type, $content ) {
+        $this->notices[ $slug ] = array(
+            'type'    => $type,
+            'content' => $content,
+        );
+    }
+
+    /**
+     * Display admin notices.
+     *
+     * @since 0.0.1
+     */
+    public function display_notices() {
+        foreach ( $this->notices as $slug => $notice ) {
+            printf( '<div class="notice notice-%1$s"><p>%2$s</p></div>', $notice['type'], $notice['content'] );
+        }
+    }
+
+}
+
+/**
+ * Return an instance of WCV_Taxes.
+ *
+ * @return WCV_Taxes
+ */
+function WCV_Tax() {
+    return WCV_Taxes::instance();
+}
+
+WCV_Tax();
