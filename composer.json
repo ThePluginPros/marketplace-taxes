@@ -1,0 +1,17 @@
+{
+    "name": "thepluginpros/vendor-taxes",
+    "description": "The ultimate sales tax solution for WC Vendors Pro.",
+    "type": "project",
+    "require": {
+        "taxjar/taxjar-php": "^1.5"
+    },
+    "authors": [
+        {
+            "name": "Brett Porcelli",
+            "email": "brettporcelli@gmail.com"
+        }
+    ],
+    "config": {
+        "vendor-dir": "includes/vendor"
+    }
+}

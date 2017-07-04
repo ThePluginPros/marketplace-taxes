@@ -37,7 +37,7 @@ define( 'WCV_TAX_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
  * Check for updates
  */
 if ( ! class_exists( 'WC_Software_License_Client' ) ) {
-    require 'includes/lib/class-wc-software-license-client.php';
+    require 'includes/vendor/wc-vendors/class-wc-software-license-client.php';
 }
 
 WC_Software_License_Client::get_instance( 'https://www.wcvendors.com/', WCV_TAX_VERSION, 'wcv-taxes', __FILE__, 'WC Vendors Taxes' );
@@ -112,6 +112,12 @@ final class WCV_Taxes {
         require 'includes/class-wcv-taxes-checkout.php';
         require 'includes/class-wcv-taxes-dashboard.php';
         require 'includes/class-wcv-taxes-order.php';
+
+        // TODO:
+        // 1) Create activation hook
+        // 2) On activation, backup and delete all existing tax ratees
+        // 3) Also, delete all tax rate transients & configure woo tax settings
+        // 4) If WCV Pro < 1.4.4 installed, need to manually create shipping packages for each vendor (see TRS)
     }
 
     /**
