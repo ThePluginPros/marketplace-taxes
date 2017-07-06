@@ -68,7 +68,7 @@ class WCV_Taxes_Admin {
         // TaxJar settings
         $this->sections['taxjar'] = array(
             'name'    => __( 'TaxJar', 'wcv-taxes' ),
-            'desc'    => __( '<a href="#" target="_blank">TaxJar</a> is an easy-to-use tax reporting and calculation engine for small business owners and sales tax professionals. Enabling TaxJar allows vendors to take advantage of TaxJar\'s tax calculation, reporting, and filing services. As the marketplace owner, you may choose to cover the cost of tax calculations at checkout, or require vendors to pay for their own calculations.', 'wcv-taxes' ),
+            'desc'    => __( '<a href="#" target="_blank">TaxJar</a> is an easy-to-use tax reporting and calculation engine for small business owners and sales tax professionals. Pricing starts from only $19.99 per month for up to 1000 transactions. You may choose to cover the cost of tax calculations, or require vendors to pay for their own.', 'wcv-taxes' ),
             'options' => array(
                 array(
                     'name' => __( 'Enabled', 'wcv-taxes' ),
@@ -101,7 +101,7 @@ class WCV_Taxes_Admin {
         // RateSync settings
         $this->sections['ratesync'] = array(
             'name'    => __( 'RateSync', 'wcv-taxes' ),
-            'desc'    => __( 'The <a href="#" target="_blank">RateSync</a> provider extends the WooCommerce tax system to support multi-nexus tax collection. It uses a combination of custom tax rules and rates from TaxRates.com to perform tax calculations. RateSync is free to use, though you should be warned that it is far less accurate than TaxJar.', 'wcv-taxes' ),
+            'desc'    => __( 'The <a href="#" target="_blank">RateSync</a> provider extends the WooCommerce tax system to support multi-nexus tax collection. It uses a combination of custom tax rules and rates from TaxRates.com to perform tax calculations. RateSync is free to use, although it is far less accurate than TaxJar.', 'wcv-taxes' ),
             'options' => array(
                 array(
                     'name' => __( 'Enabled', 'wcv-taxes' ),
