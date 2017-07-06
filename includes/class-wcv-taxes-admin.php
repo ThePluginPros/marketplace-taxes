@@ -16,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WCV_Taxes_Admin {
 
     /**
+     * @var array Settings sections.
+     */
+    private $sections = array();
+
+    /**
      * Constructor. Registers action/filter hooks.
      *
      * @since 0.0.1
@@ -24,6 +29,89 @@ class WCV_Taxes_Admin {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
         add_filter( 'plugin_action_links_' . plugin_basename( WCV_TAX_FILE ), array( $this, 'add_settings_link' ) );
         add_filter( 'wc_prd_vendor_options', array( $this, 'add_tax_tab' ) );
+
+        $this->init_sections();
+    }
+
+    /**
+     * Initialize the settings sections.
+     *
+     * @since 0.0.1
+     */
+    private function init_sections() {
+        // General settings
+        $this->sections['general'] = array(
+            'name'    => __( 'General', 'wcv-taxes' ),
+            'desc'    => __( 'Use this tab to configure your WC Vendors Taxes installation. For help, shoot us an email at support@thepluginpros.com.', 'wcv-taxes' ),
+            'options' => array(
+                array(
+                    'name'  => __( 'Enabled', 'wcv-taxes' ),
+                    'id'    => 'taxes_enabled',
+                    'type'  => 'checkbox',
+                    'desc'  => __( 'Enable tax calculations during checkout', 'wcv-tax' ),
+                    'std'   => true,
+                ),
+                array(
+                    'name'    => __( 'Merchant of Record', 'wcv-taxes' ),
+                    'id'      => 'merchant_of_record',
+                    'type'    => 'select',
+                    'options' => array(
+                        'vendor'      => __( 'Vendor', 'wcv-taxes' ),
+                        'marketplace' => __( 'Marketplace', 'wcv-taxes' ),
+                    ),
+                    'std'     => 'vendor',
+                    'tip'     => __( 'The merchant of record is responsible for collecting and remitting sales tax for each sale. The sales tax collected will be given to the merchant of record.', 'wcv-taxes' ),
+                ),
+            ),
+        );
+
+        // TaxJar settings
+        $this->sections['taxjar'] = array(
+            'name'    => __( 'TaxJar', 'wcv-taxes' ),
+            'desc'    => __( '<a href="#" target="_blank">TaxJar</a> is an easy-to-use tax reporting and calculation engine for small business owners and sales tax professionals. Enabling TaxJar allows vendors to take advantage of TaxJar\'s tax calculation, reporting, and filing services. As the marketplace owner, you may choose to cover the cost of tax calculations at checkout, or require vendors to pay for their own calculations.', 'wcv-taxes' ),
+            'options' => array(
+                array(
+                    'name' => __( 'Enabled', 'wcv-taxes' ),
+                    'id'   => 'taxjar_enabled',
+                    'type' => 'checkbox',
+                    'desc' => __( 'Allow vendors to use TaxJar for tax calculations', 'wcv-tax' ),
+                    'std'  => true,
+                ),
+                array(
+                    'name' => __( 'API Key', 'wcv-taxes' ),
+                    'id'   => 'taxjar_api_key',
+                    'type' => 'text',
+                    'tip'  => __( 'Enter your TaxJar API key.', 'wcv-taxes' ),
+                    'desc' => sprintf( '<a href="#" target="_blank">%s</a> | <a href="#" target="_blank">%s</a>', __( 'Create TaxJar account', 'wcv-taxes' ), __( 'Obtain API key', 'wcv-taxes' ) ),
+                ),
+                array(
+                    'name' => __( 'Who Pays?', 'wcv-taxes' ),
+                    'id'   => 'taxjar_who_pays',
+                    'type' => 'select',
+                    'options' => array(
+                        'marketplace' => __( 'Marketplace', 'wcv-taxes' ),
+                        'vendor'      => __( 'Vendor', 'wcv-taxes' ),
+                    ),
+                    'tip'  => __( 'Who pays for tax calculations during checkout?', 'wcv-taxes' ),
+                    'std'  => 'marketplace',
+                ),
+            ),
+        );
+
+        // RateSync settings
+        $this->sections['ratesync'] = array(
+            'name'    => __( 'RateSync', 'wcv-taxes' ),
+            'desc'    => __( 'The <a href="#" target="_blank">RateSync</a> provider extends the WooCommerce tax system to support multi-nexus tax collection. It uses a combination of custom tax rules and rates from TaxRates.com to perform tax calculations. RateSync is free to use, though you should be warned that it is far less accurate than TaxJar.', 'wcv-taxes' ),
+            'options' => array(
+                array(
+                    'name' => __( 'Enabled', 'wcv-taxes' ),
+                    'id'   => 'ratesync_enabled',
+                    'type' => 'checkbox',
+                    'desc' => __( 'Allow vendors to use RateSync for tax calculations', 'wcv-tax' ),
+                    'std'  => false,
+                ),
+            ),
+        );
     }
 
     /**
@@ -90,125 +178,31 @@ class WCV_Taxes_Admin {
     }
 
     /**
-     * Get HTML for section links.
+     * Get HTML for settings header.
      *
      * @since 0.0.1
      *
      * @param  string $current Current section.
      * @return string
      */
-    private function get_section_links( $current ) {
-        $sections = array( 
-            'general'  => __( 'General', 'wcv-taxes' ),
-            'taxjar'   => __( 'TaxJar', 'wcv-taxes' ),
-            'ratesync' => __( 'RateSync', 'wcv-taxes' ),
-        );
-        
-        // Generate HTML
-        ob_start();
+    private function get_settings_header( $current ) {
+        $html = '';
 
-        foreach ( $sections as $key => $name ) {
+        // Add settings links
+        foreach ( $this->sections as $key => $section ) {
             $class = 'wcv-tax-section-link' . ( $current == $key ? ' current' : '' );
             $href  = admin_url( 'admin.php?page=wc_prd_vendor&tab=tax&section=' . $key );
-            
-            printf( '<a href="%s" class="%s">%s</a> | ', $href, $class, $name );
+            $html .= sprintf( '<a href="%s" class="%s">%s</a> | ', $href, $class, $section['name'] );
         }
         
-        // Collect HTML, stripping trailing separator
-        $html = ob_get_clean();
+        $html = substr( $html, 0, -3 );
 
-        return substr( $html, 0, strlen( $html ) - 3 );
-    }
+        // Add description
+        if ( isset( $this->sections[ $current ]['desc'] ) ) {
+           $html .= '</p><p class="wcv-tax-section-desc">' . $this->sections[ $current ]['desc'];
+        }
 
-    /**
-     * Add options for the 'General' section.
-     *
-     * @since 0.0.1
-     *
-     * @param  array $options
-     * @return array
-     */
-    private function add_general_options( $options ) {
-        $options[] = array(
-            'name'  => __( 'Enabled', 'wcv-taxes' ),
-            'id'    => 'taxes_enabled',
-            'type'  => 'checkbox',
-            'desc'  => __( 'Enable tax calculations during checkout', 'wcv-tax' ),
-            'std'   => true,
-        );
-
-        $options[] = array(
-            'name'    => __( 'Merchant of Record', 'wcv-taxes' ),
-            'id'      => 'merchant_of_record',
-            'type'    => 'select',
-            'options' => array(
-                'vendor'      => __( 'Vendor', 'wcv-taxes' ),
-                'marketplace' => __( 'Marketplace', 'wcv-taxes' ),
-            ),
-            'std'     => 'vendor',
-            'tip'     => __( 'The merchant of record is responsible for collecting and remitting sales tax for each sale. The sales tax collected will be given to the merchant of record.', 'wcv-taxes' ),
-        );
-        return $options;
-    }
-
-    /**
-     * Add options for the 'TaxJar' section.
-     *
-     * @since 0.0.1
-     *
-     * @param  array $options
-     * @return array
-     */
-    private function add_taxjar_options( $options ) {
-        $options[] = array(
-            'name' => __( 'Enabled', 'wcv-taxes' ),
-            'id'   => 'taxjar_enabled',
-            'type' => 'checkbox',
-            'desc' => __( 'Allow vendors to use TaxJar for tax calculations', 'wcv-tax' ),
-            'std'  => true,
-        );
-
-        $options[] = array(
-            'name' => __( 'API Key', 'wcv-taxes' ),
-            'id'   => 'taxjar_api_key',
-            'type' => 'text',
-            'tip'  => __( 'Enter your TaxJar API key.', 'wcv-taxes' ),
-            'desc' => sprintf( '<a href="#" target="_blank">%s</a> | <a href="#" target="_blank">%s</a>', __( 'Create TaxJar account', 'wcv-taxes' ), __( 'Obtain API key', 'wcv-taxes' ) ),
-        );
-
-        $options[] = array(
-            'name' => __( 'Who Pays?', 'wcv-taxes' ),
-            'id'   => 'taxjar_who_pays',
-            'type' => 'select',
-            'options' => array(
-                'marketplace' => __( 'Marketplace', 'wcv-taxes' ),
-                'vendor'      => __( 'Vendor', 'wcv-taxes' ),
-            ),
-            'tip'  => __( 'Who pays for tax calculations during checkout?', 'wcv-taxes' ),
-            'std'  => 'marketplace',
-        );
-
-        return $options;
-    }
-
-    /**
-     * Add options for the 'RateSync' section.
-     *
-     * @since 0.0.1
-     *
-     * @param  array $options
-     * @return array
-     */
-    private function add_ratesync_options( $options ) {
-        $options[] = array(
-            'name' => __( 'Enabled', 'wcv-taxes' ),
-            'id'   => 'ratesync_enabled',
-            'type' => 'checkbox',
-            'desc' => __( 'Allow vendors to use RateSync for tax calculations', 'wcv-tax' ),
-            'std'  => false,
-        );
-
-        return $options;
+        return $html;
     }
 
     /**
@@ -225,25 +219,18 @@ class WCV_Taxes_Admin {
         // Remove unused core options
         $options = $this->remove_core_options( $options );
         
-        // Add 'Tax' tab
+        // Add 'Tax' tab & options for current section
         $options[] = array(
             'name' => __( 'Tax', 'wcv-taxes' ),
             'type' => 'heading',
         );
-
-        // Add 'Tax options' title & section links
         $options[] = array(
             'name' => __( 'Tax options', 'wcv-taxes' ),
             'type' => 'title',
-            'desc' => $this->get_section_links( $current ),
+            'desc' => $this->get_settings_header( $current ),
         );
 
-        // Add other options depending on current section
-        $callback = array( $this, 'add_' . $current . '_options' );
-
-        if ( is_callable( $callback ) ) {
-            $options = call_user_func( $callback, $options, $current );
-        }
+        $options = array_merge( $options, $this->sections[ $current ]['options'] );
 
         return $options;
     }
