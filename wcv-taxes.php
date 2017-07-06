@@ -89,7 +89,7 @@ final class WCV_Taxes {
      * @since 0.1.0
      */
     protected function __construct() {
-        add_action( 'plugins_loaded', array( $this, 'init' ) );
+        add_action( 'plugins_loaded', array( $this, 'init' ), 0 );
         add_action( 'admin_notices', array( $this, 'display_notices' ) );
     }
 
@@ -109,6 +109,7 @@ final class WCV_Taxes {
         }
 
         require 'includes/class-wcv-taxes-util.php';
+        require 'includes/class-wcv-taxes-admin.php';
         require 'includes/class-wcv-taxes-checkout.php';
         require 'includes/class-wcv-taxes-dashboard.php';
         require 'includes/class-wcv-taxes-order.php';

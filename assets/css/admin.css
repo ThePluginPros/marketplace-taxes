@@ -1,0 +1,10 @@
+/* WC Vendors Taxes admin CSS */
+.wcv-tax-section-link {
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.wcv-tax-section-link.current {
+    font-weight: bold;
+    color: black;
+}
