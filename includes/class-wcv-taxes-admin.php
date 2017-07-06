@@ -29,6 +29,7 @@ class WCV_Taxes_Admin {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
         add_filter( 'plugin_action_links_' . plugin_basename( WCV_TAX_FILE ), array( $this, 'add_settings_link' ) );
         add_filter( 'wc_prd_vendor_options', array( $this, 'add_tax_tab' ) );
+        add_action( 'wc_prd_vendor_options_tab-tax', array( $this, 'add_section_field' ) );
 
         $this->init_sections();
     }
@@ -214,7 +215,7 @@ class WCV_Taxes_Admin {
      * @return array
      */
     public function add_tax_tab( $options ) {
-        $current = isset( $_GET['section'] ) ? $_GET['section'] : 'general';
+        $current = isset( $_REQUEST['section'] ) ? $_REQUEST['section'] : 'general';
         
         // Remove unused core options
         $options = $this->remove_core_options( $options );
@@ -233,6 +234,29 @@ class WCV_Taxes_Admin {
         $options = array_merge( $options, $this->sections[ $current ]['options'] );
 
         return $options;
+    }
+
+    /**
+     * Add a hidden field to store the current settings section.
+     *
+     * @since 0.0.1
+     *
+     * @param array $options (default: array())
+     */
+    public function add_section_field( $options = array() ) {
+        if ( ! empty( $options ) ) {
+            return $options;
+        }
+        
+        $current = isset( $_REQUEST['section'] ) ? $_REQUEST['section'] : 'general';
+
+        ?>
+        </table>
+        <table class="wcv-tax-hidden">
+            <tr>
+                <th><input type="hidden" name="section" value="<?php echo $current; ?>"></th>
+            </tr>
+        </table> <?php
     }
 
 }

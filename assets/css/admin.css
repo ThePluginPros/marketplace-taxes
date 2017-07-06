@@ -12,3 +12,7 @@
 .wcv-tax-section-desc {
     font-weight: normal;
 }
+
+.wcv-tax-hidden {
+    display: none;
+}
