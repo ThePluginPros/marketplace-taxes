@@ -215,25 +215,30 @@ class WCV_Taxes_Admin {
      * @return array
      */
     public function add_tax_tab( $options ) {
+        // Bail if we aren't on the WC Vendors settings page
+        if ( isset( $_REQUEST['page'] ) && 'wc_prd_vendor' !== $_REQUEST['page'] ) {
+            return $options;
+        }
+
         $current = isset( $_REQUEST['section'] ) ? $_REQUEST['section'] : 'general';
         
-        // Remove unused core options
-        $options = $this->remove_core_options( $options );
-        
-        // Add 'Tax' tab & options for current section
-        $options[] = array(
-            'name' => __( 'Tax', 'wcv-taxes' ),
-            'type' => 'heading',
-        );
-        $options[] = array(
-            'name' => __( 'Tax options', 'wcv-taxes' ),
-            'type' => 'title',
-            'desc' => $this->get_settings_header( $current ),
+        // Add 'Tax' tab and options for current section
+        $new_options = array_merge(
+            array(
+                array(
+                    'name' => __( 'Tax', 'wcv-taxes' ),
+                    'type' => 'heading',
+                ),
+                array(
+                    'name' => __( 'Tax options', 'wcv-taxes' ),
+                    'type' => 'title',
+                    'desc' => $this->get_settings_header( $current ),
+                )
+            ),
+            $this->sections[ $current ]['options']
         );
 
-        $options = array_merge( $options, $this->sections[ $current ]['options'] );
-
-        return $options;
+        return array_merge( $this->remove_core_options( $options ), $new_options );
     }
 
     /**
