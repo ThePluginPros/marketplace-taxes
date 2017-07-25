@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since   0.0.1
  */
 class WCV_Taxes_Admin {
-
+    
     /**
      * @var array Settings sections.
      */
@@ -46,10 +46,10 @@ class WCV_Taxes_Admin {
             'desc'    => __( 'Use this tab to configure your WC Vendors Taxes installation. For help, shoot us an email at support@thepluginpros.com.', 'wcv-taxes' ),
             'options' => array(
                 array(
-                    'name'  => __( 'Enabled', 'wcv-taxes' ),
-                    'id'    => 'taxes_enabled',
+                    'name'  => __( 'Force Tax Collection', 'wcv-taxes' ),
+                    'id'    => 'force_tax_collection',
                     'type'  => 'checkbox',
-                    'desc'  => __( 'Enable tax calculations during checkout', 'wcv-tax' ),
+                    'desc'  => __( 'Force vendors to collect tax', 'wcv-tax' ),
                     'std'   => true,
                 ),
                 array(
@@ -66,53 +66,16 @@ class WCV_Taxes_Admin {
             ),
         );
 
-        // TaxJar settings
-        $this->sections['taxjar'] = array(
-            'name'    => __( 'TaxJar', 'wcv-taxes' ),
-            'desc'    => __( '<a href="#" target="_blank">TaxJar</a> is an easy-to-use tax reporting and calculation engine for small business owners and sales tax professionals. Pricing starts from only $19.99 per month for up to 1000 transactions. You may choose to cover the cost of tax calculations, or require vendors to pay for their own.', 'wcv-taxes' ),
-            'options' => array(
-                array(
-                    'name' => __( 'Enabled', 'wcv-taxes' ),
-                    'id'   => 'taxjar_enabled',
-                    'type' => 'checkbox',
-                    'desc' => __( 'Allow vendors to use TaxJar for tax calculations', 'wcv-tax' ),
-                    'std'  => true,
-                ),
-                array(
-                    'name' => __( 'API Key', 'wcv-taxes' ),
-                    'id'   => 'taxjar_api_key',
-                    'type' => 'text',
-                    'tip'  => __( 'Enter your TaxJar API key.', 'wcv-taxes' ),
-                    'desc' => sprintf( '<a href="#" target="_blank">%s</a> | <a href="#" target="_blank">%s</a>', __( 'Create TaxJar account', 'wcv-taxes' ), __( 'Obtain API key', 'wcv-taxes' ) ),
-                ),
-                array(
-                    'name' => __( 'Who Pays?', 'wcv-taxes' ),
-                    'id'   => 'taxjar_who_pays',
-                    'type' => 'select',
-                    'options' => array(
-                        'marketplace' => __( 'Marketplace', 'wcv-taxes' ),
-                        'vendor'      => __( 'Vendor', 'wcv-taxes' ),
-                    ),
-                    'tip'  => __( 'Who pays for tax calculations during checkout?', 'wcv-taxes' ),
-                    'std'  => 'marketplace',
-                ),
-            ),
-        );
+        // Calculation method settings
+        $methods = WCV_Taxes_Calculation::get_methods();
 
-        // RateSync settings
-        $this->sections['ratesync'] = array(
-            'name'    => __( 'RateSync', 'wcv-taxes' ),
-            'desc'    => __( 'The <a href="#" target="_blank">RateSync</a> provider extends the WooCommerce tax system to support multi-nexus tax collection. It uses a combination of custom tax rules and rates from TaxRates.com to perform tax calculations. RateSync is free to use, although it is far less accurate than TaxJar.', 'wcv-taxes' ),
-            'options' => array(
-                array(
-                    'name' => __( 'Enabled', 'wcv-taxes' ),
-                    'id'   => 'ratesync_enabled',
-                    'type' => 'checkbox',
-                    'desc' => __( 'Allow vendors to use RateSync for tax calculations', 'wcv-tax' ),
-                    'std'  => false,
-                ),
-            ),
-        );
+        foreach ( $methods as $id => $method ) {
+            $this->sections[ $id ] = array(
+                'name'    => $method->get_name(),
+                'desc'    => $method->get_admin_description(),
+                'options' => $method->get_admin_options(),
+            );      
+        }
     }
 
     /**

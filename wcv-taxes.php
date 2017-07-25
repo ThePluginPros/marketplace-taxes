@@ -109,6 +109,7 @@ final class WCV_Taxes {
         }
 
         require 'includes/class-wcv-taxes-util.php';
+        require 'includes/class-wcv-taxes-calculation.php';
         require 'includes/class-wcv-taxes-admin.php';
         require 'includes/class-wcv-taxes-checkout.php';
         require 'includes/class-wcv-taxes-dashboard.php';

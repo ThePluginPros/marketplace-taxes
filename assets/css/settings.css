@@ -1,0 +1,8 @@
+/* WC Vendors Taxes settings form CSS */
+.wcv-tax-calculation-methods {
+    display: none;
+}
+
+.wcv-grid ul.wcv-tax-calculation-methods {
+    margin-top: 0;
+}

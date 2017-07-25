@@ -23,7 +23,7 @@ class WCV_Taxes_Dashboard {
      */
     public function __construct() {
         add_filter( 'wcv_store_tabs', array( $this, 'add_tax_tab' ) );
-        add_action( 'wcv_form_submit_before_store_save_button', array( $this, 'display_tax_tab' ) );
+        add_action( 'wcv_form_submit_before_store_save_button', array( $this, 'output_tax_tab' ) );
         add_action( 'wcv_pro_store_settings_saved', array( $this, 'save_tax_settings' ) );
     }
 
@@ -55,8 +55,10 @@ class WCV_Taxes_Dashboard {
      *
      * @since 0.0.1
      */
-    public function display_tax_tab() {
-        require_once trailingslashit( WCV_TAX_PATH ) . 'templates/tax-tab.php';
+    public function output_tax_tab() {
+        require 'forms/class-wcv-taxes-store-form.php';
+        
+        WCV_Taxes_Store_Form::output();
     }
 
     /**
