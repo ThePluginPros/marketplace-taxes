@@ -41,8 +41,8 @@ class WCV_Taxes_Calculation {
     protected static function init_methods() {
         require 'class-wcv-taxes-calculation-method.php';
 
-        require 'calculation/taxjar/class-wcv-taxes-method-taxjar.php';
-        require 'calculation/ratesync/class-wcv-taxes-method-ratesync.php';
+        require 'calc-methods/class-wcv-taxes-method-taxjar.php';
+        require 'calc-methods/class-wcv-taxes-method-ratesync.php';
         
         self::$methods = array(
             'taxjar'   => new WCV_Taxes_Method_TaxJar(),

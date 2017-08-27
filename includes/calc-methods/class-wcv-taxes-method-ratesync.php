@@ -37,6 +37,7 @@ class WCV_Taxes_Method_RateSync extends WCV_Taxes_Calculation_Method {
             ),
         );
 
+        // TODO: IF ENABLED, REGISTER USER SETTINGS
         parent::__construct();
     }
 

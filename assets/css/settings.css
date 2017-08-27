@@ -1,8 +1,21 @@
 /* WC Vendors Taxes settings form CSS */
-.wcv-tax-calculation-methods {
+.wcv-tax-calculation-methods, .wcv-tax-hidden {
     display: none;
 }
 
 .wcv-grid ul.wcv-tax-calculation-methods {
     margin-top: 0;
+}
+
+.wcv-grid table#vt_nexus_addresses_table {
+    margin-bottom: 0;
+    table-layout: fixed;
+}
+
+#vt_nexus_addresses_table input, #vt_nexus_addresses_table select {
+    max-width: 100%;
+}
+
+#vt_nexus_addresses_table td, #vt_nexus_addresses_table th {
+    padding: 0.5em;
 }
