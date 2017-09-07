@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Calculation method.
+ * Calculation Method.
  *
  * Base class extended by tax calculation methods.
  *
@@ -21,14 +21,24 @@ abstract class WCV_Taxes_Calculation_Method {
     protected $id = '';
 
     /**
+     * @var int Vendor ID.
+     */
+    protected $vendor_id = 0;
+
+    /**
      * @var string Name.
      */
     protected $name = '';
 
     /**
-     * @var bool Enabled?
+     * @var string Affiliate link.
      */
-    protected $enabled = false;
+    protected $affiliate_link = '#';
+
+    /**
+     * @var string Cost, e.g. '$19.99/month'
+     */
+    protected $cost = '';
 
     /**
      * @var string Description.
@@ -36,22 +46,38 @@ abstract class WCV_Taxes_Calculation_Method {
     protected $description = '';
 
     /**
-     * @var string Admin Description.
+     * @var array Form fields.
      */
-    protected $admin_description = '';
+    protected $form_fields = array();
 
     /**
-     * @var array Options.
+     * @var array Vendor specific form fields.
      */
-    protected $options = array();
+    protected $vendor_form_fields = array();
+
+    /**
+     * @var array Settings.
+     */
+    protected $settings = array();
+
+    /**
+     * @var array Vendor specific settings.
+     */
+    protected $vendor_settings = array();
 
     /**
      * Constructor.
      *
      * @since 0.0.1
+     *
+     * @param int $vendor_id (default: 0)
      */
-    public function __construct() {
-        $this->enabled = $this->get_option( 'enabled' );
+    public function __construct( $vendor_id = 0 ) {
+        if ( $vendor_id ) {
+            $this->vendor_id = $vendor_id;
+        } else {
+            $this->vendor_id = get_current_user_id();
+        }
     }
     
     /**
@@ -66,6 +92,17 @@ abstract class WCV_Taxes_Calculation_Method {
     }
 
     /**
+     * Getter for Vendor ID.
+     *
+     * @since 0.0.1
+     *
+     * @return int
+     */
+    public function get_vendor_id() {
+        return $this->vendor_id;
+    }
+
+    /**
      * Getter for name.
      *
      * @since 0.0.1
@@ -74,6 +111,39 @@ abstract class WCV_Taxes_Calculation_Method {
      */
     public function get_name() {
         return $this->name;
+    }
+
+    /**
+     * Getter for affiliate link.
+     *
+     * @since 0.0.1
+     *
+     * @return string
+     */
+    public function get_affiliate_link() {
+        return $this->affiliate_link;
+    }
+
+    /**
+     * Getter for cost.
+     *
+     * @since 0.0.1
+     *
+     * @return string
+     */
+    public function get_cost() {
+        return $this->cost;
+    }
+
+    /**
+     * Is the method enabled?
+     *
+     * @since 0.0.1
+     *
+     * @return bool
+     */
+    public function is_enabled() {
+        return $this->get_option( 'enabled' );
     }
 
     /**
@@ -88,86 +158,157 @@ abstract class WCV_Taxes_Calculation_Method {
     }
 
     /**
-     * Getter for admin description.
+     * Getter for form fields.
+     *
+     * @since 0.0.1
+     *
+     * @return array
+     */
+    public function get_form_fields() {
+        return $this->form_fields;
+    }
+
+    /**
+     * Getter for vendor form fields.
+     *
+     * @since 0.0.1
+     *
+     * @return array
+     */
+    public function get_vendor_form_fields() {
+        return $this->vendor_form_fields;
+    }
+
+    /**
+     * Initialize settings.
+     *
+     * @since 0.0.1
+     */
+    protected function init_settings() {
+        $settings = array();
+
+        foreach ( $this->get_form_fields() as $key => $field ) {
+            $name             = $this->id . '_' . $key;
+            $default          = isset( $field['std'] ) ? $field['std'] : false;
+            $settings[ $key ] = WC_Vendors::$pv_options->get_option( $name, $default );
+        }
+
+        $this->settings = $settings;
+    }
+
+    /**
+     * Initialize vendor settings.
+     *
+     * @since 0.0.1
+     */
+    protected function init_vendor_settings() {
+        foreach ( $this->get_vendor_form_fields() as $key => $field ) {
+            $id    = 'wcv_taxes_' . $key;
+            $value = get_user_meta( $this->vendor_id, $id, true );
+
+            if ( empty( $value ) && isset( $field['default'] ) ) {
+                $value = $field['default'];    
+            }
+
+            $this->vendor_settings[ $key ] = $value;
+        }
+    }
+
+    /**
+     * Get a sitewide option, returning the default value if necessary.
+     *
+     * @since 0.0.1
+     *
+     * @param  string $option_name
+     * @param  mixed $empty_value (default: '')
+     * @return mixed
+     */
+    public function get_sitewide_option( $option_name, $empty_value = '' ) {
+        $value = '';
+
+        if ( empty( $this->settings ) ) {
+            $this->init_settings();
+        }
+
+        if ( array_key_exists( $option_name, $this->settings ) ) {
+            $value = $this->settings[ $option_name ];
+        }
+
+        return empty( $value ) ? $empty_value : $value;
+    }
+
+    /**
+     * Get a vendor option, returning the default value if necessary.
+     *
+     * @since 0.0.1
+     *
+     * @param  string $option_name
+     * @param  mixed $empty_value (default: '')
+     * @return mixed
+     */
+    public function get_vendor_option( $option_name, $empty_value = '' ) {
+        $value = '';
+
+        if ( empty( $this->vendor_settings ) ) {
+            $this->init_vendor_settings();
+        }
+
+        if ( array_key_exists( $option_name, $this->vendor_settings ) ) {
+            $value = $this->vendor_settings[ $option_name ];
+        }
+
+        return empty( $value ) ? $empty_value : $value;
+    }
+
+    /**
+     * Get an option, returning the default value if necessary. Prioritize
+     * vendor settings over sitewide settings if applicable.
+     *
+     * @since 0.0.1
+     *
+     * @param  string $option_name
+     * @param  mixed $empty_value (default: '')
+     * @return mixed
+     */
+    public function get_option( $option_name, $empty_value = '' ) {
+        if ( $this->vendor_id && array_key_exists( $option_name, $this->vendor_form_fields ) ) {
+            return $this->get_vendor_option( $option_name, $empty_value );
+        }
+
+        return $this->get_sitewide_option( $option_name, $empty_value );
+    }
+
+    /**
+     * Get admin settings HTML.
      *
      * @since 0.0.1
      *
      * @return string
      */
-    public function get_admin_description() {
-        return $this->admin_description;
-    }
+    public function get_admin_settings_html() {
+        $settings_api = isset( WC_Vendors::$pv_options ) ? WC_Vendors::$pv_options : null;
 
-    /**
-     * Getter for options.
-     *
-     * @since 0.0.1
-     *
-     * @return array
-     */
-    public function get_options() {
-        return $this->options;
-    }
-
-    /**
-     * Get an option.
-     *
-     * @since 0.0.1
-     *
-     * @param  string $option_name
-     * @return mixed
-     */
-    public function get_option( $option_name ) {
-        $default = false;
-
-        if ( isset( $this->options[ $option_name ], $this->options[ $option_name ]['std'] ) ) {
-            $default = $this->options[ $option_name ]['std'];
+        if ( is_null( $settings_api ) ) {
+            return '';
         }
 
-        $option_name = $this->id . '_' . $option_name;
+        ob_start();
 
-        if ( isset( WC_Vendors::$pv_options ) ) {
-            return WC_Vendors::$pv_options->get_option( $option_name );
-        } else {
-            $options = get_option( 'wc_prd_vendor_options', array() );
-
-            if ( isset( $options[ $option_name ] ) ) {
-                return $options[ $option_name ];
-            } else {
-                return $default;
-            }
+        foreach ( $this->get_form_fields() as $field ) {
+            $settings_api->settings_options_format( $field );
         }
+
+        return '<table class="form-table">' . ob_get_clean() . '</table>';
     }
 
     /**
-     * Getter for admin options.
+     * Initialize form fields.
+     *
+     * Set the form fields to display on the settings page.
      *
      * @since 0.0.1
-     *
-     * @return array
      */
-    public function get_admin_options() {
-        $admin_options = array();
-
-        foreach ( $this->options as $option ) {
-            if ( isset( $option['admin'] ) && $option['admin'] ) {
-                $admin_options[] = $option;
-            }
-        }
-
-        return $admin_options;
-    }
-
-    /**
-     * Is the method enabled?
-     *
-     * @since 0.0.1
-     *
-     * @return bool
-     */
-    public function is_enabled() {
-        return $this->enabled;
-    }
+    protected function init_form_fields() { }
 
     /**
      * Calculate the sales tax for a given package.
@@ -178,34 +319,5 @@ abstract class WCV_Taxes_Calculation_Method {
      * @return array
      */
     abstract public function calculate_taxes( $package );
-
-    /**
-     * Optional callback executed when a new order is created. Can be used to
-     * save session data after checkout.
-     *
-     * @since 0.0.1
-     *
-     * @param int $order_id
-     */
-    public function order_created( $order_id ) { }
-
-    /**
-     * Optional callback executed when an order is shipped.
-     *
-     * @since 0.0.1
-     *
-     * @param int $order_id
-     */
-    public function order_shipped( $order_id ) { }
-
-    /**
-     * Optional callback executed when an order is partially or fully refunded.
-     *
-     * @since 0.0.1
-     *
-     * @param int $refund_id
-     * @param int $order_id
-     */
-    public function order_refunded( $refund_id, $order_id ) { }
 
 }

@@ -7,15 +7,15 @@
     margin-top: 0;
 }
 
-.wcv-grid table#vt_nexus_addresses_table {
+.wcv-grid table#wcv_taxes_nexus_addresses_table {
     margin-bottom: 0;
     table-layout: fixed;
 }
 
-#vt_nexus_addresses_table input, #vt_nexus_addresses_table select {
+#wcv_taxes_nexus_addresses_table input, #wcv_taxes_nexus_addresses_table select {
     max-width: 100%;
 }
 
-#vt_nexus_addresses_table td, #vt_nexus_addresses_table th {
+#wcv_taxes_nexus_addresses_table td, #wcv_taxes_nexus_addresses_table th {
     padding: 0.5em;
 }

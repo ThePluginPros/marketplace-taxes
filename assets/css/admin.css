@@ -1,18 +1,17 @@
 /* WC Vendors Taxes admin CSS */
-.wcv-tax-section-link {
-    font-weight: normal;
-    text-decoration: none;
+.wcv-taxes-table {
+    margin-top: 50px;
 }
 
-.wcv-tax-section-link.current {
+.form-table .wcv-taxes-table th {
+    padding: 10px;
+    width: auto;
+}
+
+.form-table th .wcv-taxes-table {
+    font-weight: normal;
+}
+
+.wcv-taxes-method-name a {
     font-weight: bold;
-    color: black;
-}
-
-.wcv-tax-section-desc {
-    font-weight: normal;
-}
-
-.wcv-tax-hidden {
-    display: none;
 }

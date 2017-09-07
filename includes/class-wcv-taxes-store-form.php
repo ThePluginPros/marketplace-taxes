@@ -43,97 +43,6 @@ class WCV_Taxes_Store_Form {
     }
 
     /**
-     * Initialize form fields.
-     *
-     * @since 0.0.1
-     */
-    public function init_fields() {
-        /**
-         * Core fields
-         */
-
-        // Enable/disable tax collection
-        if ( ! WC_Vendors::$pv_options->get_option( 'force_tax_collection' ) ) {
-            $this->add_field( 'enabled', 'input', array(
-                'type'        => 'checkbox',
-                'label'       => __( 'Enabled?', 'wcv-taxes' ),
-                'description' => __( 'Enable tax calculations.', 'wcv-taxes' ),
-                'desc_tip'    => true,
-                'default'     => 'yes',
-            ) );
-        }
-
-        // Nexus addresses
-        $this->add_field( 'nexus_addresses', 'address_table' );
-
-        // Calculation method
-        $this->add_field( 'calc_method', 'select', array(
-            'label'            => __( 'Calculation Method', 'wcv-taxes' ),
-            'description'      => __( 'The method to use for tax calculations. <a href="#" class="wcv-tax-toggle-calc-methods">Show details</a>.', 'wcv-taxes' ),
-            'desc_tip'         => true,
-            'options'          => $this->get_calculation_methods(),
-            'show_option_none' => __( 'Select one', 'wcv-taxes' ),
-        ) );
-
-        $this->add_field( 'calc_method_description', 'html', array( $this, 'output_method_description' ) );
-
-        /**
-         * Method-specific fields
-         */
-        do_action( 'wcv_tax_init_store_form_fields', $this );
-    }
-
-    /**
-     * Get a field's value, returning the specified default if no value
-     * is specified.
-     *
-     * @since 0.0.1
-     *
-     * @param  string $id
-     * @param  mixed $default (default: '')
-     * @return mixed
-     */
-    private function get_field( $id, $default = '' ) {
-        $p_id = 'vt_' . $id;
-
-        if ( isset( $_POST['store_save_button'] ) ) {
-            $posted = isset( $_POST[ $p_id ] ) ? $_POST[ $p_id ] : null;
-            $value  = apply_filters( 'wcv_tax_sanitize_field_' . $id, $posted );
-        } else {
-            $value = get_user_meta( $this->vendor_id, $p_id, true );
-        }
-
-        if ( empty( $value ) ) {
-            $value = $default;
-        }
-
-        return wp_unslash( $value );
-    }
-
-    /**
-     * Add a field.
-     *
-     * @since 0.0.1
-     *
-     * @param string $id
-     * @param string $type (input, select, textarea, address_table, html)
-     * @param array $field (default: array())
-     */
-    public function add_field( $id, $type, $field = array() ) {
-        // Automatically set id & value for common field types
-        if ( in_array( $type, array( 'input', 'select', 'textarea' ) ) ) {
-            $field['id']    = 'vt_' . $id;
-            $field['value'] = $this->get_field( $id, isset( $field['default'] ) ? $field['default'] : null );
-        }
-
-        // Add field
-        $this->fields[ $id ] = array(
-            'type'    => $type,
-            'options' => $field,
-        );
-    }
-
-    /**
      * Add 'Tax' tab on store settings page.
      *
      * @since 0.0.1
@@ -154,44 +63,90 @@ class WCV_Taxes_Store_Form {
     }
 
     /**
-     * Display the 'Tax' tab.
+     * Get description for Calculation Method field.
+     *
+     * @since 0.0.1
+     *
+     * @return string
+     */
+    private function get_calc_method_description() {
+        $html = '';
+
+        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $method ) {
+            $html .= sprintf( '<span class="wcv-tax-hidden show-if-calc_method-%s">%s</span>', $method->get_id(), $method->get_description() );
+        }
+
+        return $html;
+    }
+
+    /**
+     * Get options for Calculation Method field.
      *
      * @since 0.0.1
      */
-    public function display() {
-        // Enqueue styles
-        wp_enqueue_style( 'wcv-tax-settings', WCV_TAX_URL . '/assets/css/settings.css', array(), WCV_TAX_VERSION );
-
-        // Enqueue scripts
-        wp_enqueue_script( 'wcv-tax-calc-methods', WCV_TAX_URL . '/assets/js/calc-methods.js', array( 'jquery' ), WCV_TAX_VERSION );
+    private function get_calc_method_options() {
+        $methods = array();
         
-        wp_localize_script( 'wcv-tax-calc-methods', 'wcv_tax_calc_methods_localize', array(
-            'strings' => array(
-                'show_details' => __( 'Show details', 'wcv-taxes' ),
-                'hide_details' => __( 'Hide details', 'wcv-taxes' ),
-            ),
-        ) );
+        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $id => $method ) {
+            $methods[ $id ] = $method->get_name(); 
+        }
+        
+        return $methods;
+    }
 
-        // Output form
-        echo '<div class="tabs-content hide-all" id="tax">';
+    /**
+     * Initialize form fields.
+     *
+     * @since 0.0.1
+     */
+    public function init_fields() {
+        /**
+         * Core fields
+         */
 
-        do_action( 'wcv_tax_before_store_form', $this );
-
-        foreach ( $this->fields as $field ) {
-            if ( in_array( $field['type'], array( 'input', 'select', 'textarea' ) ) ) {
-                $cb = array( 'WCVendors_Pro_Form_Helper', $field['type'] );
-            } else {
-                $cb = array( $this, 'output_' . $field['type'] );
-            }
-
-            if ( is_callable( $cb ) ) {
-                call_user_func( $cb,  $field['options'] );
-            }
+        // Enable/disable tax collection
+        if ( ! WC_Vendors::$pv_options->get_option( 'force_tax_collection' ) ) {
+            $this->fields['enabled'] = array(
+                'id'          => 'wcv_taxes_enabled',
+                'type'        => 'checkbox',
+                'label'       => __( 'Enabled?', 'wcv-taxes' ),
+                'description' => __( 'Enable tax calculations.', 'wcv-taxes' ),
+                'desc_tip'    => true,
+                'default'     => 'yes',
+            );
         }
 
-        do_action( 'wcv_tax_after_store_form', $this );
-        
-        echo '</div>';
+        // Nexus addresses
+        $this->fields['nexus_addresses'] = array( 
+            'type' => 'address_table'
+        );
+
+        // Calculation method
+        $this->fields['calc_method'] = array(
+            'id'                => 'wcv_taxes_calc_method',
+            'type'              => 'select',
+            'label'             => __( 'Calculation Method <small>Required</small>', 'wcv-taxes' ),
+            'description'       => $this->get_calc_method_description(),
+            'desc_tip'          => true,
+            'options'           => $this->get_calc_method_options(),
+            'custom_attributes' => array(
+                'data-rules' => 'required',
+                'data-error' => __( 'Please select a calculation method.', 'wcv-taxes' ),
+            ),
+        );
+
+        /**
+         * Method-specific fields
+         */
+        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $method ) {
+            $method_fields = $method->get_vendor_form_fields();
+
+            foreach ( $method_fields as $field_id => &$field ) {
+                $field['value'] = $method->get_vendor_option( $field_id );
+            }
+
+            $this->fields = array_merge( $this->fields, $method_fields );
+        }
     }
 
     /**
@@ -225,6 +180,68 @@ class WCV_Taxes_Store_Form {
     }
 
     /**
+     * Get field name from field ID.
+     *
+     * @since 0.0.1
+     *
+     * @param  string $field_id
+     * @return string
+     */
+    private function get_field_name( $field_id ) {
+        return 'wcv_taxes_' . $field_id;
+    }
+
+    /**
+     * Get a field's value, returning the specified default if necessary.
+     *
+     * @since 0.0.1
+     *
+     * @param  string $field_id
+     * @param  mixed $default (default: '')
+     * @return mixed
+     */
+    private function get_field_value( $field_id, $default = '' ) {
+        $name = $this->get_field_name( $field_id );
+
+        if ( isset( $_POST['store_save_button'] ) ) {
+            $posted = isset( $_POST[ $name ] ) ? $_POST[ $name ] : null;
+            $value  = apply_filters( 'wcv_tax_sanitize_field_' . $field_id, $posted );
+        } else {
+            $value = get_user_meta( $this->vendor_id, $name, true );
+        }
+
+        if ( empty( $value ) ) {
+            $value = $default;
+        }
+
+        return wp_unslash( $value );
+    }
+
+    /**
+     * Display the 'Tax' tab.
+     *
+     * @since 0.0.1
+     */
+    public function display() {
+        // Enqueue scripts & styles
+        wp_enqueue_style( 'wcv-tax-settings', WCV_TAX_URL . '/assets/css/settings.css', array(), WCV_TAX_VERSION );
+
+        wp_enqueue_script( 'wcv-tax-settings', WCV_TAX_URL . '/assets/js/settings.js', array( 'jquery' ), WCV_TAX_VERSION );
+
+        // Prepare fields for output
+        foreach ( $this->fields as $field_id => &$field ) {
+            if ( ! isset( $field['value'] ) ) {
+                $field['value'] = $this->get_field_value( $field_id );
+            }
+        }
+
+        // Output form
+        wc_get_template( 'store-settings-form.php', array(
+            'fields' => $this->fields,
+        ), 'wc-vendors/dashboard/', WCV_TAX_PATH . '/templates/dashboard/' );
+    }
+
+    /**
      * Save the vendor's tax settings when the store form is saved.
      *
      * @since 0.0.1
@@ -236,96 +253,19 @@ class WCV_Taxes_Store_Form {
             return; // Not an approved vendor
         }
 
-        do_action( 'wcv_tax_before_save_store_form', $vendor_id );
-
-        foreach ( $this->fields as $key => $field ) {
-            $p_key = 'vt_' . $key;
-
-            // Get POSTed value
-            $posted_value = isset( $_POST[ $p_key ] ) ? $_POST[ $p_key ] : null;
-
-            // Sanitize
-            $value = apply_filters( 'wcv_tax_sanitize_field_' . $key, $posted_value );
+        foreach ( $this->fields as $field_id => $field ) {
+            // Get sanitized value
+            $value = $this->get_field_value( $field_id, null );
 
             // Save
+            $meta_name = $this->get_field_name( $field_id );
+            
             if ( ! is_null( $value ) ) {
-                update_user_meta( $this->vendor_id, $p_key, $value );
+                update_user_meta( $this->vendor_id, $meta_name, $value );
             } else {
-                delete_user_meta( $this->vendor_id, $p_key );
+                delete_user_meta( $this->vendor_id, $meta_name );
             }
         }
-
-        do_action( 'wcv_tax_after_save_store_form', $vendor_id );
-    }
-
-    /**
-     * Get enabled calculation methods.
-     *
-     * @since 0.0.1
-     */
-    private function get_calculation_methods() {
-        $methods = array();
-        
-        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $id => $method ) {
-            $methods[ $id ] = $method->get_name(); 
-        }
-        
-        return $methods;
-    }
-
-    /**
-     * Output the description for the Calculation Method field.
-     *
-     * @since 0.0.1
-     */
-    private function output_method_description() {
-        $methods = WCV_Taxes_Calculation::get_enabled_methods();
-
-        // Method list
-        echo '<dl class="wcv-tax-calculation-methods">';
-
-        if ( 0 === count( $methods ) ) {
-            printf( '<dt>%s</dt>', __( 'No methods available.', 'wcv-taxes' ) );
-            printf( '<dd>%s</dd>', __( 'Please contact the store owner for assistance.', 'wcv-taxes' ) );
-        } else {
-            foreach ( $methods as $key => $method ) {
-                echo '<dt>' . $method->get_name() . '</dt>';
-                echo '<dd>' . $method->get_description() . '</dd>';
-            }
-        }
-
-        echo '</dl>';
-    }
-
-    /**
-     * Output custom HTML.
-     *
-     * @since 0.0.1
-     *
-     * @param callable $cb Callback to generate HTML.
-     */
-    private function output_html( $cb ) {
-        if ( is_callable( $cb ) ) {
-            call_user_func( $cb );
-        }
-    }
-
-    /**
-     * Output address table.
-     *
-     * @since 0.0.1
-     *
-     * @param array $options (unused)
-     */
-    private function output_address_table( $options ) {
-        wp_enqueue_script( 'wcv-tax-address-table', WCV_TAX_URL . '/assets/js/address-table.js', array( 'jquery', 'wp-util', 'underscore', 'backbone', 'wcv-country-select' ), WCV_TAX_VERSION );
-        wp_localize_script( 'wcv-tax-address-table', 'wcv_tax_address_table_localize', array(
-            'addresses' => $this->get_field( 'nexus_addresses', array() ),
-        ) );
-    
-        wc_get_template( 'field-address-table.php', array(
-            'countries' => ( WC()->countries->get_allowed_countries() ) ? WC()->countries->get_allowed_countries() : WC()->countries->get_shipping_countries(),
-        ), 'wc-vendors/dashboard/', WCV_TAX_PATH . '/templates/dashboard/' );
     }
 
 }

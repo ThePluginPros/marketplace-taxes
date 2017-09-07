@@ -15,8 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WCV_Taxes_Calculation {
 
-    // TODO: HOOK wp_ajax_woocommerce_calc_line_taxes
-
     /**
      * @var array Calculation methods.
      */
@@ -28,26 +26,43 @@ class WCV_Taxes_Calculation {
      * @since 0.0.1
      */
     public function __construct() {
-        self::init_methods();
+        self::load_methods();
 
         add_action( 'woocommerce_calculate_totals', array( __CLASS__, 'calculate_tax_totals' ) );
     }
 
     /**
-     * Initialize calculation methods.
+     * Load calculation methods.
      *
      * @since 0.0.1
      */
-    protected static function init_methods() {
-        require 'class-wcv-taxes-calculation-method.php';
-
-        require 'calc-methods/class-wcv-taxes-method-taxjar.php';
-        require 'calc-methods/class-wcv-taxes-method-ratesync.php';
+    public static function load_methods() {
+        if ( ! class_exists( 'WCV_Taxes_Method_TaxJar' ) ) {
+            require 'methods/class-wcv-taxes-method-taxjar.php';
+        }
+        if ( ! class_exists( 'WCV_Taxes_Method_RateSync' ) ) {
+            require 'methods/class-wcv-taxes-method-ratesync.php';
+        }
         
         self::$methods = array(
             'taxjar'   => new WCV_Taxes_Method_TaxJar(),
             'ratesync' => new WCV_Taxes_Method_RateSync(),
         );
+    }
+
+    /**
+     * Get a calculation method by ID.
+     *
+     * @since 0.0.1
+     *
+     * @param  string $method_id
+     * @return WCV_Taxes_Calculation_Method | NULL
+     */
+    public static function get_method( $method_id ) {
+        if ( array_key_exists( $method_id, self::$methods ) ) {
+            return self::$methods[ $method_id ];
+        }
+        return NULL;
     }
 
     /**
@@ -59,6 +74,31 @@ class WCV_Taxes_Calculation {
      */
     public static function get_methods() {
         return self::$methods;
+    }
+
+    /**
+     * Get calculation methods formatted for display on settings page.
+     *
+     * @since 0.0.1
+     *
+     * @return array
+     */
+    public static function get_methods_formatted() {
+        $methods = array();
+
+        foreach ( self::get_methods() as $id => $method ) {
+            $methods[ $id ] = array(
+                'id'             => $id,
+                'name'           => $method->get_name(),
+                'affiliate_link' => $method->get_affiliate_link(),
+                'cost'           => $method->get_cost(),
+                'description'    => $method->get_description(),
+                'enabled'        => $method->is_enabled() ? 'yes' : 'no',
+                'settings_html'  => $method->get_admin_settings_html(),
+            );
+        }
+
+        return $methods;
     }
 
     /**
