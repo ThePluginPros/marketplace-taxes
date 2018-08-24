@@ -6,25 +6,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="control-group">
-    <label for="wcv_taxes_nexus_addresses"><?php _e( 'Business Locations <small>Required</small>', 'wcv-taxes' ); ?></label>
+    <label for="wcv_taxes_nexus_addresses"><?php _e( 'Business Locations <small>Required</small>', 'taxjar-for-marketplaces' ); ?></label>
     
     <div class="control">
         <table id="wcv_taxes_nexus_addresses_table">
             <thead> 
                 <tr>
-                    <th><?php _e( 'Address 1', 'wcv-taxes' ); ?></th>
-                    <th><?php _e( 'Address 2', 'wcv-taxes' ); ?></th>
-                    <th><?php _e( 'Country', 'wcv-taxes' ); ?></th>
-                    <th><?php _e( 'State', 'wcv-taxes' ); ?></th>
-                    <th><?php _e( 'City', 'wcv-taxes' ); ?></th>
-                    <th><?php _e( 'Postcode', 'wcv-taxes' ); ?></th>
+                    <th><?php _e( 'Address 1', 'taxjar-for-marketplaces' ); ?></th>
+                    <th><?php _e( 'Address 2', 'taxjar-for-marketplaces' ); ?></th>
+                    <th><?php _e( 'Country', 'taxjar-for-marketplaces' ); ?></th>
+                    <th><?php _e( 'State', 'taxjar-for-marketplaces' ); ?></th>
+                    <th><?php _e( 'City', 'taxjar-for-marketplaces' ); ?></th>
+                    <th><?php _e( 'Postcode', 'taxjar-for-marketplaces' ); ?></th>
                     <th width="30"><!-- Actions --></th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th colspan="7">
-                        <button type="button" class="vt-add-nexus-address"><?php _e( 'Add Address', 'wcv-taxes' ); ?></button>
+                        <button type="button" class="vt-add-nexus-address"><?php _e( 'Add Address', 'taxjar-for-marketplaces' ); ?></button>
                     </th>
                 </tr>
             </tfoot>
@@ -38,14 +38,14 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     
     <p class="tip">
-        <?php esc_html_e( 'Please enter all locations, including stores, warehouses, distribution facilities, etc.', 'wcv-taxes' ); ?>
+        <?php esc_html_e( 'Please enter all locations, including stores, warehouses, distribution facilities, etc.', 'taxjar-for-marketplaces' ); ?>
     </p>
 </div>
 
 <script type="text/html" id="tmpl-vt-nexus-addresses-empty">
     <tr id="wcv_taxes_nexus_addresses_blank_row">
         <td colspan="7">
-            <p><?php printf( '%s <a href="#" class="vt-add-nexus-address">%s</a>', __( 'No addresses entered.', 'wcv-taxes' ), __( 'Add one.', 'wcv-taxes' ) ); ?></p>
+            <p><?php printf( '%s <a href="#" class="vt-add-nexus-address">%s</a>', __( 'No addresses entered.', 'taxjar-for-marketplaces' ), __( 'Add one.', 'taxjar-for-marketplaces' ) ); ?></p>
         </td>
     </tr>
 </script>
@@ -53,10 +53,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/html" id="tmpl-vt-nexus-address">
     <tr data-id="{{ data.id }}">
         <td>
-            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][address_1]" id="wcv_taxes_nexus_addresses[{{ data.id }}][address_1]" placeholder="<?php esc_attr_e( 'Street address', 'wcv-taxes' ); ?>" value="{{ data.address_1 }}">
+            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][address_1]" id="wcv_taxes_nexus_addresses[{{ data.id }}][address_1]" placeholder="<?php esc_attr_e( 'Street address', 'taxjar-for-marketplaces' ); ?>" value="{{ data.address_1 }}">
         </td>
         <td>
-            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][address_2]" id="wcv_taxes_nexus_addresses[{{ data.id }}][address_2]" placeholder="<?php esc_attr_e( 'Apartment, suite, etc.', 'wcv-taxes' ); ?>" value="{{ data.address_2 }}">
+            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][address_2]" id="wcv_taxes_nexus_addresses[{{ data.id }}][address_2]" placeholder="<?php esc_attr_e( 'Apartment, suite, etc.', 'taxjar-for-marketplaces' ); ?>" value="{{ data.address_2 }}">
         </td>
         <td>    
             <select name="wcv_taxes_nexus_addresses[{{ data.id }}][country]" id="wcv_taxes_nexus_addresses[{{ data.id }}][country]" class="select2 country_to_state country_select">
@@ -66,13 +66,13 @@ if ( ! defined( 'ABSPATH' ) ) {
             </select>
         </td>
         <td>
-            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][state]" id="wcv_taxes_nexus_addresses[{{ data.id }}][state]" class="shipping_state" placeholder="<?php esc_attr_e( 'State', 'wcv-taxes' ); ?>" value="{{ data.state }}">
+            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][state]" id="wcv_taxes_nexus_addresses[{{ data.id }}][state]" class="shipping_state" placeholder="<?php esc_attr_e( 'State', 'taxjar-for-marketplaces' ); ?>" value="{{ data.state }}">
         </td>
         <td>
-            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][city]" id="wcv_taxes_nexus_addresses[{{ data.id }}][city]" placeholder="<?php esc_attr_e( 'City', 'wcv-taxes' ); ?>" value="{{ data.city }}">
+            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][city]" id="wcv_taxes_nexus_addresses[{{ data.id }}][city]" placeholder="<?php esc_attr_e( 'City', 'taxjar-for-marketplaces' ); ?>" value="{{ data.city }}">
         </td>
         <td>
-            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][postcode]" id="wcv_taxes_nexus_addresses[{{ data.id }}][postcode]" placeholder="<?php esc_attr_e( 'Postcode', 'wcv-taxes' ); ?>" value="{{ data.postcode }}">
+            <input type="text" name="wcv_taxes_nexus_addresses[{{ data.id }}][postcode]" id="wcv_taxes_nexus_addresses[{{ data.id }}][postcode]" placeholder="<?php esc_attr_e( 'Postcode', 'taxjar-for-marketplaces' ); ?>" value="{{ data.postcode }}">
         </td>
         <td width="30">
             <a href="#" class="vt-remove-nexus-address" title="Remove">

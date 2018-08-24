@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <table class="widefat striped wcv-taxes-table wcv-taxes-methods">
     <thead>
         <tr>
-            <th><?php _e( 'Name', 'wcv-taxes' ); ?></th>
-            <th><?php _e( 'Pricing', 'wcv-taxes' ); ?></th>
-            <th><?php _e( 'Description', 'wcv-taxes' ); ?></th>
-            <th><?php _e( 'Enabled', 'wcv-taxes' ); ?></th>
+            <th><?php _e( 'Name', 'taxjar-for-marketplaces' ); ?></th>
+            <th><?php _e( 'Pricing', 'taxjar-for-marketplaces' ); ?></th>
+            <th><?php _e( 'Description', 'taxjar-for-marketplaces' ); ?></th>
+            <th><?php _e( 'Enabled', 'taxjar-for-marketplaces' ); ?></th>
             <th><!-- Options --></th>
         </tr>
     </thead>
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <td>{{{ data.description }}}</td>
         <td>{{{ data.enabled_icon }}}</td>
         <td>
-            <button class="button wcv-taxes-configure-method" type="button"><?php _e( 'Configure', 'wcv-taxes' ); ?></button>
+            <button class="button wcv-taxes-configure-method" type="button"><?php _e( 'Configure', 'taxjar-for-marketplaces' ); ?></button>
         </td>
     </tr>
 </script>
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/html" id="tmpl-wcv-taxes-method-row-blank">
     <tr>
         <td colspan="5">
-            <p><?php esc_html_e( 'No methods available.', 'wcv-taxes' ); ?></p>
+            <p><?php esc_html_e( 'No methods available.', 'taxjar-for-marketplaces' ); ?></p>
         </td>
     </tr>
 </script>
@@ -56,12 +56,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <h1><?php
                         /* translators: %s: calculation method name */
                         printf(
-                            esc_html__( '%s Settings', 'woocommerce' ),
+                            esc_html__( '%s Settings', 'woocommerce', 'taxjar-for-marketplaces' ),
                             '{{{ data.name }}}'
                         );
                     ?></h1>
                     <button class="modal-close modal-close-link dashicons dashicons-no-alt">
-                        <span class="screen-reader-text"><?php _e( 'Close modal panel', 'woocommerce' ); ?></span>
+                        <span class="screen-reader-text"><?php _e( 'Close modal panel', 'woocommerce', 'taxjar-for-marketplaces' ); ?></span>
                     </button>
                 </header>
                 <article class="wc-modal-shipping-method-settings">
@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </article>
                 <footer>
                     <div class="inner">
-                        <button id="btn-ok" class="button button-primary button-large"><?php _e( 'Save changes', 'woocommerce' ); ?></button>
+                        <button id="btn-ok" class="button button-primary button-large"><?php _e( 'Save changes', 'woocommerce', 'taxjar-for-marketplaces' ); ?></button>
                     </div>
                 </footer>
             </section>

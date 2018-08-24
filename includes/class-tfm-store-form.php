@@ -12,9 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @author  Brett Porcelli
  * @package WCV_Taxes
- * @since   0.0.1
  */
-class WCV_Taxes_Store_Form {
+class TFM_Store_Form {
 
     /**
      * @var int Vendor ID.
@@ -28,12 +27,10 @@ class WCV_Taxes_Store_Form {
 
     /**
      * Constructor. Registers action/filter hooks & initializes fields.
-     *
-     * @since 0.0.1
      */
     public function __construct() {
         $this->vendor_id = get_current_user_id();
-        
+
         add_filter( 'wcv_store_tabs', array( $this, 'register_tab' ) );
         add_action( 'wcv_form_submit_before_store_save_button', array( $this, 'display' ) );
         add_action( 'wcv_pro_store_settings_saved', array( $this, 'save' ) );
@@ -45,17 +42,16 @@ class WCV_Taxes_Store_Form {
     /**
      * Add 'Tax' tab on store settings page.
      *
-     * @since 0.0.1
-     *
      * @param  array $tabs
+     *
      * @return array
      */
     public function register_tab( $tabs ) {
         if ( WCV_Vendors::is_vendor( $this->vendor_id ) ) {
-            $tabs[ 'tax' ] = array(
-                'label' => 'Tax',
+            $tabs['tax'] = array(
+                'label'  => 'Tax',
                 'target' => 'tax',
-                'class' => array(),
+                'class'  => array(),
             );
         }
 
@@ -65,15 +61,17 @@ class WCV_Taxes_Store_Form {
     /**
      * Get description for Calculation Method field.
      *
-     * @since 0.0.1
-     *
      * @return string
      */
     private function get_calc_method_description() {
         $html = '';
 
-        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $method ) {
-            $html .= sprintf( '<span class="wcv-tax-hidden show-if-calc_method-%s">%s</span>', $method->get_id(), $method->get_description() );
+        foreach ( TFM_Calculation::get_enabled_methods() as $method ) {
+            $html .= sprintf(
+                '<span class="wcv-tax-hidden show-if-calc_method-%s">%s</span>',
+                $method->get_id(),
+                $method->get_description()
+            );
         }
 
         return $html;
@@ -81,23 +79,19 @@ class WCV_Taxes_Store_Form {
 
     /**
      * Get options for Calculation Method field.
-     *
-     * @since 0.0.1
      */
     private function get_calc_method_options() {
         $methods = array();
-        
-        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $id => $method ) {
-            $methods[ $id ] = $method->get_name(); 
+
+        foreach ( TFM_Calculation::get_enabled_methods() as $id => $method ) {
+            $methods[ $id ] = $method->get_name();
         }
-        
+
         return $methods;
     }
 
     /**
      * Initialize form fields.
-     *
-     * @since 0.0.1
      */
     public function init_fields() {
         /**
@@ -109,36 +103,36 @@ class WCV_Taxes_Store_Form {
             $this->fields['enabled'] = array(
                 'id'          => 'wcv_taxes_enabled',
                 'type'        => 'checkbox',
-                'label'       => __( 'Enabled?', 'wcv-taxes' ),
-                'description' => __( 'Enable tax calculations.', 'wcv-taxes' ),
+                'label'       => __( 'Enabled?', 'taxjar-for-marketplaces' ),
+                'description' => __( 'Enable tax calculations.', 'taxjar-for-marketplaces' ),
                 'desc_tip'    => true,
                 'default'     => 'yes',
             );
         }
 
         // Nexus addresses
-        $this->fields['nexus_addresses'] = array( 
-            'type' => 'address_table'
+        $this->fields['nexus_addresses'] = array(
+            'type' => 'address_table',
         );
 
         // Calculation method
         $this->fields['calc_method'] = array(
             'id'                => 'wcv_taxes_calc_method',
             'type'              => 'select',
-            'label'             => __( 'Calculation Method <small>Required</small>', 'wcv-taxes' ),
+            'label'             => __( 'Calculation Method <small>Required</small>', 'taxjar-for-marketplaces' ),
             'description'       => $this->get_calc_method_description(),
             'desc_tip'          => true,
             'options'           => $this->get_calc_method_options(),
             'custom_attributes' => array(
                 'data-rules' => 'required',
-                'data-error' => __( 'Please select a calculation method.', 'wcv-taxes' ),
+                'data-error' => __( 'Please select a calculation method.', 'taxjar-for-marketplaces' ),
             ),
         );
 
         /**
          * Method-specific fields
          */
-        foreach ( WCV_Taxes_Calculation::get_enabled_methods() as $method ) {
+        foreach ( TFM_Calculation::get_enabled_methods() as $method ) {
             $method_fields = $method->get_vendor_form_fields();
 
             foreach ( $method_fields as $field_id => &$field ) {
@@ -152,9 +146,8 @@ class WCV_Taxes_Store_Form {
     /**
      * Sanitize the 'enabled' seting.
      *
-     * @since 0.0.1
-     *
      * @param  mixed $value
+     *
      * @return string 'yes' or 'no'
      */
     public function sanitize_enabled( $value ) {
@@ -167,9 +160,8 @@ class WCV_Taxes_Store_Form {
     /**
      * Sanitize the 'nexus addresses' setting.
      *
-     * @since 0.0.1
-     *
      * @param  mixed $value
+     *
      * @return array
      */
     public function sanitize_nexus_addresses( $value ) {
@@ -182,9 +174,8 @@ class WCV_Taxes_Store_Form {
     /**
      * Get field name from field ID.
      *
-     * @since 0.0.1
-     *
      * @param  string $field_id
+     *
      * @return string
      */
     private function get_field_name( $field_id ) {
@@ -194,10 +185,9 @@ class WCV_Taxes_Store_Form {
     /**
      * Get a field's value, returning the specified default if necessary.
      *
-     * @since 0.0.1
-     *
      * @param  string $field_id
      * @param  mixed $default (default: '')
+     *
      * @return mixed
      */
     private function get_field_value( $field_id, $default = '' ) {
@@ -219,14 +209,12 @@ class WCV_Taxes_Store_Form {
 
     /**
      * Display the 'Tax' tab.
-     *
-     * @since 0.0.1
      */
     public function display() {
         // Enqueue scripts & styles
-        wp_enqueue_style( 'wcv-tax-settings', WCV_TAX_URL . '/assets/css/settings.css', array(), WCV_TAX_VERSION );
+        TFM()->assets->enqueue( 'style', 'taxjar-for-marketplaces.settings' );
 
-        wp_enqueue_script( 'wcv-tax-settings', WCV_TAX_URL . '/assets/js/settings.js', array( 'jquery' ), WCV_TAX_VERSION );
+        TFM()->assets->enqueue( 'script', 'taxjar-for-marketplaces.settings', [ 'deps' => [ 'jquery' ] ] );
 
         // Prepare fields for output
         foreach ( $this->fields as $field_id => &$field ) {
@@ -236,15 +224,18 @@ class WCV_Taxes_Store_Form {
         }
 
         // Output form
-        wc_get_template( 'store-settings-form.php', array(
-            'fields' => $this->fields,
-        ), 'wc-vendors/dashboard/', WCV_TAX_PATH . '/templates/dashboard/' );
+        wc_get_template(
+            'store-settings-form.php',
+            array(
+                'fields' => $this->fields,
+            ),
+            'wc-vendors/dashboard/',
+            TFM()->path( 'templates/dashboard/' )
+        );
     }
 
     /**
      * Save the vendor's tax settings when the store form is saved.
-     *
-     * @since 0.0.1
      *
      * @param int $vendor_id
      */
@@ -259,7 +250,7 @@ class WCV_Taxes_Store_Form {
 
             // Save
             $meta_name = $this->get_field_name( $field_id );
-            
+
             if ( ! is_null( $value ) ) {
                 update_user_meta( $this->vendor_id, $meta_name, $value );
             } else {
@@ -270,4 +261,4 @@ class WCV_Taxes_Store_Form {
 
 }
 
-new WCV_Taxes_Store_Form();
+new TFM_Store_Form();

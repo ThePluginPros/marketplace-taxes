@@ -10,15 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Handles tax calculations during checkout.
  *
  * @author  Brett Porcelli
- * @package WCV_Taxes
- * @since   0.0.1
+ * @package TaxJar_For_Marketplaces
  */
-class WCV_Taxes_Checkout {
+class TFM_Checkout {
 
     /**
      * Constructor. Registers action/filter hooks.
-     *
-     * @since 0.0.1
      */
     public function __construct() {
         add_action( 'woocommerce_new_order', array( $this, 'save_vendor_taxes_new' ) );
@@ -31,8 +28,6 @@ class WCV_Taxes_Checkout {
     /**
      * Store vendor taxes array when a new order is added. 
      *
-     * @since 0.0.1
-     *
      * @param int $order_id
      */
     public function save_vendor_taxes_new( $order_id ) {
@@ -43,8 +38,6 @@ class WCV_Taxes_Checkout {
 
     /**
      * Store vendor taxes array when an existing order is resumed.
-     *
-     * @since 0.0.1
      *
      * @param  int $order_id
      */
@@ -58,8 +51,6 @@ class WCV_Taxes_Checkout {
 
     /**
      * Hide percentages in tax row labels.
-     *
-     * @since 0.0.1
      *
      * @param  string $label
      * @return string
@@ -76,8 +67,6 @@ class WCV_Taxes_Checkout {
      * Calculate the sales tax for the current cart, applying appropriate rules
      * for each vendor.
      *
-     * @since 0.0.1
-     *
      * @param WC_Cart $cart
      */
     public function calculate_taxes( $cart ) {
@@ -93,14 +82,14 @@ class WCV_Taxes_Checkout {
 
         // Calculate tax for each item, vendor-wise
         foreach ( $cart_contents as $item_key => &$item ) {
-            if ( ! WCV_Taxes_Util::is_product_taxable( $item['product_id'] ) ) 
+            if ( ! TFM_Util::is_product_taxable( $item['product_id'] ) )
                 continue;
             
-            $vendor_user = WCV_Taxes_Util::get_product_vendor( $item['product_id'] );
-            $tax_state   = WCV_Taxes_Util::get_vendor_tax_state( $vendor_user );
-            $tax_zip     = WCV_Taxes_Util::get_vendor_tax_zip( $vendor_user );
+            $vendor_user = TFM_Util::get_product_vendor( $item['product_id'] );
+            $tax_state   = TFM_Util::get_vendor_tax_state( $vendor_user );
+            $tax_zip     = TFM_Util::get_vendor_tax_zip( $vendor_user );
 
-            if ( WCV_Taxes_Util::get_state_type( $tax_state ) == 'orig' ) {
+            if ( TFM_Util::get_state_type( $tax_state ) == 'orig' ) {
                 // Calculate tax based on vendor location
                 $location = array(
                     'country'  => 'US',
@@ -165,13 +154,13 @@ class WCV_Taxes_Checkout {
             foreach ( $vendor_shipping_costs as $user_id => $cost ) {
 
                 if ( $user_id !== false ) {
-                    if ( ! WCV_Taxes_Util::is_shipping_taxable( $user_id ) )
+                    if ( ! TFM_Util::is_shipping_taxable( $user_id ) )
                         continue;
 
-                    $tax_state = WCV_Taxes_Util::get_vendor_tax_state( $user_id );
-                    $tax_zip   = WCV_Taxes_Util::get_vendor_tax_zip( $user_id );
+                    $tax_state = TFM_Util::get_vendor_tax_state( $user_id );
+                    $tax_zip   = TFM_Util::get_vendor_tax_zip( $user_id );
 
-                    if ( WCV_Taxes_Util::get_state_type( $tax_state ) == 'orig' ) {
+                    if ( TFM_Util::get_state_type( $tax_state ) == 'orig' ) {
                         // Calculate tax based on vendor location
                         $location = array(
                             'country'  => 'US',
@@ -198,7 +187,7 @@ class WCV_Taxes_Checkout {
                         $items = 0;
 
                         foreach ( WC()->cart->cart_contents as $item_key => $data ) {
-                            $vendor_user = WCV_Taxes_Util::get_product_vendor( $data['product_id'] );
+                            $vendor_user = TFM_Util::get_product_vendor( $data['product_id'] );
 
                             if ( $vendor_user == $user_id )
                                 $items++;
@@ -251,8 +240,6 @@ class WCV_Taxes_Checkout {
      * Tell WooCommerce a vendor's items aren't taxable if they have not
      * explicitly enabled taxes.
      *
-     * @since 0.0.1
-     *
      * @param  bool $taxable
      * @param  WC_Product $product
      * @return bool
@@ -264,9 +251,9 @@ class WCV_Taxes_Checkout {
             return $taxable;
         }
 
-        return WCV_Taxes_Util::does_vendor_collect_tax( $vendor );
+        return TFM_Util::does_vendor_collect_tax( $vendor );
     }
 
 }
 
-new WCV_Taxes_Checkout();
+new TFM_Checkout();

@@ -1,1 +1,3 @@
-includes/vendor/
+vendor/
+node_modules/
+.idea/

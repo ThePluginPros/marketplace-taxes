@@ -10,10 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Base class extended by tax calculation methods.
  *
  * @author  Brett Porcelli
- * @package WCV_Taxes
- * @since   0.0.1
+ * @package TaxJar_For_Marketplaces
  */
-abstract class WCV_Taxes_Calculation_Method {
+abstract class TFM_Calculation_Method {
 
     /**
      * @var string Method ID.
@@ -68,8 +67,6 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Constructor.
      *
-     * @since 0.0.1
-     *
      * @param int $vendor_id (default: 0)
      */
     public function __construct( $vendor_id = 0 ) {
@@ -79,11 +76,9 @@ abstract class WCV_Taxes_Calculation_Method {
             $this->vendor_id = get_current_user_id();
         }
     }
-    
+
     /**
      * Getter for ID.
-     *
-     * @since 0.0.1
      *
      * @return string
      */
@@ -94,8 +89,6 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Getter for Vendor ID.
      *
-     * @since 0.0.1
-     *
      * @return int
      */
     public function get_vendor_id() {
@@ -104,8 +97,6 @@ abstract class WCV_Taxes_Calculation_Method {
 
     /**
      * Getter for name.
-     *
-     * @since 0.0.1
      *
      * @return string
      */
@@ -116,8 +107,6 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Getter for affiliate link.
      *
-     * @since 0.0.1
-     *
      * @return string
      */
     public function get_affiliate_link() {
@@ -126,8 +115,6 @@ abstract class WCV_Taxes_Calculation_Method {
 
     /**
      * Getter for cost.
-     *
-     * @since 0.0.1
      *
      * @return string
      */
@@ -138,8 +125,6 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Is the method enabled?
      *
-     * @since 0.0.1
-     *
      * @return bool
      */
     public function is_enabled() {
@@ -148,8 +133,6 @@ abstract class WCV_Taxes_Calculation_Method {
 
     /**
      * Getter for description.
-     *
-     * @since 0.0.1
      *
      * @return string
      */
@@ -160,8 +143,6 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Getter for form fields.
      *
-     * @since 0.0.1
-     *
      * @return array
      */
     public function get_form_fields() {
@@ -171,8 +152,6 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Getter for vendor form fields.
      *
-     * @since 0.0.1
-     *
      * @return array
      */
     public function get_vendor_form_fields() {
@@ -181,8 +160,6 @@ abstract class WCV_Taxes_Calculation_Method {
 
     /**
      * Initialize settings.
-     *
-     * @since 0.0.1
      */
     protected function init_settings() {
         $settings = array();
@@ -198,8 +175,6 @@ abstract class WCV_Taxes_Calculation_Method {
 
     /**
      * Initialize vendor settings.
-     *
-     * @since 0.0.1
      */
     protected function init_vendor_settings() {
         foreach ( $this->get_vendor_form_fields() as $key => $field ) {
@@ -207,7 +182,7 @@ abstract class WCV_Taxes_Calculation_Method {
             $value = get_user_meta( $this->vendor_id, $id, true );
 
             if ( empty( $value ) && isset( $field['default'] ) ) {
-                $value = $field['default'];    
+                $value = $field['default'];
             }
 
             $this->vendor_settings[ $key ] = $value;
@@ -217,10 +192,9 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Get a sitewide option, returning the default value if necessary.
      *
-     * @since 0.0.1
+     * @param string $option_name
+     * @param mixed $empty_value (default: '')
      *
-     * @param  string $option_name
-     * @param  mixed $empty_value (default: '')
      * @return mixed
      */
     public function get_sitewide_option( $option_name, $empty_value = '' ) {
@@ -240,10 +214,9 @@ abstract class WCV_Taxes_Calculation_Method {
     /**
      * Get a vendor option, returning the default value if necessary.
      *
-     * @since 0.0.1
+     * @param string $option_name
+     * @param mixed $empty_value (default: '')
      *
-     * @param  string $option_name
-     * @param  mixed $empty_value (default: '')
      * @return mixed
      */
     public function get_vendor_option( $option_name, $empty_value = '' ) {
@@ -264,10 +237,9 @@ abstract class WCV_Taxes_Calculation_Method {
      * Get an option, returning the default value if necessary. Prioritize
      * vendor settings over sitewide settings if applicable.
      *
-     * @since 0.0.1
+     * @param string $option_name
+     * @param mixed $empty_value (default: '')
      *
-     * @param  string $option_name
-     * @param  mixed $empty_value (default: '')
      * @return mixed
      */
     public function get_option( $option_name, $empty_value = '' ) {
@@ -280,8 +252,6 @@ abstract class WCV_Taxes_Calculation_Method {
 
     /**
      * Get admin settings HTML.
-     *
-     * @since 0.0.1
      *
      * @return string
      */
@@ -305,17 +275,16 @@ abstract class WCV_Taxes_Calculation_Method {
      * Initialize form fields.
      *
      * Set the form fields to display on the settings page.
-     *
-     * @since 0.0.1
      */
-    protected function init_form_fields() { }
+    protected function init_form_fields() {
+    }
 
     /**
      * Calculate the sales tax for a given package.
      *
-     * @since 0.0.1
      *
-     * @param  array $package
+     * @param array $package
+     *
      * @return array
      */
     abstract public function calculate_taxes( $package );

@@ -1,0 +1,30 @@
+{
+  "name": "taxjar-for-marketplaces",
+  "version": "0.0.1",
+  "description": "Make your WooCommerce marketplace more attractive with sales tax automation by TaxJar.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/thepluginpros/taxjar-for-marketplaces.git"
+  },
+  "keywords": [
+    "woocommerce",
+    "wc vendors",
+    "dokan",
+    "wc marketplace",
+    "sales tax",
+    "tax automation"
+  ],
+  "author": "The Plugin Pros",
+  "homepage": "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-wp-i18n": "^1.0.1"
+  }
+}

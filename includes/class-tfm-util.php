@@ -10,17 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * A collection of helper functions used during tax calculations.
  *
  * @author  Brett Porcelli
- * @package WCV_Taxes
- * @since   0.0.1
+ * @package TaxJar_For_Marketplaces
  */
-class WCV_Taxes_Util {
+class TFM_Util {
 
     /**
      * Return the given vendor's tax state. If no tax state is configured,
      * fall back to the state of the vendor's billing address, or the shop
      * base state (in that order).
-     *
-     * @since 0.0.1
      *
      * @param  int $vendor_id (default: 0)
      * @return string
@@ -48,8 +45,6 @@ class WCV_Taxes_Util {
      * Return the given vendor's tax ZIP/postcode. Use the configured billing
      * postcode and shop base postcode as fallbacks.
      *
-     * @since 0.0.1
-     *
      * @param  int $vendor_id (default: 0)
      * @return string
      */
@@ -75,8 +70,6 @@ class WCV_Taxes_Util {
     /**
      * Does the given vendor collect tax?
      *
-     * @since 0.0.1
-     *
      * @param  int $vendor_id (default: 0)
      * @return bool
      */
@@ -91,8 +84,6 @@ class WCV_Taxes_Util {
 
     /**
      * Does the given state use origin sourcing or destination sourcing?
-     *
-     * @since 0.0.1
      *
      * @param  string $state State abbreviation.
      * @return string 'dest' or 'orig'
@@ -109,8 +100,6 @@ class WCV_Taxes_Util {
 
     /**
      * Return the customer's state.
-     *
-     * @since 0.0.1
      *
      * @param  int $order_id (default: 0)
      * @return string
@@ -140,14 +129,12 @@ class WCV_Taxes_Util {
      * Determine whether the current transaction is an interstate or intrastate
      * transaction for the given vendor.
      *
-     * @since 0.0.1
-     *
      * @param  int $vendor_id
      * @param  int $order_id (default: 0)
      * @return string 'interstate' or 'intrastate'
      */
     public static function get_transaction_type( $vendor_id, $order_id = 0 ) {
-        $vendor_state   = self::get_vendor_tax_state( $vendor_uid );
+        $vendor_state   = self::get_vendor_tax_state( $vendor_id );
         $customer_state = self::get_customer_state( $order_id );
 
         if ( $vendor_state != $customer_state ) {
@@ -160,8 +147,6 @@ class WCV_Taxes_Util {
     /**
      * Return the vendor ID for a given product.
      *
-     * @since 0.0.1
-     *
      * @param  int $product_id
      * @return int
      */
@@ -171,8 +156,6 @@ class WCV_Taxes_Util {
 
     /**
      * Should the given product be taxed?
-     *
-     * @since 0.0.1
      *
      * @param  int $product_id
      * @param  int $order_id (default: 0)
@@ -192,8 +175,6 @@ class WCV_Taxes_Util {
 
     /**
      * Should the shipping charges for the given vendor/order be taxed?
-     *
-     * @since 0.0.1
      *
      * @param  int $vendor_id
      * @param  int $order_id (default: 0)

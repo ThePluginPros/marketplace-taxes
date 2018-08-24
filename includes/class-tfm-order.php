@@ -10,15 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Handles the recalculation of order taxes.
  *
  * @author  Brett Porcelli
- * @package WCV_Taxes
- * @since   0.0.1
+ * @package TaxJar_For_Marketplaces
  */
-class WCV_Taxes_Order {
+class TFM_Order {
 
     /**
      * Constructor. Registers action/filter hooks.
-     *
-     * @since 0.0.1
      */
     public function __construct() {
         add_action( 'wp_ajax_woocommerce_calc_line_taxes', array( $this, 'calc_line_taxes' ), 1 );
@@ -27,8 +24,6 @@ class WCV_Taxes_Order {
     /**
      * Recalculate the sales tax for an order, applying appropriate rules for
      * each vendor.
-     *
-     * @since 0.0.1
      */
     public function order_recalculate_taxes() {
         // TODO: UPDATE FOR WC 3.0.X COMPATIBILITY
@@ -68,14 +63,21 @@ class WCV_Taxes_Order {
 
             foreach ( $items['order_item_id'] as $item_id ) {
                 $item_id                          = absint( $item_id );
-                $line_total[ $item_id ]           = isset( $items['line_total'][ $item_id ] ) ? wc_format_decimal( $items['line_total'][ $item_id ] ) : 0;
-                $line_subtotal[ $item_id ]        = isset( $items['line_subtotal'][ $item_id ] ) ? wc_format_decimal( $items['line_subtotal'][ $item_id ] ) : $line_total[ $item_id ];
-                $order_item_tax_class[ $item_id ] = isset( $items['order_item_tax_class'][ $item_id ] ) ? sanitize_text_field( $items['order_item_tax_class'][ $item_id ] ) : '';
+                $line_total[ $item_id ]           = isset( $items['line_total'][ $item_id ] ) ? wc_format_decimal(
+                    $items['line_total'][ $item_id ]
+                ) : 0;
+                $line_subtotal[ $item_id ]        = isset( $items['line_subtotal'][ $item_id ] ) ? wc_format_decimal(
+                    $items['line_subtotal'][ $item_id ]
+                ) : $line_total[ $item_id ];
+                $order_item_tax_class[ $item_id ] = isset( $items['order_item_tax_class'][ $item_id ] ) ? sanitize_text_field(
+                    $items['order_item_tax_class'][ $item_id ]
+                ) : '';
                 $product_id                       = $order->get_item_meta( $item_id, '_product_id', true );
 
                 // Don't perform a tax calculation if product is not taxable for this transaction
-                if ( ! WCV_Taxes_Util::is_product_taxable( $product_id, $order_id ) ) 
+                if ( ! TFM_Util::is_product_taxable( $product_id, $order_id ) ) {
                     continue;
+                }
 
                 // Get product details
                 if ( get_post_type( $product_id ) == 'product' ) {
@@ -86,11 +88,11 @@ class WCV_Taxes_Order {
                 }
 
                 if ( '0' !== $order_item_tax_class[ $item_id ] && 'taxable' === $item_tax_status ) {
-                    $vendor_user = WCV_Taxes_Util::get_product_vendor( $product_id );
-                    $tax_state   = WCV_Taxes_Util::get_vendor_tax_state( $vendor_user );
-                    $tax_zip     = WCV_Taxes_Util::get_vendor_tax_zip( $vendor_user );
+                    $vendor_user = TFM_Util::get_product_vendor( $product_id );
+                    $tax_state   = TFM_Util::get_vendor_tax_state( $vendor_user );
+                    $tax_zip     = TFM_Util::get_vendor_tax_zip( $vendor_user );
 
-                    if ( WCV_Taxes_Util::get_state_type( $tax_state ) == 'orig' ) {
+                    if ( TFM_Util::get_state_type( $tax_state ) == 'orig' ) {
                         // Calculate tax based on vendor location
                         $location = array(
                             'country'  => 'US',
@@ -102,7 +104,7 @@ class WCV_Taxes_Order {
                         $location = WC_Tax::get_tax_location();
 
                         list( $country, $state, $postcode, $city ) = $location;
-                        
+
                         $location = array(
                             'country'  => $country,
                             'state'    => $state,
@@ -119,12 +121,14 @@ class WCV_Taxes_Order {
                     // Set the new line_tax
                     foreach ( $line_taxes as $_tax_id => $_tax_value ) {
                         $items['line_tax'][ $item_id ][ $_tax_id ] = $_tax_value;
-                        
-                        if ( !isset( $vendor_taxes[ $vendor_user ] ) )
-                            $vendor_taxes[ $vendor_user ] = array( 'cart' => array(), 'shipping' => array() );
 
-                        if ( !isset( $vendor_taxes[ $vendor_user ]['cart'][ $_tax_id ] ) )
+                        if ( ! isset( $vendor_taxes[ $vendor_user ] ) ) {
+                            $vendor_taxes[ $vendor_user ] = array( 'cart' => array(), 'shipping' => array() );
+                        }
+
+                        if ( ! isset( $vendor_taxes[ $vendor_user ]['cart'][ $_tax_id ] ) ) {
                             $vendor_taxes[ $vendor_user ]['cart'][ $_tax_id ] = 0;
+                        }
 
                         $vendor_taxes[ $vendor_user ]['cart'][ $_tax_id ] += $_tax_value;
                     }
@@ -153,13 +157,14 @@ class WCV_Taxes_Order {
             $shipping_total += $cost;
 
             if ( $user_id !== false ) {
-                if ( ! WCV_Taxes_Util::is_shipping_taxable( $user_id ) )
+                if ( ! TFM_Util::is_shipping_taxable( $user_id ) ) {
                     continue;
+                }
 
-                $tax_state = WCV_Taxes_Util::get_vendor_tax_state( $user_id );
-                $tax_zip   = WCV_Taxes_Util::get_vendor_tax_zip( $user_id );
+                $tax_state = TFM_Util::get_vendor_tax_state( $user_id );
+                $tax_zip   = TFM_Util::get_vendor_tax_zip( $user_id );
 
-                if ( WCV_Taxes_Util::get_state_type( $tax_state ) == 'orig' ) {
+                if ( TFM_Util::get_state_type( $tax_state ) == 'orig' ) {
                     // Calculate tax based on vendor location
                     $location = array(
                         'country'  => 'US',
@@ -171,7 +176,7 @@ class WCV_Taxes_Order {
                     $location = WC_Tax::get_tax_location();
 
                     list( $country, $state, $postcode, $city ) = $location;
-                
+
                     $location = array(
                         'country'  => $country,
                         'state'    => $state,
@@ -186,16 +191,19 @@ class WCV_Taxes_Order {
                     $taxes = WC_Tax::calc_shipping_tax( $cost, $rates );
 
                     foreach ( $taxes as $rate_id => $amount ) {
-                        if ( !isset( $shipping_taxes[ $rate_id ] ) )
+                        if ( ! isset( $shipping_taxes[ $rate_id ] ) ) {
                             $shipping_taxes[ $rate_id ] = 0;
+                        }
 
                         $shipping_taxes[ $rate_id ] += $amount;
 
-                        if ( !isset( $vendor_taxes[ $user_id ] ) )
+                        if ( ! isset( $vendor_taxes[ $user_id ] ) ) {
                             $vendor_taxes[ $user_id ] = array( 'cart' => array(), 'shipping' => array() );
+                        }
 
-                        if ( !isset( $vendor_taxes[ $user_id ]['shipping'][ $rate_id ] ) )
+                        if ( ! isset( $vendor_taxes[ $user_id ]['shipping'][ $rate_id ] ) ) {
                             $vendor_taxes[ $user_id ]['shipping'][ $rate_id ] = 0;
+                        }
 
                         $vendor_taxes[ $user_id ]['shipping'][ $rate_id ] += $amount;
                     }
@@ -209,8 +217,10 @@ class WCV_Taxes_Order {
 
             foreach ( $items['shipping_method_id'] as $item_id ) {
                 $item_id                   = absint( $item_id );
-                $shipping_cost[ $item_id ] = isset( $items['shipping_cost'][ $item_id ] ) ? wc_format_decimal( $items['shipping_cost'][ $item_id ] ) : 0;
-        
+                $shipping_cost[ $item_id ] = isset( $items['shipping_cost'][ $item_id ] ) ? wc_format_decimal(
+                    $items['shipping_cost'][ $item_id ]
+                ) : 0;
+
                 // Set the new shipping_taxes
                 foreach ( $shipping_taxes as $_tax_id => $_tax_value ) {
                     $items['shipping_taxes'][ $item_id ][ $_tax_id ] = $_tax_value;
@@ -223,7 +233,11 @@ class WCV_Taxes_Order {
 
         // Add tax rows
         foreach ( array_keys( $taxes + $shipping_taxes ) as $tax_rate_id ) {
-            $order->add_tax( $tax_rate_id, isset( $taxes[ $tax_rate_id ] ) ? $taxes[ $tax_rate_id ] : 0, isset( $shipping_taxes[ $tax_rate_id ] ) ? $shipping_taxes[ $tax_rate_id ] : 0 );
+            $order->add_tax(
+                $tax_rate_id,
+                isset( $taxes[ $tax_rate_id ] ) ? $taxes[ $tax_rate_id ] : 0,
+                isset( $shipping_taxes[ $tax_rate_id ] ) ? $shipping_taxes[ $tax_rate_id ] : 0
+            );
         }
 
         // Create the new order_taxes
@@ -237,7 +251,7 @@ class WCV_Taxes_Order {
         // Update vendor taxes array
         if ( get_option( 'woocommerce_tax_round_at_subtotal' ) == 'yes' ) {
             foreach ( $vendor_taxes as $vendor_id => &$taxes ) {
-                $taxes['cart'] = array_map( array( 'WC_Tax', 'round' ), $taxes['cart'] );
+                $taxes['cart']     = array_map( array( 'WC_Tax', 'round' ), $taxes['cart'] );
                 $taxes['shipping'] = array_map( array( 'WC_Tax', 'round' ), $taxes['shipping'] );
             }
         }
@@ -247,11 +261,11 @@ class WCV_Taxes_Order {
         // Return HTML items
         $order = wc_get_order( $order_id );
         $data  = get_post_meta( $order_id );
-        include( ABSPATH .'/'. PLUGINDIR .'/woocommerce/includes/admin/meta-boxes/views/html-order-items.php' );
+        include( ABSPATH . '/' . PLUGINDIR . '/woocommerce/includes/admin/meta-boxes/views/html-order-items.php' );
 
         die();
     }
 
 }
 
-new WCV_Taxes_Order();
+new TFM_Order();

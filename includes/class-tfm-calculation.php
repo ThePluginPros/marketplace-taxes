@@ -10,10 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Manages available tax calculation methods and performs tax calculations.
  *
  * @author  Brett Porcelli
- * @package WCV_Taxes
- * @since   0.0.1
+ * @package TaxJar_For_Marketplaces
  */
-class WCV_Taxes_Calculation {
+class TFM_Calculation {
 
     /**
      * @var array Calculation methods.
@@ -22,8 +21,6 @@ class WCV_Taxes_Calculation {
 
     /**
      * Constructor.
-     * 
-     * @since 0.0.1
      */
     public function __construct() {
         self::load_methods();
@@ -33,30 +30,26 @@ class WCV_Taxes_Calculation {
 
     /**
      * Load calculation methods.
-     *
-     * @since 0.0.1
      */
     public static function load_methods() {
-        if ( ! class_exists( 'WCV_Taxes_Method_TaxJar' ) ) {
-            require 'methods/class-wcv-taxes-method-taxjar.php';
+        if ( ! class_exists( 'TFM_Method_TaxJar' ) ) {
+            require 'methods/class-tfm-method-taxjar.php';
         }
-        if ( ! class_exists( 'WCV_Taxes_Method_RateSync' ) ) {
-            require 'methods/class-wcv-taxes-method-ratesync.php';
+        if ( ! class_exists( 'TFM_Method_RateSync' ) ) {
+            require 'methods/class-tfm-method-ratesync.php';
         }
         
         self::$methods = array(
-            'taxjar'   => new WCV_Taxes_Method_TaxJar(),
-            'ratesync' => new WCV_Taxes_Method_RateSync(),
+            'taxjar'   => new TFM_Method_TaxJar(),
+            'ratesync' => new TFM_Method_RateSync(),
         );
     }
 
     /**
      * Get a calculation method by ID.
      *
-     * @since 0.0.1
-     *
      * @param  string $method_id
-     * @return WCV_Taxes_Calculation_Method | NULL
+     * @return TFM_Calculation_Method | NULL
      */
     public static function get_method( $method_id ) {
         if ( array_key_exists( $method_id, self::$methods ) ) {
@@ -68,8 +61,6 @@ class WCV_Taxes_Calculation {
     /**
      * Get calculation methods.
      *
-     * @since 0.0.1
-     *
      * @return array
      */
     public static function get_methods() {
@@ -78,8 +69,6 @@ class WCV_Taxes_Calculation {
 
     /**
      * Get calculation methods formatted for display on settings page.
-     *
-     * @since 0.0.1
      *
      * @return array
      */
@@ -104,8 +93,6 @@ class WCV_Taxes_Calculation {
     /**
      * Get enabled calculation methods.
      *
-     * @since 0.0.1
-     *
      * @return array
      */
     public static function get_enabled_methods() {
@@ -123,8 +110,6 @@ class WCV_Taxes_Calculation {
     /**
      * Calculate the tax totals for the given cart.
      *
-     * @since 0.0.1
-     *
      * @param WC_Cart $cart
      */
     public function calculate_tax_totals( $cart ) {
@@ -133,4 +118,4 @@ class WCV_Taxes_Calculation {
 
 }
 
-new WCV_Taxes_Calculation();
+new TFM_Calculation();
