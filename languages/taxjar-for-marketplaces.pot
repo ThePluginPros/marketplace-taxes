@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the TaxJar for Marketplaces package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TaxJar for Marketplaces 0.0.1\n"
+"Project-Id-Version: TaxJar for Marketplaces 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues\n"
-"POT-Creation-Date: 2018-08-24 16:54:48+00:00\n"
+"POT-Creation-Date: 2018-09-03 00:03:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,300 +25,534 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n1.0.2\n"
 
-#: includes/admin/class-tfm-admin.php:73
-msgid "Yes"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:74
-msgid "No"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:75
-msgid "Failed to save changes. Please try again."
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:102
+#: includes/admin/class-tfm-admin.php:54
 msgid "Settings"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:181
-msgid "Tax"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:185
-msgid "General settings"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:187
-msgid "Configure your WC Vendors Taxes installation."
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:190
-msgid "Force Tax Collection"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:193
-msgid "Force vendors to collect tax"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:197
-msgid "Merchant of Record"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:201
-#: includes/methods/class-tfm-method-taxjar.php:67
-msgid "Vendor"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:202
-#: includes/methods/class-tfm-method-taxjar.php:66
-msgid "Marketplace"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:205
-msgid ""
-"The merchant of record is responsible for collecting and remitting sales "
-"tax for each sale. The sales tax collected will be given to the merchant of "
-"record."
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:211
-msgid "Calculation methods"
-msgstr ""
-
-#: includes/admin/class-tfm-admin.php:213
-msgid "Configure available tax calculation methods."
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:17
-msgid "Name"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:18
-msgid "Pricing"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:19
-msgid "Description"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:20
-#: includes/methods/class-tfm-method-ratesync.php:43
-#: includes/methods/class-tfm-method-taxjar.php:43
-msgid "Enabled"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:38
-msgid "Configure"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:46
-msgid "No methods available."
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:59
-#. translators: %s: calculation method name
-msgid "%s Settings"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:64
-msgid "Close modal panel"
-msgstr ""
-
-#: includes/admin/views/html-methods-table.php:75
-msgid "Save changes"
-msgstr ""
-
-#: includes/class-taxjar-for-marketplaces.php:58
-#. translators: 1: required plugin name, 2: minimum version
-msgid ""
-"<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires "
-"%1$s %2$s+."
-msgstr ""
-
-#: includes/class-taxjar-for-marketplaces.php:69
-#. translators: 1: required plugin name
-msgid ""
-"<strong>%1$s not detected.</strong> Please install or activate %1$s to use "
-"TaxJar for Marketplaces."
-msgstr ""
-
-#: includes/class-taxjar-for-marketplaces.php:91
-#. translators: 1 - list of required PHP extensions
-msgid ""
-"<strong>Required PHP extensions are missing.</strong> TaxJar for "
-"Marketplaces requires %1$s."
-msgstr ""
-
-#: includes/class-taxjar-for-marketplaces.php:100
-#. translators: 1 - required php version
-msgid ""
-"<strong>PHP needs to be updated.</strong> TaxJar for Marketplaces requires "
-"PHP %1$s+."
-msgstr ""
-
-#: includes/class-tfm-form-helper.php:32
-msgid "At least one business address is required."
-msgstr ""
-
-#: includes/class-tfm-store-form.php:106
-msgid "Enabled?"
-msgstr ""
-
-#: includes/class-tfm-store-form.php:107
-msgid "Enable tax calculations."
-msgstr ""
-
-#: includes/class-tfm-store-form.php:122
-msgid "Calculation Method <small>Required</small>"
-msgstr ""
-
-#: includes/class-tfm-store-form.php:128
-msgid "Please select a calculation method."
-msgstr ""
-
-#: includes/methods/class-tfm-method-ratesync.php:27
-msgid "RateSync"
-msgstr ""
-
-#: includes/methods/class-tfm-method-ratesync.php:30
-msgid ""
-"RateSync uses a combination of custom tax rules and <a "
-"href=\"http://taxrates.com\" target=\"_blank\">free sales tax tables</a> to "
-"perform tax calculations. Its accuracy is limited, although it may be "
-"useful in some cases."
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:26
-msgid "TaxJar"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:28
-msgid "month"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:29
-msgid ""
-"TaxJar is an easy-to-use tax reporting and calculation engine for small "
-"business owners and sales tax professionals. It is by far the most accurate "
-"tax calculation method available."
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:50
-msgid "API Key"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:53
-msgid "Enter your TaxJar API key."
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:56
-msgid "Create TaxJar account"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:57
-msgid "Obtain API key"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:62
-msgid "Who Pays?"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:69
-msgid "Who pays for tax calculations during checkout?"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:81
-msgid "TaxJar API Key <small>Required</small>"
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:82
-msgid "You can find your API key <a href=\"#\" target=\"_blank\">here</a>."
-msgstr ""
-
-#: includes/methods/class-tfm-method-taxjar.php:91
-msgid "Please enter your API key."
-msgstr ""
-
-#: includes/views/html-field-address-table.php:9
-msgid "Business Locations <small>Required</small>"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:15
-msgid "Address 1"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:16
-msgid "Address 2"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:17
-msgid "Country"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:18
-#: includes/views/html-field-address-table.php:69
-msgid "State"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:19
-#: includes/views/html-field-address-table.php:72
-msgid "City"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:20
-#: includes/views/html-field-address-table.php:75
-msgid "Postcode"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:27
-msgid "Add Address"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:41
-msgid ""
-"Please enter all locations, including stores, warehouses, distribution "
-"facilities, etc."
-msgstr ""
-
-#: includes/views/html-field-address-table.php:48
-msgid "No addresses entered."
-msgstr ""
-
-#: includes/views/html-field-address-table.php:48
-msgid "Add one."
-msgstr ""
-
-#: includes/views/html-field-address-table.php:56
-msgid "Street address"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:59
-msgid "Apartment, suite, etc."
-msgstr ""
-
-#: taxjar-for-marketplaces.php:39
-msgid "WooCommerce"
-msgstr ""
-
-#: taxjar-for-marketplaces.php:43
-msgid "WC Vendors Marketplace"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "TaxJar for Marketplaces"
 msgstr ""
 
-#. Description of the plugin/theme
+#: includes/admin/class-tfm-wc-integration.php:57
+msgid "Use this page to configure sales tax automation for your marketplace."
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:58
 msgid ""
-"Make your WooCommerce marketplace more attractive with sales tax automation "
-"by <a href=\"https://taxjar.com\">TaxJar</a>."
+"Need help? Check out the <a "
+"href=\"https://thepluginpros.com/documentation/taxjar\">documentation</a>"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:72
+msgid "Enable"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:74
+msgid "Enable automated tax calculations"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:78
+#: includes/class-tfm-vendor-settings-form.php:98
+msgid "TaxJar API token"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:80
+msgid "Your API token will be used to calculate the correct tax rate at checkout."
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:84
+#: includes/class-tfm-vendor-settings-form.php:99
+msgid ""
+"<a href=\"https://thepluginpros.com/out/taxjar-api-token\" "
+"target=\"_blank\">Find your API token</a> | <a "
+"href=\"https://thepluginpros.com/out/taxjar\" target=\"_blank\">Register "
+"for TaxJar</a>"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:94
+msgid "Seller of record"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:98
+msgid "Vendor"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:99
+msgid "Marketplace"
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:102
+msgid ""
+"The seller of record is responsible for collecting and remitting sales tax "
+"for each sale. The tax collected at checkout will be given to the seller of "
+"record."
+msgstr ""
+
+#: includes/admin/views/html-select-category-bulk.php:7
+#: includes/admin/views/html-select-category.php:23
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:19
+msgid "Tax category"
+msgstr ""
+
+#: includes/admin/views/html-select-category-bulk.php:9
+#: includes/admin/views/html-select-category.php:28
+#: includes/class-tfm-assets.php:66
+msgid "General"
+msgstr ""
+
+#: includes/admin/views/html-select-category-bulk.php:14
+#: includes/admin/views/html-select-category.php:34
+#: includes/admin/views/html-tax-category-modal.php:13
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:26
+msgid "Select"
+msgstr ""
+
+#: includes/admin/views/html-tax-category-modal.php:26
+msgid "Select tax category"
+msgstr ""
+
+#: includes/admin/views/html-tax-category-modal.php:28
+msgid "Close modal panel"
+msgstr ""
+
+#: includes/admin/views/html-tax-category-modal.php:37
+msgid "Start typing to search"
+msgstr ""
+
+#: includes/class-taxjar-for-marketplaces.php:113
+#. translators: 1: required plugin name, 2: minimum version
+msgid ""
+"<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires "
+"%1$s %2$s+."
+msgstr ""
+
+#: includes/class-taxjar-for-marketplaces.php:124
+#. translators: 1: required plugin name
+msgid ""
+"<strong>%1$s not detected.</strong> Please install or activate %1$s to use "
+"TaxJar for Marketplaces."
+msgstr ""
+
+#: includes/class-taxjar-for-marketplaces.php:146
+#. translators: 1 - list of required PHP extensions
+msgid ""
+"<strong>Required PHP extensions are missing.</strong> TaxJar for "
+"Marketplaces requires %1$s."
+msgstr ""
+
+#: includes/class-taxjar-for-marketplaces.php:155
+#. translators: 1 - required php version
+msgid ""
+"<strong>PHP needs to be updated.</strong> TaxJar for Marketplaces requires "
+"PHP %1$s+."
+msgstr ""
+
+#: includes/class-tfm-assets.php:65
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:323
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:350
+msgid "Same as parent"
+msgstr ""
+
+#: includes/class-tfm-assets.php:67
+msgid "No change"
+msgstr ""
+
+#: includes/class-tfm-assets.php:96
+msgid "Select an option&hellip;"
+msgstr ""
+
+#: includes/class-tfm-calculator.php:106
+msgid "Failed to calculate the tax due: %s"
+msgstr ""
+
+#: includes/class-tfm-download-orders.php:71
+msgid ""
+"There was an error linking this store to your TaxJar account. Please "
+"contact support@thepluginpros.com"
+msgstr ""
+
+#: includes/class-tfm-download-orders.php:80
+msgid ""
+"There was an error unlinking this store from your TaxJar account. Please "
+"contact support@thepluginpros.com"
+msgstr ""
+
+#: includes/class-tfm-download-orders.php:97
+msgid "Sales tax reporting"
+msgstr ""
+
+#: includes/class-tfm-download-orders.php:98
+msgid "Upload orders to TaxJar for reporting"
+msgstr ""
+
+#: includes/class-tfm-download-orders.php:106
+msgid ""
+"<span style='color: #ff0000;'>There was an error retrieving your keys. "
+"Please disable and re-enable reporting.</span>"
+msgstr ""
+
+#: includes/class-tfm-install.php:68
+msgid "%1$s tax rate(s) deleted successfully."
+msgstr ""
+
+#: includes/class-tfm-install.php:70
+msgid "Your existing tax rates will be kept."
+msgstr ""
+
+#: includes/class-tfm-install.php:103
+msgid ""
+"<strong>Warning!</strong> There are tax rates in your WooCommerce tax "
+"tables. This may cause your customers to be overtaxed. Please choose to <a "
+"href=\"%1$s\">keep</a> or <a href=\"%2$s\">delete</a> the existing tax "
+"rates."
+msgstr ""
+
+#: includes/class-tfm-integrations.php:49
+msgid ""
+"<strong>%1$s not detected.</strong> Please install or active %1$s to use "
+"TaxJar for Marketplaces."
+msgstr ""
+
+#: includes/class-tfm-integrations.php:57
+msgid ""
+"<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires "
+"%1$s version %2$s or greater."
+msgstr ""
+
+#: includes/class-tfm-integrations.php:78
+msgid ""
+"<strong>TaxJar for Marketplace is inactive</strong>. No compatible "
+"marketplace plugin detected."
+msgstr ""
+
+#: includes/class-tfm-tax-categories.php:42
+msgid "Once monthly"
+msgstr ""
+
+#: includes/class-tfm-util.php:33
+msgid "The provided API token is invalid."
+msgstr ""
+
+#: includes/class-tfm-util.php:35
+msgid "Error connecting to TaxJar."
+msgstr ""
+
+#: includes/class-tfm-vendor-settings-form.php:67
+msgid "Business Locations"
+msgstr ""
+
+#: includes/class-tfm-vendor-settings-form.php:68
+msgid ""
+"Please enter all locations, including stores, warehouses, distribution "
+"facilities, etc."
+msgstr ""
+
+#: includes/class-tfm-vendor-settings-form.php:84
+msgid "Use TaxJar for Reporting"
+msgstr ""
+
+#: includes/class-tfm-vendor-settings-form.php:85
+msgid ""
+"Upload orders to <a href=\"https://thepluginpros.com/out/taxjar\" "
+"target=\"_blank\">TaxJar</a> for reporting"
+msgstr ""
+
+#: includes/class-tfm-vendor-settings-form.php:129
+msgid ""
+"Please fill out the fields below to ensure that your customers are taxed "
+"correctly."
+msgstr ""
+
+#: includes/class-tfm-vendor-settings-form.php:269
+msgid "You must provide at least one business location."
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:31
+#: includes/integrations/wc-vendors/views/html-admin-tax-settings-page.php:15
+msgid "Tax Settings"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:32
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:45
+msgid "Taxes"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:55
+msgid "Settings saved."
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:147
+msgid ""
+"A custom product variation template is in use. Tax category assignment "
+"won't work for variations."
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-settings-manager.php:50
+msgid "This field is disabled while TaxJar for Marketplaces is active."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:23
+msgid "Loading..."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:36
+msgid ""
+"This is used to determine whether this product is exempt or qualifies for "
+"reduced tax rates."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:49
+msgid "Any"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:73
+msgid "Remove"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:96
+msgid "SKU"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:124
+msgid "Enabled"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:130
+msgid "Downloadable"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:136
+msgid "Virtual"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:143
+msgid "Manage stock?"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:163
+msgid "Regular Price:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:165
+msgid "Variation price (required)"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:173
+msgid "Sale Price:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:177
+msgid "Schedule"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:186
+msgid "Sale start date:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:195
+msgid "Sale end date:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:199
+msgid "Cancel schedule"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:213
+msgid "Stock Qty:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:223
+msgid "Allow Backorders?"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:243
+msgid "Stock status"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:268
+msgid "Weight"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:282
+msgid "Dimensions (L&times;W&times;H)"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:317
+msgid "Shipping class:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:347
+msgid "Tax class:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:370
+msgid "Variation Description:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:387
+msgid "Downloadable Files"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:392
+msgid "Name"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:393
+msgid "File URL"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:433
+msgid "Add File"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:449
+msgid "Download Limit:"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:451
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:461
+msgid "Unlimited"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:459
+msgid "Download Expiry:"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:22
+msgid "Address 1"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:23
+msgid "Address 2"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:24
+msgid "Country"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:25
+#: includes/views/html-field-address-table.php:84
+msgid "State"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:26
+#: includes/views/html-field-address-table.php:89
+msgid "City"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:27
+#: includes/views/html-field-address-table.php:94
+msgid "Postcode"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:36
+msgid "Add Address"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:53
+msgid "No addresses entered."
+msgstr ""
+
+#: includes/views/html-field-address-table.php:54
+msgid "Add one."
+msgstr ""
+
+#: includes/views/html-field-address-table.php:65
+msgid "Street address"
+msgstr ""
+
+#: includes/views/html-field-address-table.php:71
+msgid "Apartment, suite, etc."
+msgstr ""
+
+#: includes/views/html-field-address-table.php:121
+msgid "At least one business address is required."
+msgstr ""
+
+#: taxjar-for-marketplaces.php:40
+msgid "WooCommerce"
 msgstr ""
 
 #. Author of the plugin/theme
 msgid "The Plugin Pros"
 msgstr ""
 
+#. Description of the plugin/theme
+msgid ""
+"Make your WooCommerce marketplace more attractive with sales tax automation "
+"by <a href=\"https://taxjar.com\" target=\"_blank\">TaxJar</a>."
+msgstr ""
+
 #. Author URI of the plugin/theme
 msgid "https://thepluginpros.com"
+msgstr ""
+
+#: includes/class-tfm-assets.php:100
+msgctxt "enhanced select"
+msgid "One result is available, press enter to select it."
+msgstr ""
+
+#: includes/class-tfm-assets.php:105
+msgctxt "enhanced select"
+msgid "%qty% results are available, use up and down arrow keys to navigate."
+msgstr ""
+
+#: includes/class-tfm-assets.php:110
+msgctxt "enhanced select"
+msgid "No matches found"
+msgstr ""
+
+#: includes/class-tfm-assets.php:115
+msgctxt "enhanced select"
+msgid "Loading failed"
+msgstr ""
+
+#: includes/class-tfm-assets.php:120
+msgctxt "enhanced select"
+msgid "Please enter 1 or more characters"
+msgstr ""
+
+#: includes/class-tfm-assets.php:125
+msgctxt "enhanced select"
+msgid "Please enter %qty% or more characters"
+msgstr ""
+
+#: includes/class-tfm-assets.php:130
+msgctxt "enhanced select"
+msgid "Please delete 1 character"
+msgstr ""
+
+#: includes/class-tfm-assets.php:135
+msgctxt "enhanced select"
+msgid "Please delete %qty% characters"
+msgstr ""
+
+#: includes/class-tfm-assets.php:140
+msgctxt "enhanced select"
+msgid "You can only select 1 item"
+msgstr ""
+
+#: includes/class-tfm-assets.php:145
+msgctxt "enhanced select"
+msgid "You can only select %qty% items"
+msgstr ""
+
+#: includes/class-tfm-assets.php:150
+msgctxt "enhanced select"
+msgid "Loading more results&hellip;"
+msgstr ""
+
+#: includes/class-tfm-assets.php:155
+msgctxt "enhanced select"
+msgid "Searching&hellip;"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:188
+msgctxt "placeholder"
+msgid "From&hellip;"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:197
+msgctxt "placeholder"
+msgid "To&hellip;"
 msgstr ""

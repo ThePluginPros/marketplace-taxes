@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "842de0e29a14dec62bdb83c543f1ed9f",
+    "content-hash": "2e48f95713cca1ea76355c00dfd7d3a2",
     "packages": [
         {
             "name": "bporcelli/wordframe",
@@ -352,13 +352,40 @@
                 "taxjar"
             ],
             "time": "2018-05-03T19:21:10+00:00"
+        },
+        {
+            "name": "thepluginpros/wcv-settings-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:thepluginpros/wcv-settings-api.git",
+                "reference": "d2237e2bd4d617daab10cddd7e4461e153fd9031"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WCV_Settings\\v1_0_2\\": "/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Brett Porcelli",
+                    "email": "brettporcelli@gmail.com"
+                }
+            ],
+            "description": "Backward compatible settings API for WC Vendors.",
+            "time": "2018-08-20T20:42:54+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "bporcelli/wordframe": 20
+        "bporcelli/wordframe": 20,
+        "thepluginpros/wcv-settings-api": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

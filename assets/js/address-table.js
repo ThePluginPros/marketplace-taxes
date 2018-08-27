@@ -1,8 +1,7 @@
 /* global jQuery, wp, wcv_tax_address_table_localize, Ink.UI */
-( function( $, wp, data, InkUI ) {
+( function( $, wp, data ) {
     $( function() {
-        var $table     = $( '#wcv_taxes_nexus_addresses_table' ),
-            $tbody     = $( '#wcv_taxes_nexus_addresses' ),
+        var $tbody     = $( '#nexus_addresses' ),
             $row_empty = wp.template( 'vt-nexus-addresses-empty' ),
             $row       = wp.template( 'vt-nexus-address' ),
 
@@ -56,7 +55,7 @@
                     event.preventDefault();
 
                     // If this is the first row, remove the blank row
-                    if ( $( '#wcv_taxes_nexus_addresses_blank_row' ).is( ':visible' ) ) {
+                    if ( $( '#nexus_addresses_blank_row' ).is( ':visible' ) ) {
                         view.$el.empty();
                     }
 
@@ -84,58 +83,15 @@
                     if ( $tbody.find( 'tr' ).length === 0 ) {
                         view.$el.append( $row_empty );
                     }
-                },
+                }
             } ),
 
             // Table view instance
             addressTable = new AddressTable( {
-                el: $tbody,
+                el: $tbody
             } );
 
         addressTable.render();
-        
-        // Custom validation for Business Locations field
-        $( window ).load( function() {
-            var formInstance = InkUI.Common_1.getInstance( '.wcv-form' )[0];
-            
-            if ( typeof formInstance === 'undefined' ) {
-                return;
-            }
-
-            var oldCallback = formInstance._options.beforeValidation;
-
-            formInstance._options.beforeValidation = function( arguments ) {
-                var field_id  = 'locations_placeholder',
-                    validator = arguments[ 'validator' ],
-                    elements  = validator._formElements,
-                    num_locs  = $tbody.find( 'tr:not(#wcv_taxes_nexus_addresses_blank_row)' ).length;
-
-                // Create or reset FormElement for locations
-                if ( ! ( field_id in arguments[ 'elements' ] ) ) {
-                    elements[ field_id ] = [ new InkUI.FormValidator_2.FormElement(
-                        document.getElementById( field_id ),
-                        {
-                            'form': validator,
-                        }
-                    ) ];
-                } else {
-                    elements[ field_id ][0].unforceInvalid();
-                    elements[ field_id ][0].unforceValid();
-                }
-
-                // Validate locations: at least one required
-                if ( num_locs < 1 ) {
-                    elements[ field_id ][0].forceInvalid( data.strings.locations_error );
-                } else {
-                    elements[ field_id ][0].forceValid();
-                }
-
-                // Execute existing beforeValidation callback, if any
-                if ( typeof oldCallback === 'function' ) {
-                    oldCallback( arguments );
-                }
-            };
-        } );
     } );
 
     $( window ).load( function() {
@@ -145,4 +101,4 @@
             $( this ).trigger( 'change' );
         } );
     } );
-} )( jQuery, wp, wcv_tax_address_table_localize, Ink.UI );
+} )( jQuery, wp, wcv_tax_address_table_localize );

@@ -14,26 +14,81 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
     /**
      * @var string Current plugin version.
      */
-    public $version = '0.0.1';
+    public $version = '1.0.0';
+
+    /**
+     * @var TFM_Settings Settings instance.
+     */
+    public $settings;
+
+    /**
+     * @var TFM_Admin Admin instance.
+     */
+    public $admin;
+
+    /**
+     * @var TFM_Tax_Categories Categories instance.
+     */
+    public $categories;
 
     /**
      * Bootstraps the plugin when all requirements are met.
      */
     public function load() {
-        require __DIR__ . '/class-tfm-util.php';
-        require __DIR__ . '/class-tfm-form-helper.php';
-        require __DIR__ . '/class-tfm-calculation-method.php';
-        require __DIR__ . '/class-tfm-calculation.php';
-        require __DIR__ . '/admin/class-tfm-admin.php';
-        require __DIR__ . '/class-tfm-checkout.php';
-        require __DIR__ . '/class-tfm-store-form.php';
-        require __DIR__ . '/class-tfm-order.php';
+        parent::load();
 
-        // TODO:
-        // 1) Create activation hook
-        // 2) On activation, backup and delete all existing tax ratees
-        // 3) Also, delete all tax rate transients & configure woo tax settings
-        // 4) If WCV Pro < 1.4.4 installed, need to manually create shipping packages for each vendor (see TRS)
+        $this->includes();
+
+        $this->settings   = new TFM_Settings();
+        $this->categories = new TFM_Tax_Categories();
+        $this->admin      = new TFM_Admin();
+
+        add_action( 'init', array( $this, 'trigger_activation' ) );
+    }
+
+    /**
+     * Includes all required files.
+     */
+    private function includes() {
+        require 'class-tfm-settings.php';
+        require 'class-tfm-install.php';
+        require 'class-tfm-assets.php';
+        require 'class-tfm-tax-categories.php';
+        require 'class-tfm-util.php';
+        require 'class-tfm-vendor-settings-form.php';
+        require 'admin/class-tfm-admin.php';
+        require 'class-tfm-integrations.php';
+        require 'class-tfm-product-controller.php';
+        require 'class-tfm-calculator.php';
+    }
+
+    /**
+     * Runs when the plugin is activated.
+     *
+     * Sets the tfm_activate flag so that activation logic will run on the
+     * next page load.
+     */
+    public function activate() {
+        update_option( 'tfm_activate', true );
+    }
+
+    /**
+     * Fires the taxjar_for_marketplaces_activated hook when the tfm_activate
+     * flag is set.
+     */
+    public function trigger_activation() {
+        if ( get_option( 'tfm_activate' ) ) {
+            delete_option( 'tfm_activate' );
+
+            do_action( 'taxjar_for_marketplaces_activated', $this );
+        }
+    }
+
+    /**
+     * Fires the taxjar_for_marketplaces_deactivated hook on plugin deactivation.
+     */
+    public function deactivate() {
+        do_action( 'taxjar_for_marketplaces_deactivated' );
     }
 
     /**
@@ -105,6 +160,20 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
             );
         }
         return '';
+    }
+
+    /**
+     * Returns an instance of the TaxJar client.
+     *
+     * @param string $token API token - marketplace token used if unspecified.
+     *
+     * @return TaxJar\Client
+     */
+    public function client( $token = '' ) {
+        if ( empty( $token ) ) {
+            $token = $this->settings->get( 'api_token' );
+        }
+        return TaxJar\Client::withApiKey( $token );
     }
 
 }

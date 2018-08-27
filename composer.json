@@ -11,12 +11,17 @@
   ],
   "require": {
     "taxjar/taxjar-php": "v1.7.0",
-    "bporcelli/wordframe": "dev-master"
+    "bporcelli/wordframe": "dev-master",
+    "thepluginpros/wcv-settings-api": "dev-master"
   },
   "repositories": [
     {
       "type": "vcs",
       "url": "git@bitbucket.org:bporcelli/wordframe.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:thepluginpros/wcv-settings-api.git"
     }
   ]
 }

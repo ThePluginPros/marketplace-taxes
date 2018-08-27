@@ -1,21 +1,23 @@
 /* WC Vendors Taxes settings form CSS */
-.wcv-tax-calculation-methods, .wcv-tax-hidden {
+/* todo: move to wc vendors integration? */
+.wcv-tax-hidden {
     display: none;
 }
 
-.wcv-grid ul.wcv-tax-calculation-methods {
-    margin-top: 0;
-}
-
-.wcv-grid table#wcv_taxes_nexus_addresses_table {
+.wcv-grid table#nexus_addresses_table {
     margin-bottom: 0;
     table-layout: fixed;
 }
 
-#wcv_taxes_nexus_addresses_table input, #wcv_taxes_nexus_addresses_table select {
+#nexus_addresses_table input, #nexus_addresses_table select {
     max-width: 100%;
 }
 
-#wcv_taxes_nexus_addresses_table td, #wcv_taxes_nexus_addresses_table th {
+#nexus_addresses_table td, #nexus_addresses_table th {
     padding: 0.5em;
+}
+
+.dashicons.has-tip {
+    margin-left: 0.3em;
+    vertical-align: middle;
 }

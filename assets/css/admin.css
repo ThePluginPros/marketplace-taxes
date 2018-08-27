@@ -1,17 +1,46 @@
-/* WC Vendors Taxes admin CSS */
-.wcv-taxes-table {
-    margin-top: 50px;
+/**
+ * Hides the WooCommerce Tax Status/Tax Class fields
+ */
+.form-field._tax_status_field, .form-field._tax_class_field {
+    display: none !important;
 }
 
-.form-table .wcv-taxes-table th {
-    padding: 10px;
-    width: auto;
+#woocommerce-fields-bulk > label:nth-of-type(2), #woocommerce-fields-bulk > label:nth-of-type(3) {
+    display: none !important;
 }
 
-.form-table th .wcv-taxes-table {
+.woocommerce_variable_attributes .data > div:nth-of-type(5) p:nth-of-type(2), p[class*="variable_tax_class"] {
+    display: none !important;
+}
+
+/**
+ * Tax category select
+ */
+.wp-core-ui .button.tfm-select-category {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.tfm-selected-category {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tfm-category-search {
+    height: 32px;
+}
+
+/**
+ * Vendor tax settings page
+ */
+.form-table th.full-width-field {
     font-weight: normal;
+    margin-bottom: 9px;
+    padding: 15px 10px 15px 0;
 }
 
-.wcv-taxes-method-name a {
-    font-weight: bold;
+.form-table #nexus_addresses_table th {
+    padding: 1em;
+    line-height: 24px;
+    font-weight: normal;
 }
