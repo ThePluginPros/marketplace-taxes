@@ -42,10 +42,10 @@ class TFM_Download_Orders {
     public function validate_upload_transactions_field( $value ) {
         $previous_value = $this->integration->get_option( 'upload_transactions' );
 
-        if ( 'yes' !== $value ) {
-            $value = 'no';
-        } else {
+        if ( ! is_null( $value ) && 'no' !== $value ) {
             $value = 'yes';
+        } else {
+            $value = 'no';
         }
 
         if ( ( $value != $previous_value ) ) {
@@ -69,7 +69,9 @@ class TFM_Download_Orders {
 
                     throw new Exception(
                         __(
-                            "There was an error linking this store to your TaxJar account. Please contact support@thepluginpros.com", 'taxjar-for-marketplaces' )
+                            "There was an error linking this store to your TaxJar account. Please contact support@thepluginpros.com",
+                            'taxjar-for-marketplaces'
+                        )
                     );
                 }
             } else {
@@ -78,7 +80,9 @@ class TFM_Download_Orders {
                 if ( ! $success ) {
                     throw new Exception(
                         __(
-                            "There was an error unlinking this store from your TaxJar account. Please contact support@thepluginpros.com", 'taxjar-for-marketplaces' )
+                            "There was an error unlinking this store from your TaxJar account. Please contact support@thepluginpros.com",
+                            'taxjar-for-marketplaces'
+                        )
                     );
                 }
             }
@@ -104,7 +108,9 @@ class TFM_Download_Orders {
 
         if ( $this->taxjar_download && ! $this->existing_api_key() ) {
             $field['description'] = __(
-                "<span style='color: #ff0000;'>There was an error retrieving your keys. Please disable and re-enable reporting.</span>", 'taxjar-for-marketplaces' );
+                "<span style='color: #ff0000;'>There was an error retrieving your keys. Please disable and re-enable reporting.</span>",
+                'taxjar-for-marketplaces'
+            );
         }
 
         return $field;
