@@ -18,6 +18,7 @@ class TFM_Integration_WC_Vendors {
         $this->includes();
 
         add_filter( 'tfm_form_field_callback', array( $this, 'set_field_callback' ) );
+        add_filter( 'tfm_default_vendor_addresses', array( $this, 'get_default_vendor_addresses' ), 10, 2 );
     }
 
     /**
@@ -66,6 +67,77 @@ class TFM_Integration_WC_Vendors {
         if ( is_callable( $callback ) ) {
             $callback( $field, $context );
         }
+    }
+
+    /**
+     * Gets the default nexus addresses for a vendor.
+     *
+     * @param array $addresses
+     * @param int $vendor_id
+     *
+     * @return array
+     */
+    public function get_default_vendor_addresses( $addresses, $vendor_id ) {
+        // Store address
+        $addresses[] = [
+            'description' => __( 'Inherited from your store settings', 'taxjar-for-marketplaces' ),
+            'country'     => get_user_meta( $vendor_id, '_wcv_store_country', true ),
+            'postcode'    => get_user_meta( $vendor_id, '_wcv_store_postcode', true ),
+            'state'       => get_user_meta( $vendor_id, '_wcv_store_state', true ),
+            'city'        => get_user_meta( $vendor_id, '_wcv_store_city', true ),
+            'address_1'   => get_user_meta( $vendor_id, '_wcv_store_address1', true ),
+        ];
+
+        // Vendor shipping 'Ship From' address
+        $methods = WC()->shipping()->get_shipping_methods();
+
+        if ( isset( $methods['wcv_pro_vendor_shipping'] ) && $methods['wcv_pro_vendor_shipping']->is_enabled() ) {
+            $settings = $this->get_vendor_shipping_settings( $vendor_id );
+
+            if ( 'other' === $settings['shipping_from'] ) {
+                $addresses[] = [
+                    'description' => __( 'Inherited from your shipping settings', 'taxjar-for-marketplaces' ),
+                    'country'     => $settings['shipping_address']['country'],
+                    'postcode'    => $settings['shipping_address']['postcode'],
+                    'state'       => $settings['shipping_address']['state'],
+                    'city'        => $settings['shipping_address']['city'],
+                    'address_1'   => $settings['shipping_address']['address1'],
+                ];
+            }
+        }
+
+        return $addresses;
+    }
+
+    /**
+     * Gets a vendor's shipping settings.
+     *
+     * @param int $vendor_id
+     *
+     * @return array Shipping settings with some defaults set
+     */
+    private function get_vendor_shipping_settings( $vendor_id ) {
+        $settings = get_user_meta( $vendor_id, '_wcv_shipping', true );
+
+        if ( ! is_array( $settings ) ) {
+            $settings = [];
+        }
+
+        $settings = wp_parse_args(
+            $settings,
+            [
+                'shipping_from'    => 'store_address',
+                'shipping_address' => [
+                    'country'  => '',
+                    'postcode' => '',
+                    'state'    => '',
+                    'city'     => '',
+                    'address1' => '',
+                ],
+            ]
+        );
+
+        return $settings;
     }
 
 }

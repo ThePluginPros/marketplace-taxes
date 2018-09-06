@@ -56,7 +56,7 @@ class TFM_WC_Vendors_Dashboard {
     public function output_store_settings_tab() {
         TFM()->assets->enqueue(
             'style',
-            'taxjar-for-marketplaces.settings',
+            'taxjar-for-marketplaces.wc-vendors',
             [
                 'deps' => [ 'dashicons' ],
             ]

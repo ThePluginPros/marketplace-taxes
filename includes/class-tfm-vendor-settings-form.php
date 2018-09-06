@@ -70,6 +70,7 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
                     'taxjar-for-marketplaces'
                 ),
                 'sanitize_callback' => array( $this, 'validate_nexus_addresses' ),
+                'value_callback'    => array( 'TFM_Addresses', 'get_vendor_addresses' ),
             ]
         );
 
@@ -159,7 +160,13 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
      */
     private function init_settings() {
         foreach ( $this->form_fields as $field_id => &$field ) {
-            if ( ! isset( $field['value'] ) ) {
+            if ( isset( $field['value'] ) ) {
+                continue;
+            }
+
+            if ( isset( $field['value_callback'] ) ) {
+                $field['value'] = $field['value_callback']( $this->vendor_id );
+            } else {
                 $field['value'] = get_user_meta( $this->vendor_id, $this->get_field_name( $field_id ), true );
             }
         }
@@ -309,7 +316,7 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
      * @return string The value specified for the option or a default value for the option.
      */
     public function get_option( $key, $empty_value = null ) {
-        $value = get_user_meta( $this->vendor_id, $key, true );
+        $value = get_user_meta( $this->vendor_id, $this->get_field_name( $key ), true );
 
         if ( empty( $value ) ) {
             $value = $empty_value;

@@ -20,17 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     <thead>
     <tr>
         <th><?php _e( 'Address 1', 'taxjar-for-marketplaces' ); ?></th>
-        <th><?php _e( 'Address 2', 'taxjar-for-marketplaces' ); ?></th>
         <th><?php _e( 'Country', 'taxjar-for-marketplaces' ); ?></th>
         <th><?php _e( 'State', 'taxjar-for-marketplaces' ); ?></th>
         <th><?php _e( 'City', 'taxjar-for-marketplaces' ); ?></th>
         <th><?php _e( 'Postcode', 'taxjar-for-marketplaces' ); ?></th>
-        <th width="30"><!-- Actions --></th>
+        <th class="actions">&nbsp;</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
-        <th colspan="7">
+        <th colspan="6">
             <button type="button"
                     class="vt-add-nexus-address <?php echo 'admin' === $context ? 'wp-core-ui button' : ''; ?>">
                 <?php _e( 'Add Address', 'taxjar-for-marketplaces' ); ?>
@@ -47,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <script type="text/html" id="tmpl-vt-nexus-addresses-empty">
     <tr id="nexus_addresses_blank_row">
-        <td colspan="7">
+        <td colspan="6">
             <p><?php printf(
                     '%s <a href="#" class="vt-add-nexus-address">%s</a>',
                     __( 'No addresses entered.', 'taxjar-for-marketplaces' ),
@@ -64,12 +63,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                    id="nexus_addresses[{{ data.id }}][address_1]"
                    placeholder="<?php esc_attr_e( 'Street address', 'taxjar-for-marketplaces' ); ?>"
                    value="{{ data.address_1 }}">
-        </td>
-        <td>
-            <input type="text" name="nexus_addresses[{{ data.id }}][address_2]"
-                   id="nexus_addresses[{{ data.id }}][address_2]"
-                   placeholder="<?php esc_attr_e( 'Apartment, suite, etc.', 'taxjar-for-marketplaces' ); ?>"
-                   value="{{ data.address_2 }}">
         </td>
         <td>
             <select name="nexus_addresses[{{ data.id }}][country]" id="nexus_addresses[{{ data.id }}][country]"
@@ -94,10 +87,35 @@ if ( ! defined( 'ABSPATH' ) ) {
                    placeholder="<?php esc_attr_e( 'Postcode', 'taxjar-for-marketplaces' ); ?>"
                    value="{{ data.postcode }}">
         </td>
-        <td width="30">
+        <td class="actions">
             <a href="#" class="vt-remove-nexus-address" title="Remove">
                 <i class="dashicons dashicons-no-alt"></i>
             </a>
+        </td>
+    </tr>
+</script>
+
+<script type="text/html" id="tmpl-vt-nexus-address-default">
+    <tr data-id="{{ data.id }}" class="default">
+        <td>
+            <span class="address-field">{{ data.address_1 ? data.address_1 : '–' }}</span>
+        </td>
+        <td>
+            <span class="address-field">{{ data.country ? data.country : '–' }}</span>
+        </td>
+        <td>
+            <span class="address-field">{{ data.state ? data.state : '–' }}</span>
+        </td>
+        <td>
+            <span class="address-field">{{ data.city ? data.city : '–' }}</span>
+        </td>
+        <td>
+            <span class="address-field">{{ data.postcode ? data.postcode : '–' }}</span>
+        </td>
+        <td class="actions">
+            <span class="default-address-tip" title="{{ data.description }}">
+                <i class="dashicons dashicons-editor-help"></i>
+            </span>
         </td>
     </tr>
 </script>

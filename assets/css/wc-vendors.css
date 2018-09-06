@@ -1,5 +1,4 @@
 /* WC Vendors Taxes settings form CSS */
-/* todo: move to wc vendors integration? */
 .wcv-tax-hidden {
     display: none;
 }
@@ -17,8 +16,31 @@
     height: 43px;
 }
 
+#nexus_addresses_table input[readonly], #nexus_addresses_table select[readonly] {
+    background-color: #e9ecef;
+}
+
 #nexus_addresses_table td, #nexus_addresses_table th {
     padding: 0.5em;
+    vertical-align: middle;
+}
+
+#nexus_addresses_table td.actions, #nexus_addresses_table th.actions {
+    width: 40px;
+}
+
+#nexus_addresses_table td.actions .dashicons {
+    vertical-align: middle;
+}
+
+#nexus_addresses_table tr.default td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#nexus_addresses_table span.address-field {
+    padding: 8px 6px;
 }
 
 .dashicons.has-tip {
