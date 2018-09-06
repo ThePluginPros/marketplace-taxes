@@ -73,7 +73,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </td>
         <td>
             <select name="nexus_addresses[{{ data.id }}][country]" id="nexus_addresses[{{ data.id }}][country]"
-                    class="select2 country_to_state country_select">
+                    class="tfm_country_to_state">
                 <?php foreach ( $countries as $code => $name ): ?>
                     <option value="<?php echo $code; ?>"><?php echo $name; ?></option>
                 <?php endforeach; ?>
@@ -103,17 +103,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 </script>
 
 <?php
-if ( 'admin' === $context ) {
-    $country_select_script = 'taxjar-for-marketplaces.country-select';
-} else {
-    $country_select_script = 'wcv-country-select';
-}
-
 TFM()->assets->enqueue(
     'script',
     'taxjar-for-marketplaces.address-table',
     [
-        'deps'     => [ 'jquery', 'wp-util', 'underscore', 'backbone', $country_select_script ],
+        'deps'     => [ 'jquery', 'wp-util', 'underscore', 'backbone', 'taxjar-for-marketplaces.country-select' ],
         'localize' => [
             'wcv_tax_address_table_localize' => [
                 'addresses' => is_array( $value ) ? $value : [],

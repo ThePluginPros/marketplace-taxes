@@ -13,6 +13,10 @@
     max-width: 100%;
 }
 
+#nexus_addresses_table select, #nexus_addresses_table .select2-container {
+    height: 43px;
+}
+
 #nexus_addresses_table td, #nexus_addresses_table th {
     padding: 0.5em;
 }

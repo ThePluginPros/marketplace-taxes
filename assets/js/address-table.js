@@ -43,11 +43,8 @@
 
                     // Select country
                     if ( '' !== country ) {
-                        $tr.find( '.country_select option[value="' + country + '"]' ).prop( 'selected', true );
+                        $tr.find( '.tfm_country_to_state option[value="' + country + '"]' ).prop( 'selected', true );
                     }
-
-                    // Initialize select2
-                    $( document.body ).trigger( 'country_to_state_changed' );
                 },
                 onAddNewRow: function( event ) {
                     var view = event.data.view;
@@ -77,7 +74,7 @@
                         row  = $( this ).closest('tr');
 
                     event.preventDefault();
-                    
+
                     row.remove();
 
                     if ( $tbody.find( 'tr' ).length === 0 ) {
@@ -95,9 +92,7 @@
     } );
 
     $( window ).load( function() {
-        $( document.body ).trigger( 'country_to_state_changed' );
-
-        $( '.country_select' ).each( function() {
+        $( '.tfm_country_to_state' ).each( function() {
             $( this ).trigger( 'change' );
         } );
     } );

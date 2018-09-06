@@ -86,7 +86,7 @@ class TFM_Assets {
                     'deps'      => [ 'jquery' ],
                     'in_footer' => true,
                     'localize'  => [
-                        'wcv_country_select_params' => [
+                        'tfm_country_select_params' => [
                             'countries'                 => json_encode(
                                 array_merge(
                                     WC()->countries->get_allowed_country_states(),
@@ -160,7 +160,7 @@ class TFM_Assets {
                         ],
                     ],
                 ],
-                'context' => 'admin',
+                'context' => 'both',
             ],
         ];
     }
