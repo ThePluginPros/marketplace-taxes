@@ -17,9 +17,6 @@ class TFM_WC_Vendors_Dashboard {
      * Registers action hooks and filters.
      */
     public function __construct() {
-        add_filter( 'wcv_store_tabs', array( $this, 'add_store_settings_tab' ) );
-        add_action( 'wcv_form_submit_before_store_save_button', array( $this, 'output_store_settings_tab' ) );
-        add_action( 'wcv_pro_store_settings_saved', array( $this, 'on_store_settings_saved' ) );
         add_filter( 'wcv_product_tax_status', array( $this, 'hide_form_field' ) );
         add_filter( 'wcv_product_tax_class', array( $this, 'hide_form_field' ) );
         add_action( 'wcv_product_options_tax', array( $this, 'display_category_field' ) );
@@ -30,6 +27,12 @@ class TFM_WC_Vendors_Dashboard {
             array( $this, 'hide_variation_tax_class' )
         );
         add_filter( 'tfm_product_saved_actions', array( $this, 'register_save_action' ) );
+
+        if ( 'vendor' === TFM()->settings->get( 'merchant_of_record' ) ) {
+            add_filter( 'wcv_store_tabs', array( $this, 'add_store_settings_tab' ) );
+            add_action( 'wcv_form_submit_before_store_save_button', array( $this, 'output_store_settings_tab' ) );
+            add_action( 'wcv_pro_store_settings_saved', array( $this, 'on_store_settings_saved' ) );
+        }
     }
 
     /**

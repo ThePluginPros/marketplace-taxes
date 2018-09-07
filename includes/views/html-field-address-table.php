@@ -12,6 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// A different field key is used on the admin settings page
+if ( ! isset( $field_key ) ) {
+    $field_key = 'nexus_addresses';
+}
+
 ?>
 
 <?php do_action( 'tfm_before_nexus_addresses_table', $context ); ?>
@@ -19,11 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <table id="nexus_addresses_table" class="<?php echo 'admin' === $context ? 'widefat' : ''; ?>">
     <thead>
     <tr>
-        <th><?php _e( 'Address 1', 'taxjar-for-marketplaces' ); ?></th>
-        <th><?php _e( 'Country', 'taxjar-for-marketplaces' ); ?></th>
-        <th><?php _e( 'State', 'taxjar-for-marketplaces' ); ?></th>
+        <th><?php _e( 'Address', 'taxjar-for-marketplaces' ); ?></th>
+        <th><?php _e( 'Country', 'taxjar-for-marketplaces' ); ?> <span class="required">*</span></th>
+        <th><?php _e( 'State', 'taxjar-for-marketplaces' ); ?> <span class="required">*</span></th>
         <th><?php _e( 'City', 'taxjar-for-marketplaces' ); ?></th>
-        <th><?php _e( 'Postcode', 'taxjar-for-marketplaces' ); ?></th>
+        <th><?php _e( 'Postcode', 'taxjar-for-marketplaces' ); ?> <span class="required">*</span></th>
         <th class="actions">&nbsp;</th>
     </tr>
     </thead>
@@ -59,33 +64,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/html" id="tmpl-vt-nexus-address">
     <tr data-id="{{ data.id }}">
         <td>
-            <input type="text" name="nexus_addresses[{{ data.id }}][address_1]"
-                   id="nexus_addresses[{{ data.id }}][address_1]"
+            <input type="text" name="<?php echo $field_key; ?>[{{ data.id }}][address_1]"
+                   id="<?php echo $field_key; ?>[{{ data.id }}][address_1]"
                    placeholder="<?php esc_attr_e( 'Street address', 'taxjar-for-marketplaces' ); ?>"
                    value="{{ data.address_1 }}">
         </td>
         <td>
-            <select name="nexus_addresses[{{ data.id }}][country]" id="nexus_addresses[{{ data.id }}][country]"
-                    class="tfm_country_to_state">
+            <select name="<?php echo $field_key; ?>[{{ data.id }}][country]"
+                    id="<?php echo $field_key; ?>[{{ data.id }}][country]"
+                    class="tfm_country_to_state" required>
                 <?php foreach ( $countries as $code => $name ): ?>
                     <option value="<?php echo $code; ?>"><?php echo $name; ?></option>
                 <?php endforeach; ?>
             </select>
         </td>
         <td>
-            <input type="text" name="nexus_addresses[{{ data.id }}][state]" id="nexus_addresses[{{ data.id }}][state]"
+            <input type="text" name="<?php echo $field_key; ?>[{{ data.id }}][state]"
+                   id="<?php echo $field_key; ?>[{{ data.id }}][state]"
                    class="shipping_state" placeholder="<?php esc_attr_e( 'State', 'taxjar-for-marketplaces' ); ?>"
-                   value="{{ data.state }}">
+                   value="{{ data.state }}" required>
         </td>
         <td>
-            <input type="text" name="nexus_addresses[{{ data.id }}][city]" id="nexus_addresses[{{ data.id }}][city]"
+            <input type="text" name="<?php echo $field_key; ?>[{{ data.id }}][city]"
+                   id="<?php echo $field_key; ?>[{{ data.id }}][city]"
                    placeholder="<?php esc_attr_e( 'City', 'taxjar-for-marketplaces' ); ?>" value="{{ data.city }}">
         </td>
         <td>
-            <input type="text" name="nexus_addresses[{{ data.id }}][postcode]"
-                   id="nexus_addresses[{{ data.id }}][postcode]"
+            <input type="text" name="<?php echo $field_key; ?>[{{ data.id }}][postcode]"
+                   id="<?php echo $field_key; ?>[{{ data.id }}][postcode]"
                    placeholder="<?php esc_attr_e( 'Postcode', 'taxjar-for-marketplaces' ); ?>"
-                   value="{{ data.postcode }}">
+                   value="{{ data.postcode }}" required>
         </td>
         <td class="actions">
             <a href="#" class="vt-remove-nexus-address" title="Remove">

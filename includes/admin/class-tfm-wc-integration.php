@@ -4,9 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-require_once TFM()->path( 'includes/interface-tfm-settings-api.php' );
-require_once TFM()->path( 'includes/class-tfm-download-orders.php' );
-
 /**
  * WooCommerce integration for TaxJar for Marketplaces.
  *
@@ -16,18 +13,12 @@ require_once TFM()->path( 'includes/class-tfm-download-orders.php' );
 class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
 
     /**
-     * @var TFM_Download_Orders Download orders instance.
-     */
-    protected $download_orders;
-
-    /**
      * Constructor.
      */
     public function __construct() {
         $this->id                 = 'taxjar_for_marketplaces';
         $this->method_title       = __( 'TaxJar for Marketplaces', 'taxjar-for-marketplaces' );
         $this->method_description = $this->get_method_description();
-        $this->download_orders    = new TFM_Download_Orders( $this );
 
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'woocommerce_update_options_integration_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -74,22 +65,18 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
                 'label'   => __( 'Enable automated tax calculations', 'taxjar-for-marketplaces' ),
                 'default' => 'yes',
             ],
-            'api_token'           => [
-                'title'             => __( 'TaxJar API token', 'taxjar-for-marketplaces' ),
-                'type'              => 'text',
-                'desc_tip'          => __(
-                    'Your API token will be used to calculate the correct tax rate at checkout.',
-                    'taxjar-for-marketplaces'
-                ),
-                'description'       => __(
-                    '<a href="https://thepluginpros.com/out/taxjar-api-token" target="_blank">Find your API token</a> | <a href="https://thepluginpros.com/out/taxjar" target="_blank">Register for TaxJar</a>',
-                    'taxjar-for-marketplaces'
-                ),
-                'custom_attributes' => [
-                    'required' => 'required',
-                ],
-                'sanitize_callback' => array( 'TFM_Util', 'validate_api_token' ),
-            ],
+            'api_token'           => array_merge(
+                TFM_Field_API_Token::init( $this ),
+                [
+                    'desc_tip'          => __(
+                        'Your API token will be used to calculate the correct tax rate at checkout.',
+                        'taxjar-for-marketplaces'
+                    ),
+                    'custom_attributes' => [
+                        'required' => 'required',
+                    ],
+                ]
+            ),
             'merchant_of_record'  => [
                 'title'       => __( 'Seller of record', 'taxjar-for-marketplaces' ),
                 'type'        => 'select',
@@ -105,7 +92,14 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
                 ),
                 'desc_tip'    => true,
             ],
-            'upload_transactions' => $this->download_orders->get_form_settings_field(),
+            'nexus_addresses'     => array_merge(
+                TFM_Field_Business_Locations::init( $this ),
+                [
+                    'title'         => __( 'Business locations', 'taxjar-for-marketplaces' ),
+                    'wrapper_class' => 'show-if-woocommerce_taxjar_for_marketplaces_merchant_of_record-marketplace',
+                ]
+            ),
+            'upload_transactions' => TFM_Field_Upload_Orders::init( $this ),
         ];
     }
 
@@ -125,6 +119,50 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
         parent::process_admin_options();
 
         do_action( 'taxjar_for_marketplaces_options_saved', $this );
+    }
+
+    /**
+     * Generates the HTML for a custom field.
+     *
+     * @param string $key
+     * @param array $field
+     *
+     * @return string
+     */
+    public function generate_custom_field_html( $key, $field ) {
+        $field_key = $this->get_field_key( $key );
+        $defaults  = [
+            'title'         => '',
+            'desc_tip'      => false,
+            'description'   => '',
+            'wrapper_class' => '',
+            'value'         => TFM_Addresses::get_base_addresses(),
+        ];
+
+        $field = wp_parse_args( $field, $defaults );
+
+        ob_start();
+        ?>
+        <tr valign="top" class="<?php echo esc_attr( $field['wrapper_class'] ); ?>">
+            <th scope="row" class="titledesc">
+                <label for="<?php echo esc_attr( $field_key ); ?>"><?php echo wp_kses_post(
+                        $field['title']
+                    ); ?><?php echo $this->get_tooltip_html( $field ); ?></label>
+            </th>
+            <td class="forminp">
+                <?php
+                // Make all field attributes available in the included file
+                extract( $field );
+
+                include_once( $field['path'] );
+
+                echo $this->get_description_html( $field );
+                ?>
+            </td>
+        </tr>
+        <?php
+
+        return ob_get_clean();
     }
 
     /**
@@ -158,6 +196,33 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
      */
     public function get_store_url() {
         return home_url();
+    }
+
+    /**
+     * Checks whether an API token is required based on the user's settings.
+     *
+     * @return bool
+     */
+    public function is_token_required() {
+        return true;
+    }
+
+    /**
+     * Checks whether addresses are required based on the user's settings.
+     *
+     * @return bool
+     */
+    public function addresses_required() {
+        return 'marketplace' === $this->get_option( 'merchant_of_record' );
+    }
+
+    /**
+     * Gets the default addresses for the Business Locations table.
+     *
+     * @return array
+     */
+    public function get_default_addresses() {
+        return TFM_Addresses::get_default_base_addresses();
     }
 
 }

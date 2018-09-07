@@ -4,9 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-require_once TFM()->path( 'includes/interface-tfm-settings-api.php' );
-require_once TFM()->path( 'includes/class-tfm-download-orders.php' );
-
 /**
  * Vendor settings form.
  *
@@ -30,11 +27,6 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
     protected $form_fields = [];
 
     /**
-     * @var TFM_Download_Orders Download orders instance
-     */
-    protected $download_orders;
-
-    /**
      * Constructor.
      *
      * @param int $vendor_id ID of the vendor
@@ -45,9 +37,8 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
             $vendor_id = get_current_user_id();
         }
 
-        $this->vendor_id       = $vendor_id;
-        $this->context         = $context;
-        $this->download_orders = new TFM_Download_Orders( $this );
+        $this->vendor_id = $vendor_id;
+        $this->context   = $context;
 
         $this->init_form_fields();
     }
@@ -56,67 +47,40 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
      * Initializes the form fields array.
      */
     private function init_form_fields() {
-        $this->form_fields['nexus_addresses'] = apply_filters(
-            'tfm_nexus_addresses_field',
-            [
-                'id'                => 'nexus_addresses',
-                'type'              => 'custom_field',
-                'path'              => TFM()->path( 'includes/views/html-field-address-table.php' ),
-                'countries'         => $this->get_nexus_countries(),
-                'context'           => $this->context,
-                'title'             => __( 'Business Locations', 'taxjar-for-marketplaces' ),
-                'description'       => __(
-                    'Please enter all locations, including stores, warehouses, distribution facilities, etc.',
-                    'taxjar-for-marketplaces'
-                ),
-                'sanitize_callback' => array( $this, 'validate_nexus_addresses' ),
-                'value_callback'    => array( 'TFM_Addresses', 'get_vendor_addresses' ),
-            ]
-        );
-
-        if ( 'vendor' === TFM()->settings->get( 'merchant_of_record', 'vendor' ) ) {
-            $this->form_fields['upload_transactions'] = apply_filters(
+        $this->form_fields = [
+            'nexus_addresses'     => apply_filters(
+                'tfm_nexus_addresses_field',
+                array_merge(
+                    TFM_Field_Business_Locations::init( $this ),
+                    [
+                        'id'             => 'nexus_addresses',
+                        'context'        => $this->context,
+                        'value_callback' => array( 'TFM_Addresses', 'get_vendor_addresses' ),
+                    ]
+                )
+            ),
+            'upload_transactions' => apply_filters(
                 'tfm_upload_transactions_field',
                 array_merge(
-                    $this->download_orders->get_form_settings_field(),
+                    TFM_Field_Upload_Orders::init( $this ),
                     [
                         'id'    => 'upload_transactions',
                         'class' => 'input-toggle',
                         'title' => __( 'Use TaxJar for Reporting', 'taxjar-for-marketplaces' ),
-                        'label' => __(
-                            'Upload orders to <a href="https://thepluginpros.com/out/taxjar" target="_blank">TaxJar</a> for reporting',
-                            'taxjar-for-marketplaces'
-                        ),
                     ]
                 )
-            );
-
-            $this->form_fields['taxjar_api_token'] = apply_filters(
+            ),
+            'taxjar_api_token'    => apply_filters(
                 'tfm_taxjar_api_token_field',
-                [
-                    'id'                => 'taxjar_api_token',
-                    'type'              => 'text',
-                    'title'             => __( 'TaxJar API token', 'taxjar-for-marketplaces' ),
-                    'description'       => __(
-                        '<a href="https://thepluginpros.com/out/taxjar-api-token" target="_blank">Find your API token</a> | <a href="https://thepluginpros.com/out/taxjar" target="_blank">Register for TaxJar</a>',
-                        'taxjar-for-marketplaces'
-                    ),
-                    'wrapper_class'     => 'show-if-upload_transactions-yes',
-                    'sanitize_callback' => array( $this, 'validate_api_token' ),
-                ]
-            );
-        }
-    }
-
-    /**
-     * Gets the available countries for the nexus address table.
-     */
-    public function get_nexus_countries() {
-        if ( WC()->countries->get_allowed_countries() ) {
-            return WC()->countries->get_allowed_countries();
-        } else {
-            return WC()->countries->get_shipping_countries();
-        }
+                array_merge(
+                    TFM_Field_API_Token::init( $this ),
+                    [
+                        'id'            => 'taxjar_api_token',
+                        'wrapper_class' => 'show-if-upload_transactions-yes',
+                    ]
+                )
+            ),
+        ];
     }
 
     /**
@@ -260,42 +224,6 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
     }
 
     /**
-     * Validates the Nexus Addresses field.
-     *
-     * @param mixed $value
-     *
-     * @return array
-     *
-     * @throws Exception if validation fails
-     */
-    public function validate_nexus_addresses( $value ) {
-        if ( ! is_array( $value ) ) {
-            $value = array();
-        }
-        if ( empty( $value ) ) {
-            throw new Exception( __( 'You must provide at least one business location.', 'taxjar-for-marketplaces' ) );
-        }
-        return $value;
-    }
-
-    /**
-     * Validates the vendor's TaxJar API token.
-     *
-     * @param string $token
-     *
-     * @return string
-     *
-     * @throws Exception if validation fails
-     */
-    public function validate_api_token( $token ) {
-        if ( isset( $_POST['upload_transactions'] ) && 'yes' === $_POST['upload_transactions'] ) {
-            return TFM_Util::validate_api_token( $token );
-        }
-
-        return $token;
-    }
-
-    /**
      * Validates checkbox fields.
      *
      * @param string $field_name
@@ -360,6 +288,34 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
      */
     public function get_store_url() {
         return WCV_Vendors::get_vendor_shop_page( $this->vendor_id );
+    }
+
+    /**
+     * Checks whether an API token is required based on the user's settings.
+     *
+     * @return bool
+     */
+    public function is_token_required() {
+        return isset( $_POST['upload_transactions'] ) && 'yes' === $_POST['upload_transactions'];
+    }
+
+    /**
+     * Checks whether addresses are required based on the user's settings.
+     *
+     * @return bool
+     */
+    public function addresses_required() {
+        // This form is only displayed when the vendor is the MOR, so always required
+        return true;
+    }
+
+    /**
+     * Gets the default addresses for the Business Locations table.
+     *
+     * @return array
+     */
+    public function get_default_addresses() {
+        return TFM_Addresses::get_default_vendor_addresses( $this->vendor_id );
     }
 
 }

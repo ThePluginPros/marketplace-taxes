@@ -50,6 +50,10 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
      * Includes all required files.
      */
     private function includes() {
+        require 'interface-tfm-settings-api.php';
+        require 'fields/class-tfm-field-upload-orders.php';
+        require 'fields/class-tfm-field-api-token.php';
+        require 'fields/class-tfm-field-business-locations.php';
         require 'class-tfm-settings.php';
         require 'class-tfm-install.php';
         require 'class-tfm-assets.php';

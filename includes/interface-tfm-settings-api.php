@@ -42,4 +42,25 @@ interface TFM_Settings_API {
      */
     function get_store_url();
 
+    /**
+     * Checks whether an API token is required based on the user's settings.
+     *
+     * @return bool
+     */
+    function is_token_required();
+
+    /**
+     * Checks whether addresses are required based on the user's settings.
+     *
+     * @return bool
+     */
+    function addresses_required();
+
+    /**
+     * Gets the default addresses for the Business Locations table.
+     *
+     * @return array
+     */
+    function get_default_addresses();
+
 }

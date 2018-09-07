@@ -17,9 +17,11 @@ class TFM_WC_Vendors_Admin {
      * Registers action hooks and filters.
      */
     public function __construct() {
-        add_action( 'admin_menu', array( $this, 'add_admin_menu_item' ) );
-        add_action( 'admin_init', array( $this, 'admin_save_settings' ) );
-        add_filter( 'woocommerce_screen_ids', array( $this, 'register_admin_screen' ) );
+        if ( 'vendor' === TFM()->settings->get( 'merchant_of_record' ) ) {
+            add_action( 'admin_menu', array( $this, 'add_admin_menu_item' ) );
+            add_action( 'admin_init', array( $this, 'admin_save_settings' ) );
+            add_filter( 'woocommerce_screen_ids', array( $this, 'register_admin_screen' ) );
+        }
     }
 
     /**

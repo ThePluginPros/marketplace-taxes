@@ -28,15 +28,16 @@ class TFM_Addresses {
      *
      * @return array
      */
-    private static function get_default_base_addresses() {
+    public static function get_default_base_addresses() {
         // Add store base address by default
         $defaults = [
             [
-                'country'   => WC()->countries->get_base_country(),
-                'postcode'  => WC()->countries->get_base_postcode(),
-                'state'     => WC()->countries->get_base_state(),
-                'city'      => WC()->countries->get_base_city(),
-                'address_1' => WC()->countries->get_base_address(),
+                'description' => __( 'Inherited from your general shop settings' ),
+                'country'     => WC()->countries->get_base_country(),
+                'postcode'    => WC()->countries->get_base_postcode(),
+                'state'       => WC()->countries->get_base_state(),
+                'city'        => WC()->countries->get_base_city(),
+                'address_1'   => WC()->countries->get_base_address(),
             ],
         ];
 
@@ -85,7 +86,7 @@ class TFM_Addresses {
      *
      * @return array
      */
-    private static function get_default_vendor_addresses( $vendor_id ) {
+    public static function get_default_vendor_addresses( $vendor_id ) {
         // Defer to marketplace plugin integrations
         return apply_filters( 'tfm_default_vendor_addresses', [], $vendor_id );
     }

@@ -5,13 +5,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class TFM_Download_Orders
+ * Class TFM_Field_Upload_Orders
  *
- * Handles TaxJar order downloads.
+ * Defines and provides validation for the 'Upload Orders' form field.
  *
  * Based on the WC_Taxjar_Order_Downloads class from TaxJar for WooCommerce.
  */
-class TFM_Download_Orders {
+class TFM_Field_Upload_Orders {
 
     const API_URI = 'https://api.taxjar.com/v2/';
 
@@ -24,6 +24,38 @@ class TFM_Download_Orders {
      * @var bool Is order downloading enabled?
      */
     protected $taxjar_download = false;
+
+    /**
+     * Initializes a new form field instance.
+     *
+     * @param TFM_Settings_API $form Settings form instance.
+     *
+     * @return array
+     */
+    public static function init( $form ) {
+        $instance = new self( $form );
+
+        $field = [
+            'title'             => __( 'Sales tax reporting', 'taxjar-for-marketplaces' ),
+            'label'             => __(
+                'Upload orders to <a href="https://thepluginpros.com/out/taxjar" target="_blank">TaxJar</a> for reporting',
+                'taxjar-for-marketplaces'
+            ),
+            'type'              => 'checkbox',
+            'default'           => 'no',
+            'class'             => 'show-if-woocommerce_taxjar_for_marketplaces_merchant_of_record-marketplace',
+            'sanitize_callback' => array( $instance, 'validate' ),
+        ];
+
+        if ( $instance->taxjar_download && ! $instance->existing_api_key() ) {
+            $field['description'] = __(
+                "<span style='color: #ff0000;'>There was an error retrieving your keys. Please disable and re-enable reporting.</span>",
+                'taxjar-for-marketplaces'
+            );
+        }
+
+        return $field;
+    }
 
     public function __construct( $integration ) {
         $this->integration     = $integration;
@@ -39,7 +71,7 @@ class TFM_Download_Orders {
      *
      * @throws Exception If linking or unlinking the user's TaxJar account fails
      */
-    public function validate_upload_transactions_field( $value ) {
+    public function validate( $value ) {
         $previous_value = $this->integration->get_option( 'upload_transactions' );
 
         if ( ! is_null( $value ) && 'no' !== $value ) {
@@ -89,31 +121,6 @@ class TFM_Download_Orders {
         }
 
         return $value;
-    }
-
-    /**
-     * Called by the integration to show on the TaxJar settings page
-     *
-     * @return array
-     */
-    public function get_form_settings_field() {
-        $field = [
-            'title'             => __( 'Sales tax reporting', 'taxjar-for-marketplaces' ),
-            'label'             => __( 'Upload orders to TaxJar for reporting', 'taxjar-for-marketplaces' ),
-            'type'              => 'checkbox',
-            'default'           => 'no',
-            'class'             => 'show-if-woocommerce_taxjar_for_marketplaces_merchant_of_record-marketplace',
-            'sanitize_callback' => array( $this, 'validate_upload_transactions_field' ),
-        ];
-
-        if ( $this->taxjar_download && ! $this->existing_api_key() ) {
-            $field['description'] = __(
-                "<span style='color: #ff0000;'>There was an error retrieving your keys. Please disable and re-enable reporting.</span>",
-                'taxjar-for-marketplaces'
-            );
-        }
-
-        return $field;
     }
 
     /**

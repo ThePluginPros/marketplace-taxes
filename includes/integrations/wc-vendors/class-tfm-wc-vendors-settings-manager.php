@@ -21,6 +21,7 @@ class TFM_WC_Vendors_Settings_Manager {
     public function __construct() {
         add_action( 'admin_print_footer_scripts', array( $this, 'disable_managed_fields' ) );
         add_action( 'taxjar_for_marketplaces_options_saved', array( $this, 'set_give_taxes' ) );
+        add_filter( 'get_user_metadata', array( $this, 'set_give_tax_override' ), 10, 4 );
 
         Settings_API::on_saved( array( $this, 'set_give_taxes' ) );
     }
@@ -41,6 +42,7 @@ class TFM_WC_Vendors_Settings_Manager {
                 '#hide_product_misc_taxes',
                 '#hide_product_general_tax',
                 '#hide_product_variations_tax_class',
+                '#wcv_give_vendor_tax',
             ];
             $selector        = implode( ', ', $disabled_fields );
             ?>
@@ -67,6 +69,7 @@ class TFM_WC_Vendors_Settings_Manager {
         return [
             'wc-vendors_page_wcv-settings',
             'woocommerce_page_wc_prd_vendor',
+            'user-edit',
         ];
     }
 
@@ -77,6 +80,25 @@ class TFM_WC_Vendors_Settings_Manager {
         $merchant_of_record = TFM()->settings->get( 'merchant_of_record', 'vendor' );
 
         Settings_API::set( 'wcvendors_vendor_give_taxes', wc_bool_to_string( 'vendor' === $merchant_of_record ) );
+    }
+
+    /**
+     * Sets the vendor level 'Give Tax' override based on the selected M.O.R.
+     *
+     * @param mixed $value
+     * @param int $user_id
+     * @param string $meta_key
+     *
+     * @return mixed
+     */
+    public function set_give_tax_override( $value, $user_id, $meta_key ) {
+        if ( 'wcv_give_vendor_tax' !== $meta_key ) {
+            return $value;
+        }
+
+        $give_vendor_tax = 'vendor' === TFM()->settings->get( 'merchant_of_record' );
+
+        return apply_filters( 'tfm_wcv_give_vendor_tax', $give_vendor_tax, $user_id );
     }
 
 }
