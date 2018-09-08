@@ -72,7 +72,7 @@ class TFM_Field_Upload_Orders {
      * @throws Exception If linking or unlinking the user's TaxJar account fails
      */
     public function validate( $value ) {
-        $previous_value = $this->integration->get_option( 'upload_transactions' );
+        $previous_value = $this->integration->get_option( 'upload_transactions', 'no' );
 
         if ( ! is_null( $value ) && 'no' !== $value ) {
             $value = 'yes';
