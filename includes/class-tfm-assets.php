@@ -175,7 +175,8 @@ class TFM_Assets {
                     'localize' => [
                         'tfm_admin_notices' => [
                             'dismiss_confirmation' => __(
-                                "Are you sure you want to dismiss this notice? You won't be warned about these sellers again."
+                                "Are you sure you want to dismiss this notice? You won't be warned about these sellers again.",
+                                'taxjar-for-marketplaces'
                             ),
                         ],
                     ],

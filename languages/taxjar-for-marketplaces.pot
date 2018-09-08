@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TaxJar for Marketplaces 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues\n"
-"POT-Creation-Date: 2018-09-03 00:03:52+00:00\n"
+"POT-Creation-Date: 2018-09-08 21:30:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,59 +33,49 @@ msgstr ""
 msgid "TaxJar for Marketplaces"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:57
+#: includes/admin/class-tfm-wc-integration.php:48
 msgid "Use this page to configure sales tax automation for your marketplace."
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:58
+#: includes/admin/class-tfm-wc-integration.php:49
 msgid ""
 "Need help? Check out the <a "
 "href=\"https://thepluginpros.com/documentation/taxjar\">documentation</a>"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:72
+#: includes/admin/class-tfm-wc-integration.php:63
 msgid "Enable"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:74
+#: includes/admin/class-tfm-wc-integration.php:65
 msgid "Enable automated tax calculations"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:78
-#: includes/class-tfm-vendor-settings-form.php:98
-msgid "TaxJar API token"
-msgstr ""
-
-#: includes/admin/class-tfm-wc-integration.php:80
+#: includes/admin/class-tfm-wc-integration.php:71
 msgid "Your API token will be used to calculate the correct tax rate at checkout."
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:84
-#: includes/class-tfm-vendor-settings-form.php:99
-msgid ""
-"<a href=\"https://thepluginpros.com/out/taxjar-api-token\" "
-"target=\"_blank\">Find your API token</a> | <a "
-"href=\"https://thepluginpros.com/out/taxjar\" target=\"_blank\">Register "
-"for TaxJar</a>"
-msgstr ""
-
-#: includes/admin/class-tfm-wc-integration.php:94
+#: includes/admin/class-tfm-wc-integration.php:81
 msgid "Seller of record"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:98
+#: includes/admin/class-tfm-wc-integration.php:85
 msgid "Vendor"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:99
+#: includes/admin/class-tfm-wc-integration.php:86
 msgid "Marketplace"
 msgstr ""
 
-#: includes/admin/class-tfm-wc-integration.php:102
+#: includes/admin/class-tfm-wc-integration.php:89
 msgid ""
 "The seller of record is responsible for collecting and remitting sales tax "
 "for each sale. The tax collected at checkout will be given to the seller of "
 "record."
+msgstr ""
+
+#: includes/admin/class-tfm-wc-integration.php:98
+msgid "Business locations"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:7
@@ -119,32 +109,84 @@ msgstr ""
 msgid "Start typing to search"
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:113
+#: includes/class-taxjar-for-marketplaces.php:132
 #. translators: 1: required plugin name, 2: minimum version
 msgid ""
 "<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires "
 "%1$s %2$s+."
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:124
+#: includes/class-taxjar-for-marketplaces.php:143
 #. translators: 1: required plugin name
 msgid ""
 "<strong>%1$s not detected.</strong> Please install or activate %1$s to use "
 "TaxJar for Marketplaces."
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:146
+#: includes/class-taxjar-for-marketplaces.php:165
 #. translators: 1 - list of required PHP extensions
 msgid ""
 "<strong>Required PHP extensions are missing.</strong> TaxJar for "
 "Marketplaces requires %1$s."
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:155
+#: includes/class-taxjar-for-marketplaces.php:174
 #. translators: 1 - required php version
 msgid ""
 "<strong>PHP needs to be updated.</strong> TaxJar for Marketplaces requires "
 "PHP %1$s+."
+msgstr ""
+
+#: includes/class-tfm-addresses.php:80
+msgid "Inherited from your general shop settings"
+msgstr ""
+
+#: includes/class-tfm-addresses.php:135
+msgid "Default address"
+msgstr ""
+
+#: includes/class-tfm-addresses.php:243
+msgid "%1$s and <a href=\"%4$s\">%2$s other %3$s</a>"
+msgstr ""
+
+#: includes/class-tfm-addresses.php:246
+msgid "seller"
+msgid_plural "sellers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tfm-addresses.php:262
+msgid ""
+"<strong>Warning!</strong> %s %s not configured their business addresses. "
+"Taxes will not be calculated for %s."
+msgstr ""
+
+#: includes/class-tfm-addresses.php:265
+msgid "has"
+msgid_plural "have"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tfm-addresses.php:266
+msgid "this vendor"
+msgid_plural "these vendors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tfm-addresses.php:311
+msgid "Tax setup incomplete."
+msgstr ""
+
+#: includes/class-tfm-addresses.php:312
+msgid ""
+"Please complete the following steps to ensure your customers are taxed "
+"correctly:"
+msgstr ""
+
+#: includes/class-tfm-addresses.php:342
+msgid ""
+"<strong>Tax setup incomplete.</strong> Please <a href=\"%s\">complete your "
+"store address</a> to dismiss this notice."
 msgstr ""
 
 #: includes/class-tfm-assets.php:65
@@ -158,37 +200,22 @@ msgid "No change"
 msgstr ""
 
 #: includes/class-tfm-assets.php:96
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:327
 msgid "Select an option&hellip;"
 msgstr ""
 
-#: includes/class-tfm-calculator.php:106
+#: includes/class-tfm-assets.php:177
+msgid ""
+"Are you sure you want to dismiss this notice? You won't be warned about "
+"these sellers again."
+msgstr ""
+
+#: includes/class-tfm-calculator.php:120
+msgid "%s Shipping"
+msgstr ""
+
+#: includes/class-tfm-calculator.php:172
 msgid "Failed to calculate the tax due: %s"
-msgstr ""
-
-#: includes/class-tfm-download-orders.php:71
-msgid ""
-"There was an error linking this store to your TaxJar account. Please "
-"contact support@thepluginpros.com"
-msgstr ""
-
-#: includes/class-tfm-download-orders.php:80
-msgid ""
-"There was an error unlinking this store from your TaxJar account. Please "
-"contact support@thepluginpros.com"
-msgstr ""
-
-#: includes/class-tfm-download-orders.php:97
-msgid "Sales tax reporting"
-msgstr ""
-
-#: includes/class-tfm-download-orders.php:98
-msgid "Upload orders to TaxJar for reporting"
-msgstr ""
-
-#: includes/class-tfm-download-orders.php:106
-msgid ""
-"<span style='color: #ff0000;'>There was an error retrieving your keys. "
-"Please disable and re-enable reporting.</span>"
 msgstr ""
 
 #: includes/class-tfm-install.php:68
@@ -207,19 +234,19 @@ msgid ""
 "rates."
 msgstr ""
 
-#: includes/class-tfm-integrations.php:49
+#: includes/class-tfm-integrations.php:51
 msgid ""
 "<strong>%1$s not detected.</strong> Please install or active %1$s to use "
 "TaxJar for Marketplaces."
 msgstr ""
 
-#: includes/class-tfm-integrations.php:57
+#: includes/class-tfm-integrations.php:65
 msgid ""
 "<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires "
 "%1$s version %2$s or greater."
 msgstr ""
 
-#: includes/class-tfm-integrations.php:78
+#: includes/class-tfm-integrations.php:84
 msgid ""
 "<strong>TaxJar for Marketplace is inactive</strong>. No compatible "
 "marketplace plugin detected."
@@ -230,64 +257,151 @@ msgid "Once monthly"
 msgstr ""
 
 #: includes/class-tfm-util.php:33
+#: includes/fields/class-tfm-field-api-token.php:67
 msgid "The provided API token is invalid."
 msgstr ""
 
 #: includes/class-tfm-util.php:35
+#: includes/fields/class-tfm-field-api-token.php:69
 msgid "Error connecting to TaxJar."
 msgstr ""
 
-#: includes/class-tfm-vendor-settings-form.php:67
-msgid "Business Locations"
-msgstr ""
-
-#: includes/class-tfm-vendor-settings-form.php:68
-msgid ""
-"Please enter all locations, including stores, warehouses, distribution "
-"facilities, etc."
-msgstr ""
-
-#: includes/class-tfm-vendor-settings-form.php:84
+#: includes/class-tfm-vendor-settings-form.php:69
 msgid "Use TaxJar for Reporting"
 msgstr ""
 
-#: includes/class-tfm-vendor-settings-form.php:85
-msgid ""
-"Upload orders to <a href=\"https://thepluginpros.com/out/taxjar\" "
-"target=\"_blank\">TaxJar</a> for reporting"
-msgstr ""
-
-#: includes/class-tfm-vendor-settings-form.php:129
+#: includes/class-tfm-vendor-settings-form.php:94
 msgid ""
 "Please fill out the fields below to ensure that your customers are taxed "
 "correctly."
 msgstr ""
 
-#: includes/class-tfm-vendor-settings-form.php:269
+#: includes/fields/class-tfm-field-api-token.php:31
+msgid "TaxJar API token"
+msgstr ""
+
+#: includes/fields/class-tfm-field-api-token.php:32
+msgid ""
+"<a href=\"https://thepluginpros.com/out/taxjar-api-token\" "
+"target=\"_blank\">Find your API token</a> | <a "
+"href=\"https://thepluginpros.com/out/taxjar\" target=\"_blank\">Register "
+"for TaxJar</a>"
+msgstr ""
+
+#: includes/fields/class-tfm-field-business-locations.php:34
+msgid "Business Locations"
+msgstr ""
+
+#: includes/fields/class-tfm-field-business-locations.php:35
+msgid ""
+"Please enter all locations, including stores, warehouses, distribution "
+"facilities, etc."
+msgstr ""
+
+#: includes/fields/class-tfm-field-business-locations.php:81
 msgid "You must provide at least one business location."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:31
+#: includes/fields/class-tfm-field-business-locations.php:101
+msgid "Select an option..."
+msgstr ""
+
+#: includes/fields/class-tfm-field-upload-orders.php:39
+msgid "Sales tax reporting"
+msgstr ""
+
+#: includes/fields/class-tfm-field-upload-orders.php:40
+msgid ""
+"Upload orders to <a href=\"https://thepluginpros.com/out/taxjar\" "
+"target=\"_blank\">TaxJar</a> for reporting"
+msgstr ""
+
+#: includes/fields/class-tfm-field-upload-orders.php:51
+msgid ""
+"<span style='color: #ff0000;'>There was an error retrieving your keys. "
+"Please disable and re-enable reporting.</span>"
+msgstr ""
+
+#: includes/fields/class-tfm-field-upload-orders.php:103
+msgid ""
+"There was an error linking this store to your TaxJar account. Please "
+"contact support@thepluginpros.com"
+msgstr ""
+
+#: includes/fields/class-tfm-field-upload-orders.php:114
+msgid ""
+"There was an error unlinking this store from your TaxJar account. Please "
+"contact support@thepluginpros.com"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:99
+msgid "Inherited from your store settings"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:115
+msgid "Inherited from your shipping settings"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:296
+msgid "Enter a complete store address"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:309
+msgid "Review your tax settings"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:34
 #: includes/integrations/wc-vendors/views/html-admin-tax-settings-page.php:15
 msgid "Tax Settings"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:32
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:45
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:35
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:54
 msgid "Taxes"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:55
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:58
 msgid "Settings saved."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:147
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:148
 msgid ""
 "A custom product variation template is in use. Tax category assignment "
 "won't work for variations."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-settings-manager.php:50
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:223
+msgid "Store Country"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:236
+msgid "Store Address"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:237
+msgid "Street Address"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:249
+msgid "Apartment, unit, suite etc."
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:261
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:262
+msgid "City / Town"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:274
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:275
+msgid "State / County"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:287
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:288
+msgid "Postcode / Zip"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-settings-manager.php:52
 msgid "This field is disabled while TaxJar for Marketplaces is active."
 msgstr ""
 
@@ -418,54 +532,46 @@ msgstr ""
 msgid "Download Expiry:"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:22
-msgid "Address 1"
+#: includes/views/html-field-address-table.php:27
+msgid "Address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:23
-msgid "Address 2"
-msgstr ""
-
-#: includes/views/html-field-address-table.php:24
+#: includes/views/html-field-address-table.php:28
 msgid "Country"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:25
+#: includes/views/html-field-address-table.php:29
 #: includes/views/html-field-address-table.php:84
 msgid "State"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:26
-#: includes/views/html-field-address-table.php:89
+#: includes/views/html-field-address-table.php:30
+#: includes/views/html-field-address-table.php:90
 msgid "City"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:27
-#: includes/views/html-field-address-table.php:94
+#: includes/views/html-field-address-table.php:31
+#: includes/views/html-field-address-table.php:95
 msgid "Postcode"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:36
+#: includes/views/html-field-address-table.php:40
 msgid "Add Address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:53
+#: includes/views/html-field-address-table.php:57
 msgid "No addresses entered."
 msgstr ""
 
-#: includes/views/html-field-address-table.php:54
+#: includes/views/html-field-address-table.php:58
 msgid "Add one."
 msgstr ""
 
-#: includes/views/html-field-address-table.php:65
+#: includes/views/html-field-address-table.php:69
 msgid "Street address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:71
-msgid "Apartment, suite, etc."
-msgstr ""
-
-#: includes/views/html-field-address-table.php:121
+#: includes/views/html-field-address-table.php:141
 msgid "At least one business address is required."
 msgstr ""
 

@@ -293,7 +293,7 @@ class TFM_Integration_WC_Vendors extends TFM_Integration {
         }
 
         $steps['complete_store_address'] = [
-            'label'    => __( 'Enter a complete store address' ),
+            'label'    => __( 'Enter a complete store address', 'taxjar-for-marketplaces' ),
             'url'      => $store_address_url . '#address',
             'complete' => $address_complete,
         ];
@@ -306,7 +306,7 @@ class TFM_Integration_WC_Vendors extends TFM_Integration {
         }
 
         $steps['review_tax_settings'] = [
-            'label'    => __( 'Review your tax settings' ),
+            'label'    => __( 'Review your tax settings', 'taxjar-for-marketplaces' ),
             'url'      => $tax_settings_url,
             'complete' => get_user_meta( $user_id, 'tax_settings_reviewed', true ),
         ];

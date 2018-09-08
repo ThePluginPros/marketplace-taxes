@@ -98,7 +98,7 @@ class TFM_Field_Business_Locations {
             $countries = WC()->countries->get_shipping_countries();
         }
 
-        return array_merge( [ '' => __( 'Select an option...' ) ], $countries );
+        return array_merge( [ '' => __( 'Select an option...', 'taxjar-for-marketplaces' ) ], $countries );
     }
 
 }

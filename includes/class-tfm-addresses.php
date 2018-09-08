@@ -77,7 +77,7 @@ class TFM_Addresses {
                 'tfm_default_base_addresses',
                 [
                     [
-                        'description' => __( 'Inherited from your general shop settings' ),
+                        'description' => __( 'Inherited from your general shop settings', 'taxjar-for-marketplaces' ),
                         'country'     => WC()->countries->get_base_country(),
                         'postcode'    => WC()->countries->get_base_postcode(),
                         'state'       => WC()->countries->get_base_state(),
@@ -240,10 +240,10 @@ class TFM_Addresses {
             $num_remaining = sizeof( array_splice( $vendors, $max_vendors ) );
             $vendor_names  = array_map( array( 'TFM_Vendors', 'get_store_name' ), $vendors );
             $vendor_names  = sprintf(
-                __( '%1$s and <a href="%4$s">%2$s other %3$s</a>' ),
+                __( '%1$s and <a href="%4$s">%2$s other %3$s</a>', 'taxjar-for-marketplaces' ),
                 implode( ', ', $vendor_names ),
                 $num_remaining,
-                _n( 'seller', 'sellers', $num_remaining ),
+                _n( 'seller', 'sellers', $num_remaining, 'taxjar-for-marketplaces' ),
                 add_query_arg( 'has_business_address', 'false', admin_url( 'users.php' ) )
             );
         } else {
@@ -260,11 +260,12 @@ class TFM_Addresses {
 
         $warning = sprintf(
             __(
-                '<strong>Warning!</strong> %s %s not configured their business addresses. Taxes will not be calculated for %s.'
+                '<strong>Warning!</strong> %s %s not configured their business addresses. Taxes will not be calculated for %s.',
+                'taxjar-for-marketplaces'
             ),
             $vendor_names,
-            _n( 'has', 'have', sizeof( $vendors ) ),
-            _n( 'this vendor', 'these vendors', sizeof( $vendors ) )
+            _n( 'has', 'have', sizeof( $vendors ), 'taxjar-for-marketplaces' ),
+            _n( 'this vendor', 'these vendors', sizeof( $vendors ), 'taxjar-for-marketplaces' )
         );
 
         return $warning;
@@ -309,8 +310,11 @@ class TFM_Addresses {
         if ( 0 < sizeof( $incomplete_steps ) ) {
             ob_start();
             ?>
-            <strong><?php _e( 'Tax setup incomplete.' ); ?></strong>
-            <p><?php _e( 'Please complete the following steps to ensure your customers are taxed correctly:' ); ?></p>
+            <strong><?php _e( 'Tax setup incomplete.', 'taxjar-for-marketplaces' ); ?></strong>
+            <p><?php _e(
+                    'Please complete the following steps to ensure your customers are taxed correctly:',
+                    'taxjar-for-marketplaces'
+                ); ?></p>
             <ol id="tax_setup_steps">
                 <?php foreach ( $setup_steps as $id => $step ): ?>
                     <li id="<?php echo esc_attr( $id ); ?>_step"
@@ -341,7 +345,8 @@ class TFM_Addresses {
             if ( empty( $addresses ) ) {
                 $notice = sprintf(
                     __(
-                        '<strong>Tax setup incomplete.</strong> Please <a href="%s">complete your store address</a> to dismiss this notice.'
+                        '<strong>Tax setup incomplete.</strong> Please <a href="%s">complete your store address</a> to dismiss this notice.',
+                        'taxjar-for-marketplaces'
                     ),
                     add_query_arg( 'page', 'wc-settings', admin_url( 'admin.php' ) )
                 );

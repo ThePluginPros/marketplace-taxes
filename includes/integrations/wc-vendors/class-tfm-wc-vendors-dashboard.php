@@ -220,7 +220,7 @@ class TFM_WC_Vendors_Dashboard {
         TFM_WC_Vendors_Form_Helper::country_select2(
             [
                 'id'                => '_wcv_store_country',
-                'title'             => __( 'Store Country' ) . '<a name="address"></a>',
+                'title'             => __( 'Store Country', 'taxjar-for-marketplaces' ) . '<a name="address"></a>',
                 'type'              => 'text',
                 'value'             => $country,
                 'class'             => 'js_field-country regular-text',
@@ -233,8 +233,8 @@ class TFM_WC_Vendors_Dashboard {
         TFM_WC_Vendors_Form_Helper::input(
             [
                 'id'            => '_wcv_store_address1',
-                'title'         => __( 'Store Address' ),
-                'placeholder'   => __( 'Street Address' ),
+                'title'         => __( 'Store Address', 'taxjar-for-marketplaces' ),
+                'placeholder'   => __( 'Street Address', 'taxjar-for-marketplaces' ),
                 'type'          => 'text',
                 'class'         => 'regular-text',
                 'wrapper_class' => 'tfm-control-group',
@@ -246,7 +246,7 @@ class TFM_WC_Vendors_Dashboard {
         TFM_WC_Vendors_Form_Helper::input(
             [
                 'id'            => '_wcv_store_address2',
-                'placeholder'   => __( 'Apartment, unit, suite etc.' ),
+                'placeholder'   => __( 'Apartment, unit, suite etc.', 'taxjar-for-marketplaces' ),
                 'type'          => 'text',
                 'class'         => 'regular-text',
                 'wrapper_class' => 'tfm-control-group',
@@ -258,8 +258,8 @@ class TFM_WC_Vendors_Dashboard {
         TFM_WC_Vendors_Form_Helper::input(
             [
                 'id'            => '_wcv_store_city',
-                'title'         => __( 'City / Town' ),
-                'placeholder'   => __( 'City / Town' ),
+                'title'         => __( 'City / Town', 'taxjar-for-marketplaces' ),
+                'placeholder'   => __( 'City / Town', 'taxjar-for-marketplaces' ),
                 'type'          => 'text',
                 'class'         => 'regular-text',
                 'wrapper_class' => 'tfm-control-group',
@@ -271,8 +271,8 @@ class TFM_WC_Vendors_Dashboard {
         TFM_WC_Vendors_Form_Helper::input(
             [
                 'id'                => '_wcv_store_state',
-                'title'             => __( 'State / County' ),
-                'placeholder'       => __( 'State / County' ),
+                'title'             => __( 'State / County', 'taxjar-for-marketplaces' ),
+                'placeholder'       => __( 'State / County', 'taxjar-for-marketplaces' ),
                 'value'             => $state,
                 'class'             => 'js_field-state regular-text',
                 'wrapper_class'     => 'tfm-control-group',
@@ -284,8 +284,8 @@ class TFM_WC_Vendors_Dashboard {
         TFM_WC_Vendors_Form_Helper::input(
             [
                 'id'                => '_wcv_store_postcode',
-                'title'             => __( 'Postcode / Zip' ),
-                'placeholder'       => __( 'Postcode / Zip' ),
+                'title'             => __( 'Postcode / Zip', 'taxjar-for-marketplaces' ),
+                'placeholder'       => __( 'Postcode / Zip', 'taxjar-for-marketplaces' ),
                 'value'             => $postcode,
                 'class'             => 'regular-text',
                 'wrapper_class'     => 'tfm-control-group',
@@ -324,7 +324,11 @@ class TFM_WC_Vendors_Dashboard {
                                     WC()->countries->get_shipping_country_states()
                                 )
                             ),
-                            'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+                            'i18n_select_state_text' => esc_attr__(
+                                'Select an option&hellip;',
+                                'woocommerce',
+                                'taxjar-for-marketplaces'
+                            ),
                         ],
                     ],
                 ]
