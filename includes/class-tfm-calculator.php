@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+require_once 'class-tfm-cart-proxy.php';
+
 /**
  * Calculator.
  *
@@ -14,24 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TFM_Calculator {
 
     /**
-     * @const Fabricated tax code used for taxable products
-     */
-    const GENERAL_TAX_CODE = '00000';
-
-    /**
-     * @const Fabricated tax code used for shipping
-     */
-    const SHIPPING_TAX_CODE = '11010';
-
-    /**
-     * @var array Map from product tax codes to applicable tax rates
-     */
-    private $tax_rates = [];
-
-    /**
      * @var int Unique tax rate ID for the current order
      */
     private $tax_rate_id = 0;
+
+    /**
+     * @var TFM_Cart_Proxy Current cart (when calculating cart totals)
+     */
+    private $cart;
 
     /**
      * Constructor.
@@ -55,13 +47,87 @@ class TFM_Calculator {
      * Registers required action hooks and filters.
      */
     private function hooks() {
+        add_filter( 'woocommerce_cart_shipping_packages', array( $this, 'split_cart_shipping_packages' ) );
+        add_filter( 'woocommerce_shipping_package_name', array( $this, 'rename_vendor_shipping_package' ), 10, 3 );
         add_action( 'woocommerce_calculate_totals', array( $this, 'calculate_tax_for_cart' ) );
-        add_action( 'woocommerce_saved_order_items', array( $this, 'calculate_tax_for_order' ), 10, 2 );
-        add_filter( 'pre_option_woocommerce_shipping_tax_class', array( $this, 'override_shipping_tax_class' ) );
-        add_filter( 'woocommerce_product_get_tax_class', array( $this, 'override_product_tax_class' ), 10, 2 );
-        add_filter( 'woocommerce_order_item_get_tax_class', array( $this, 'override_order_item_tax_class' ), 10, 2 );
-        add_filter( 'woocommerce_find_rates', array( $this, 'override_tax_rates' ), 10, 2 );
+        add_filter( 'woocommerce_calculated_total', array( $this, 'add_tax_to_cart_total' ) );
+        add_action( 'wp_ajax_woocommerce_calc_line_taxes', array( $this, 'calculate_tax_for_order' ), 5 );
         add_filter( 'woocommerce_rate_code', array( $this, 'override_rate_code' ), 10, 2 );
+    }
+
+    /**
+     * Splits the cart shipping packages by vendor to ease tax calculations.
+     *
+     * Ripped from the WC Vendors Pro code.
+     *
+     * @param array $packages
+     *
+     * @return array
+     */
+    public function split_cart_shipping_packages( $packages ) {
+        if ( apply_filters( 'tfm_cart_packages_split', class_exists( 'WCVendors_Pro' ), $packages ) ) {
+            return $packages;
+        }
+
+        // Reset the packages
+        $packages     = [];
+        $vendor_items = [];
+
+        foreach ( WC()->cart->get_cart() as $item_key => $item ) {
+            $post = get_post( $item['product_id'] );
+
+            if ( $item['data']->needs_shipping() ) {
+                $vendor_items[ $post->post_author ][ $item_key ] = $item;
+            }
+        }
+
+        foreach ( $vendor_items as $vendor_id => $items ) {
+            $contents_cost = array_sum( wp_list_pluck( $items, 'line_total' ) );
+
+            $packages[] = [
+                'contents'        => $items,
+                'contents_cost'   => $contents_cost,
+                'applied_coupons' => WC()->cart->applied_coupons,
+                'vendor_id'       => $vendor_id,
+                'destination'     => [
+                    'country'   => WC()->customer->get_shipping_country(),
+                    'state'     => WC()->customer->get_shipping_state(),
+                    'postcode'  => WC()->customer->get_shipping_postcode(),
+                    'city'      => WC()->customer->get_shipping_city(),
+                    'address'   => WC()->customer->get_shipping_address(),
+                    'address_2' => WC()->customer->get_shipping_address_2(),
+                ],
+            ];
+        }
+
+        return $packages;
+    }
+
+    /**
+     * Renames the shipping packages based on the vendor sold by.
+     *
+     * Pulled from WC Vendors Pro.
+     *
+     * @param string $title The shipping package title
+     * @param int $count The shipping package position
+     * @param array $package The package from the cart
+     *
+     * @return string $title The modified shipping package title
+     */
+    public function rename_vendor_shipping_package( $title, $count, $package ) {
+        if ( isset( $package['vendor_id'] ) ) {
+            $vendor_sold_by = TFM()->integration->get_vendor_sold_by( $package['vendor_id'] );
+            $title          = sprintf( __( '%s Shipping', 'taxjar-for-marketplaces' ), $vendor_sold_by );
+            $title          = apply_filters(
+                'wcv_vendor_shipping_package_title',
+                $title,
+                $count,
+                $package,
+                $vendor_sold_by
+            );
+        }
+
+        return $title;
     }
 
     /**
@@ -70,48 +136,315 @@ class TFM_Calculator {
      * @param WC_Cart $cart
      */
     public function calculate_tax_for_cart( $cart ) {
-        $this->tax_rates = [];
+        $cart_tax     = 0;
+        $shipping_tax = 0;
+        $cart_keys    = [];
 
-        $line_items = [];
-
-        foreach ( $cart->get_cart() as $cart_item ) {
-            $product      = $cart_item['data'];
-            $line_items[] = [
-                'id'               => $product->get_id(),
-                'quantity'         => $cart_item['quantity'],
-                'product_tax_code' => TFM_Util::get_product_tax_code( $product->get_id() ),
-                'unit_price'       => round(
-                    $cart_item['line_total'] / $cart_item['quantity'],
-                    wc_get_price_decimals()
-                ),
-                'discount'         => $cart_item['line_subtotal'] - $cart_item['line_total'],
-            ];
+        foreach ( $cart->get_cart() as $cart_item_key => $item ) {
+            $cart_keys[ $item['data']->get_id() ] = $cart_item_key;
         }
 
-        if ( $this->is_local_pickup_cart() ) {
-            $destination = $this->get_base_address();
-        } else {
-            $destination = [
-                'to_country' => WC()->customer->get_shipping_country(),
-                'to_zip'     => WC()->customer->get_shipping_postcode(),
-                'to_state'   => WC()->customer->get_shipping_state(),
-                'to_city'    => WC()->customer->get_shipping_city(),
-                'to_street'  => WC()->customer->get_shipping_address(),
-            ];
+        $tax_orders = $this->get_tax_orders_from_cart( $cart );
+
+        if ( ! $this->tax_rate_id ) {
+            $this->tax_rate_id = $this->create_rate_id( $tax_orders );
         }
 
-        try {
-            $this->tax_rates = $this->get_rates( $destination, $line_items, $cart->get_shipping_total() );
-        } catch ( Exception $ex ) {
-            $message = sprintf( __( 'Failed to calculate the tax due: %s', 'taxjar-for-marketplaces' ), $ex->getMessage() );
+        $this->cart = new TFM_Cart_Proxy( $cart, $this->tax_rate_id );
 
-            // Display warnings at checkout if debug mode is enabled
-            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                wc_add_notice( $message, 'error' );
+        foreach ( $tax_orders as $order ) {
+            try {
+                $result = $this->calculate( $order );
+
+                foreach ( $result['line_items'] as $line_item ) {
+                    if ( isset( $cart_keys[ $line_item['id'] ] ) ) {
+                        $this->cart->set_cart_item_tax( $cart_keys[ $line_item['id'] ], $line_item['tax'] );
+                        $cart_tax += $line_item['tax'];
+                    }
+                }
+
+                foreach ( $result['shipping_lines'] as $shipping_line ) {
+                    $this->cart->set_package_tax( $shipping_line['id'], $shipping_line['tax'] );
+                    $shipping_tax += $shipping_line['tax'];
+                }
+            } catch ( Exception $ex ) {
+                $message = sprintf(
+                    __( 'Failed to calculate the tax due: %s', 'taxjar-for-marketplaces' ),
+                    $ex->getMessage()
+                );
+
+                wc_get_logger()->warning( $message );
+            }
+        }
+
+        $this->cart->set_tax_amount( $this->tax_rate_id, $cart_tax );
+        $this->cart->set_shipping_tax_amount( $this->tax_rate_id, $shipping_tax );
+        $this->cart->update_tax_totals();
+    }
+
+    /**
+     * Gets the tax orders from a cart.
+     *
+     * @param WC_Cart $cart
+     *
+     * @return array Orders to send to TaxJar for tax calculations.
+     */
+    public function get_tax_orders_from_cart( $cart ) {
+        $orders = [];
+
+        if ( 'marketplace' === TFM()->settings->get( 'merchant_of_record' ) ) {
+            $order = [
+                'from_address'   => $this->get_base_address(),
+                'line_items'     => array_map( array( $this, 'format_cart_item' ), $cart->get_cart() ),
+                'shipping_lines' => [],
+            ];
+
+            foreach ( $cart->get_shipping_packages() as $key => $package ) {
+                $order['shipping_lines'][] = [
+                    'id'    => $key,
+                    'total' => $this->get_package_shipping_cost( $key ),
+                ];
             }
 
-            wc_get_logger()->warning( $message );
+            if ( $this->is_local_pickup_cart() ) {
+                $order['to_address'] = $this->get_base_address();
+            } else {
+                $order['to_address'] = [
+                    'country'  => WC()->customer->get_shipping_country(),
+                    'postcode' => WC()->customer->get_shipping_postcode(),
+                    'state'    => WC()->customer->get_shipping_state(),
+                    'city'     => WC()->customer->get_shipping_city(),
+                    'address'  => WC()->customer->get_shipping_address(),
+                ];
+            }
+
+            $orders[] = $order;
+        } else {
+            foreach ( $this->get_vendor_cart_packages( $cart ) as $vendor_id => $package ) {
+                $order = [
+                    'vendor_id'    => $vendor_id,
+                    'from_address' => $this->get_vendor_from_address( $vendor_id ),
+                    'line_items'   => array_map( array( $this, 'format_cart_item' ), $package['contents'] ),
+                    'to_address'   => [
+                        'country'  => $package['destination']['country'],
+                        'postcode' => $package['destination']['postcode'],
+                        'state'    => $package['destination']['state'],
+                        'city'     => $package['destination']['city'],
+                        'address'  => isset( $package['destination']['address'] ) ? $package['destination']['address'] : $package['destination']['address_1'],
+                    ],
+                ];
+
+                if ( isset( $package['shipping'] ) ) {
+                    $order['shipping_lines'] = [
+                        [
+                            'id'    => $package['shipping']['key'],
+                            'total' => $package['shipping']['cost'],
+                        ],
+                    ];
+                }
+
+                $orders[] = $order;
+            }
         }
+
+        return apply_filters( 'tfm_cart_tax_orders', $orders, $cart );
+    }
+
+    /**
+     * Formats a cart item as a TaxJar line item.
+     *
+     * @param array $cart_item
+     *
+     * @return array
+     */
+    private function format_cart_item( $cart_item ) {
+        $product   = $cart_item['data'];
+        $line_item = [
+            'id'               => $product->get_id(),
+            'quantity'         => $cart_item['quantity'],
+            'product_tax_code' => TFM_Util::get_product_tax_code( $product->get_id() ),
+            'unit_price'       => round(
+                $cart_item['line_total'] / $cart_item['quantity'],
+                wc_get_price_decimals()
+            ),
+            'discount'         => $cart_item['line_subtotal'] - $cart_item['line_total'],
+        ];
+        return $line_item;
+    }
+
+    /**
+     * Gets the vendor shipping packages from the cart.
+     *
+     * One package is returned for each vendor. Unlike normal WC shipping
+     * packages, these packages contain virtual products that don't need
+     * shipping.
+     *
+     * @param WC_Cart $cart
+     *
+     * @return array
+     */
+    private function get_vendor_cart_packages( $cart ) {
+        $virtual_items   = $this->get_virtual_cart_items( $cart );
+        $vendor_packages = [];
+
+        foreach ( $cart->get_shipping_packages() as $key => $package ) {
+            $vendor_id = isset( $package['vendor_id'] ) ? $package['vendor_id'] : '';
+
+            if ( empty( $vendor_id ) ) {
+                continue;
+            }
+
+            // Add virtual items as needed
+            if ( isset( $virtual_items[ $vendor_id ] ) ) {
+                $items_to_add = array_diff_key( $package['contents'], $virtual_items );
+
+                foreach ( $items_to_add as $key => $item ) {
+                    $package['contents'][ $key ] = $item;
+                    $package['contents_cost']    += $item['line_total'];
+                }
+
+                unset( $virtual_items[ $vendor_id ] );
+            }
+
+            // Set destination address correctly
+            $package['destination'] = $this->get_package_destination( $key, $package );
+
+            // Set shipping cost
+            $package['shipping'] = [
+                'key'  => $key,
+                'cost' => $this->get_package_shipping_cost( $key ),
+            ];
+
+            $vendor_packages[ $vendor_id ] = $package;
+        }
+
+        // Edge case: vendor only has virtual items
+        foreach ( $virtual_items as $vendor_id => $items ) {
+            $vendor_packages[ $vendor_id ] = [
+                'contents'      => $items,
+                'contents_cost' => array_sum( wp_list_pluck( $items, 'line_total' ) ),
+                'vendor_id'     => $vendor_id,
+                'destination'   => [
+                    'country'  => WC()->customer->get_billing_country(),
+                    'postcode' => WC()->customer->get_billing_postcode(),
+                    'city'     => WC()->customer->get_billing_city(),
+                    'state'    => WC()->customer->get_billing_state(),
+                    'address'  => WC()->customer->get_billing_address(),
+                ],
+            ];
+        }
+
+        return apply_filters( 'tfm_vendor_cart_packages', $vendor_packages, $cart );
+    }
+
+    /**
+     * Gets the virtual items from a cart grouped by vendor ID.
+     *
+     * @param WC_Cart $cart
+     *
+     * @return array
+     */
+    private function get_virtual_cart_items( $cart ) {
+        $vendor_items = [];
+
+        foreach ( $cart->get_cart() as $cart_key => $item ) {
+            $product = $item['data'];
+
+            if ( ! $product->needs_shipping() ) {
+                $vendor_id = TFM()->integration->get_vendor_from_product( $product->get_id() );
+
+                if ( ! isset( $vendor_items[ $vendor_id ] ) ) {
+                    $vendor_items[ $vendor_id ] = [];
+                }
+
+                $vendor_items[ $vendor_id ][ $cart_key ] = $item;
+            }
+        }
+
+        return $vendor_items;
+    }
+
+    /**
+     * Gets the correct shipping destination for a package.
+     *
+     * @param int $key Package key
+     * @param array $package
+     *
+     * @return array Package destination address
+     */
+    private function get_package_destination( $key, $package ) {
+        $shipping_method = $this->get_package_shipping_method( $key );
+
+        if ( true === apply_filters( 'woocommerce_apply_base_tax_for_local_pickup', true ) && in_array(
+                $shipping_method,
+                apply_filters( 'woocommerce_local_pickup_methods', [ 'local_pickup', 'legacy_local_pickup' ] )
+            ) ) {
+            return $this->get_base_address();
+        } elseif ( isset( $package['destination'] ) ) {
+            return $package['destination'];
+        } else {
+            return [
+                'country'  => WC()->customer->get_shipping_country(),
+                'postcode' => WC()->customer->get_shipping_postcode(),
+                'city'     => WC()->customer->get_shipping_city(),
+                'state'    => WC()->customer->get_shipping_state(),
+                'address'  => WC()->customer->get_shipping_address(),
+            ];
+        }
+    }
+
+    /**
+     * Returns the selected shipping method for a package.
+     *
+     * @param int $key
+     *
+     * @return string Method ID
+     */
+    private function get_package_shipping_method( $key ) {
+        $chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
+
+        if ( isset( $chosen_methods[ $key ] ) ) {
+            return $chosen_methods[ $key ];
+        }
+
+        return '';
+    }
+
+    /**
+     * Gets a vendor's from address.
+     *
+     * @param int $vendor_id
+     *
+     * @return array
+     */
+    private function get_vendor_from_address( $vendor_id ) {
+        $from_address = TFM()->integration->get_vendor_from_address( $vendor_id );
+
+        return apply_filters( 'tfm_vendor_from_address', $from_address, $vendor_id );
+    }
+
+    /**
+     * Gets the calculated shipping cost for a shipping package.
+     *
+     * @param int $key
+     *
+     * @return float
+     */
+    private function get_package_shipping_cost( $key ) {
+        $shipping_packages = WC()->shipping()->get_packages();
+
+        if ( ! isset( $shipping_packages[ $key ] ) ) {
+            return 0;
+        }
+
+        $package       = $shipping_packages[ $key ];
+        $chosen_method = $this->get_package_shipping_method( $key );
+
+        if ( ! isset( $package['rates'], $package['rates'][ $chosen_method ] ) ) {
+            return 0;
+        }
+
+        return $package['rates'][ $chosen_method ]->cost;
     }
 
     /**
@@ -133,26 +466,138 @@ class TFM_Calculator {
     /**
      * Calculates the tax for a given order.
      *
-     * @param int $order_id
+     * Overrides WC_AJAX::calc_line_taxes()
      */
-    public function calculate_tax_for_order( $order_id ) {
-        $ajax_action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+    public function calculate_tax_for_order() {
+        check_ajax_referer( 'calc-totals', 'security' );
 
-        if ( 'woocommerce_calc_line_taxes' !== $ajax_action ) {
-            return;
+        if ( ! current_user_can( 'edit_shop_orders' ) ) {
+            wp_die( -1 );
         }
 
-        $this->tax_rates = [];
+        $order_id = absint( $_POST['order_id'] );
 
+        // Parse the jQuery serialized items
+        $items = array();
+        parse_str( $_POST['items'], $items );
+
+        // Save order items first
+        wc_save_order_items( $order_id, $items );
+
+        // Grab the order and recalc taxes
         $order      = wc_get_order( $order_id );
-        $line_items = [];
+        $tax_orders = $this->get_tax_orders_from_order( $order );
 
-        foreach ( $order->get_items() as $item ) {
-            $product      = $item->get_product();
-            $line_items[] = [
-                'id'               => $product->get_id(),
+        if ( ! $this->tax_rate_id ) {
+            $this->tax_rate_id = $this->create_rate_id( $tax_orders );
+        }
+
+        foreach ( $tax_orders as $tax_order ) {
+            try {
+                $response = $this->calculate( $tax_order );
+
+                $this->set_line_item_taxes( $response['line_items'] );
+                $this->set_shipping_taxes( $response['shipping_lines'] );
+            } catch ( Exception $ex ) {
+                wc_get_logger()->warning(
+                    sprintf(
+                        'Failed to calculate tax for order #%s: %s',
+                        $order->get_order_number(),
+                        $ex->getMessage()
+                    )
+                );
+            }
+        }
+
+        $order = wc_get_order( $order_id );
+        $order->update_taxes();
+        $order->calculate_totals( false );
+
+        // Return HTML items
+        include WC()->plugin_path() . '/includes/admin/meta-boxes/views/html-order-items.php';
+        wp_die();
+    }
+
+    /**
+     * Sets the taxes for a set of order line items.
+     *
+     * @param array $line_items Line items from API response
+     */
+    private function set_line_item_taxes( $line_items ) {
+        foreach ( $line_items as $line_item ) {
+            $item  = new WC_Order_Item_Product( $line_item['id'] );
+            $taxes = $item->get_taxes();
+
+            if ( ! is_array( $taxes['total'] ) ) {
+                $taxes['total'] = [];
+            }
+            if ( ! is_array( $taxes['subtotal'] ) ) {
+                $taxes['subtotal'] = [];
+            }
+
+            $taxes['total'][ $this->tax_rate_id ]    = $line_item['tax'];
+            $taxes['subtotal'][ $this->tax_rate_id ] = $line_item['tax'];
+
+            $item->set_taxes( $taxes );
+            $item->save();
+        }
+    }
+
+    /**
+     * Sets the taxes for a set of order shipping methods.
+     *
+     * @param array $shipping_lines Shipping line items from API response
+     *
+     * @throws WC_Data_Exception May throw exception if tax amount is invalid
+     */
+    private function set_shipping_taxes( $shipping_lines ) {
+        foreach ( $shipping_lines as $shipping_line ) {
+            $item  = new WC_Order_Item_Shipping( $shipping_line['id'] );
+            $taxes = $item->get_taxes();
+
+            if ( ! isset( $taxes['total'] ) ) {
+                $taxes['total'] = [];
+            }
+            $taxes['total'][ $this->tax_rate_id ] = $shipping_line['tax'];
+
+            $item->set_taxes( $taxes );
+            $item->save();
+        }
+    }
+
+    /**
+     * Gets the tax orders for a WooCommerce shop order.
+     *
+     * @todo create a separate tax order for each vendor
+     *
+     * @param WC_Order $order
+     *
+     * @return array
+     */
+    private function get_tax_orders_from_order( $order ) {
+        $tax_order = [
+            'from_address'   => $this->get_base_address(),
+            'line_items'     => [],
+            'shipping_lines' => [],
+        ];
+
+        if ( $this->is_local_pickup_order( $order ) ) {
+            $tax_order['to_address'] = $this->get_base_address();
+        } else {
+            $tax_order['to_address'] = [
+                'country'  => $order->get_shipping_country(),
+                'postcode' => $order->get_shipping_postcode(),
+                'state'    => $order->get_shipping_state(),
+                'city'     => $order->get_shipping_city(),
+                'address'  => $order->get_shipping_address_1(),
+            ];
+        }
+
+        foreach ( $order->get_items() as $item_id => $item ) {
+            $tax_order['line_items'][] = [
+                'id'               => $item_id,
                 'quantity'         => $item->get_quantity(),
-                'product_tax_code' => TFM_Util::get_product_tax_code( $product->get_id() ),
+                'product_tax_code' => TFM_Util::get_product_tax_code( $item->get_product()->get_id() ),
                 'unit_price'       => round(
                     $item->get_total() / $item->get_quantity(),
                     wc_get_price_decimals()
@@ -161,25 +606,14 @@ class TFM_Calculator {
             ];
         }
 
-        if ( $this->is_local_pickup_order( $order ) ) {
-            $destination = $this->get_base_address();
-        } else {
-            $destination = [
-                'to_country' => $order->get_shipping_country(),
-                'to_zip'     => $order->get_shipping_postcode(),
-                'to_state'   => $order->get_shipping_state(),
-                'to_city'    => $order->get_shipping_city(),
-                'to_street'  => $order->get_shipping_address_1(),
+        foreach ( $order->get_shipping_methods() as $item_id => $shipping_method ) {
+            $tax_order['shipping_lines'][] = [
+                'id'    => $item_id,
+                'total' => $shipping_method->get_total(),
             ];
         }
 
-        try {
-            $this->tax_rates = $this->get_rates( $destination, $line_items, $order->get_shipping_total() );
-        } catch ( Exception $ex ) {
-            wc_get_logger()->warning(
-                sprintf( 'Failed to calculate tax for order #%s: %s', $order->get_order_number(), $ex->getMessage() )
-            );
-        }
+        return apply_filters( 'tfm_order_tax_orders', [ $tax_order ], $order );
     }
 
     /**
@@ -209,96 +643,18 @@ class TFM_Calculator {
     }
 
     /**
-     * Gets the store base address formatted for TaxJar.
+     * Gets the store base address.
      *
      * @return array
      */
     private function get_base_address() {
         return [
-            'to_country' => WC()->countries->get_base_country(),
-            'to_zip'     => WC()->countries->get_base_postcode(),
-            'to_state'   => WC()->countries->get_base_state(),
-            'to_city'    => WC()->countries->get_base_city(),
-            'to_street'  => WC()->countries->get_base_address(),
+            'country'  => WC()->countries->get_base_country(),
+            'postcode' => WC()->countries->get_base_postcode(),
+            'state'    => WC()->countries->get_base_state(),
+            'city'     => WC()->countries->get_base_city(),
+            'address'  => WC()->countries->get_base_address(),
         ];
-    }
-
-    /**
-     * Gets the applicable tax rates for a given order.
-     *
-     * @param array $destination Order destination
-     * @param array $line_items Line items formatted for TaxJar
-     * @param float $shipping Total shipping
-     *
-     * @return array Tax rates
-     *
-     * @throws Exception If rates can't be retrieved
-     */
-    private function get_rates( $destination, $line_items, $shipping ) {
-        if ( ! $this->is_valid_destination( $destination ) ) {
-            throw new Exception( 'Destination address is invalid.' );
-        }
-
-        if ( empty( $line_items ) ) {
-            throw new Exception( 'At least one line item is required.' );
-        }
-
-        $transient_key = 'tfm_rates_' . md5( json_encode( compact( 'destination', 'line_items', 'shipping' ) ) );
-
-        if ( ! ( $rates = get_transient( $transient_key ) ) ) {
-            $nexus_addresses = [];
-
-            foreach ( $line_items as $line_item ) {
-                $vendor_id = WCV_Vendors::get_vendor_from_product( $line_item['id'] );
-
-                if ( $vendor_id > 0 ) {
-                    $vendor_addresses = get_user_meta( $vendor_id, 'tfm_nexus_addresses', true );
-
-                    if ( is_array( $vendor_addresses ) ) {
-                        foreach ( $vendor_addresses as $index => $address ) {
-                            $nexus_addresses[] = [
-                                'id'      => $vendor_id . '_' . $index,
-                                'country' => $address['country'],
-                                'zip'     => $address['postcode'],
-                                'state'   => $address['state'],
-                                'city'    => $address['city'],
-                                'street'  => $address['address_1'],
-                            ];
-                        }
-                    }
-                }
-            }
-
-            if ( empty( $nexus_addresses ) ) {
-                throw new Exception( 'At least one nexus address is required.' );
-            }
-
-            $order = array_merge( $destination, compact( 'shipping', 'nexus_addresses', 'line_items' ) );
-
-            try {
-                $tax = TFM()->client()->taxForOrder( $order );
-
-                if ( isset( $tax->breakdown ) ) {
-                    $rates          = [];
-                    $item_tax_codes = wp_list_pluck( $line_items, 'product_tax_code', 'id' );
-
-                    foreach ( $tax->breakdown->line_items as $line_item ) {
-                        $tax_code           = $item_tax_codes[ $line_item->id ];
-                        $rates[ $tax_code ] = $line_item->combined_tax_rate;
-                    }
-
-                    if ( 0 < $shipping && isset( $tax->breakdown->shipping ) ) {
-                        $rates[ self::SHIPPING_TAX_CODE ] = $tax->breakdown->shipping->combined_tax_rate;
-                    }
-                }
-            } catch ( Exception $ex ) {
-                throw new Exception( 'Error from TaxJar was ' . $ex->getMessage(), 0, $ex );
-            }
-
-            set_transient( $transient_key, $rates, DAY_IN_SECONDS * 14 );
-        }
-
-        return $rates;
     }
 
     /**
@@ -334,97 +690,14 @@ class TFM_Calculator {
     }
 
     /**
-     * Filters the shipping tax class.
-     *
-     * @return string
-     */
-    public function override_shipping_tax_class() {
-        return self::SHIPPING_TAX_CODE;
-    }
-
-    /**
-     * Dynamically sets the tax class for products based on their tax category.
-     *
-     * @param string $tax_class
-     * @param WC_Product $product
-     *
-     * @return string
-     */
-    public function override_product_tax_class( $tax_class, $product ) {
-        $tax_code = TFM_Util::get_product_tax_code( $product->get_id() );
-
-        if ( ! empty( $tax_code ) ) {
-            $tax_class = $tax_code;
-        }
-
-        return $tax_class;
-    }
-
-    /**
-     * Sets the correct tax class for order items.
-     *
-     * @param string $tax_class
-     * @param WC_Order_Item $item
-     *
-     * @return string
-     */
-    public function override_order_item_tax_class( $tax_class, $item ) {
-        if ( is_a( $item, 'WC_Order_Item_Product' ) ) {
-            $tax_class = TFM_Util::get_product_tax_code( $item->get_product_id() );
-        } elseif ( is_a( $item, 'WC_Order_Item_Shipping' ) ) {
-            $tax_class = self::SHIPPING_TAX_CODE;
-        }
-
-        return $tax_class;
-    }
-
-    /**
-     * Tells WooCommerce which tax rates to use based on the TaxJar API response.
-     *
-     * @param array $matched_rates
-     * @param array $args
-     *
-     * @return array
-     */
-    public function override_tax_rates( $matched_rates, $args ) {
-        $tax_class = $args['tax_class'];
-
-        if ( isset( $this->tax_rates[ $tax_class ] ) ) {
-            if ( ! $this->tax_rate_id ) {
-                $this->tax_rate_id = $this->create_rate_id( $args );
-            }
-
-            $matched_rates[ $this->tax_rate_id ] = [
-                'rate'     => $this->get_tax_rate( $tax_class ),
-                'label'    => WC()->countries->tax_or_vat(),
-                'shipping' => self::SHIPPING_TAX_CODE === $tax_class ? 'yes' : 'no',
-                'compound' => 'no',
-            ];
-        }
-
-        return $matched_rates;
-    }
-
-    /**
      * Creates a tax rate ID for this order.
      *
-     * @param array $args Arguments passed to WC_Tax::find_rates()
+     * @param array $orders Orders to be sent to TaxJar
      *
      * @return string
      */
-    private function create_rate_id( $args ) {
-        return (string) hexdec( substr( md5( implode( '_', $args ) ), 0, 15 ) );
-    }
-
-    /**
-     * Gets a tax rate formatted as a percentage.
-     *
-     * @param string $tax_rate_id
-     *
-     * @return string
-     */
-    private function get_tax_rate( $tax_rate_id ) {
-        return number_format( $this->tax_rates[ $tax_rate_id ] * 100, 4 );
+    private function create_rate_id( $orders ) {
+        return (string) hexdec( substr( md5( json_encode( $orders ) ), 0, 15 ) );
     }
 
     /**
@@ -441,6 +714,188 @@ class TFM_Calculator {
         }
 
         return $code;
+    }
+
+    /**
+     * Calculates the tax or an order with the TaxJar SmartCalcs API.
+     *
+     * @param array $order
+     *
+     * @return array
+     *
+     * @throws Exception If tax calculation fails
+     */
+    private function calculate( $order ) {
+        $order = wp_parse_args(
+            $order,
+            [
+                'line_items'     => [],
+                'shipping_lines' => [],
+                'from_address'   => [],
+                'to_address'     => [],
+                'vendor_id'      => TFM_Vendors::MARKETPLACE,
+            ]
+        );
+
+        if ( empty( $order['line_items'] ) ) {
+            throw new Exception( 'At least one line item is required.' );
+        }
+
+        $from_address = $this->format_address( $order['from_address'], 'from' );
+        $to_address   = $this->format_address( $order['to_address'], 'to' );
+
+        if ( ! $this->is_valid_destination( $to_address ) ) {
+            throw new Exception( 'Destination address is invalid.' );
+        }
+
+        $transient_key = 'tfm_rates_' . md5( json_encode( $order ) );
+
+        if ( ! ( $response = get_transient( $transient_key ) ) ) {
+            $nexus_addresses = $this->get_nexus_addresses( $order['vendor_id'] );
+
+            if ( empty( $nexus_addresses ) ) {
+                throw new Exception( 'At least one nexus address is required.' );
+            }
+
+            $shipping_lines = $order['shipping_lines'];
+            $order          = array_merge(
+                $from_address,
+                $to_address,
+                [
+                    'nexus_addresses' => $nexus_addresses,
+                    'shipping'        => array_sum(
+                        array_map( 'abs', wp_list_pluck( $order['shipping_lines'], 'total' ) )
+                    ),
+                    'line_items'      => array_values( $order['line_items'] ),
+                ]
+            );
+
+            try {
+                $tax = TFM()->client()->taxForOrder( $order );
+
+                if ( isset( $tax->breakdown ) ) {
+                    $response = $this->prepare_response( $tax->breakdown, $shipping_lines );
+                }
+            } catch ( Exception $ex ) {
+                throw new Exception( 'Error from TaxJar was ' . $ex->getMessage(), 0, $ex );
+            }
+
+            set_transient( $transient_key, $response, DAY_IN_SECONDS * 14 );
+        }
+
+        return $response;
+    }
+
+    /**
+     * Formats an address for TaxJar.
+     *
+     * @param array $address
+     * @param string $type 'from' or 'to'
+     *
+     * @return array
+     */
+    private function format_address( $address, $type ) {
+        $address_key_map = [
+            'postcode' => 'zip',
+            'address'  => 'street',
+        ];
+
+        $new_address = [];
+
+        foreach ( $address as $key => $value ) {
+            if ( isset( $address_key_map[ $key ] ) ) {
+                $key = $address_key_map[ $key ];
+            }
+            $new_address[ $type . '_' . $key ] = $value;
+        }
+
+        return $new_address;
+    }
+
+    /**
+     * Gets the nexus addresses for the specified vendor formatted for TaxJar.
+     *
+     * @param int $vendor_id
+     *
+     * @return array
+     */
+    private function get_nexus_addresses( $vendor_id ) {
+        if ( TFM_Vendors::MARKETPLACE == $vendor_id ) {
+            $raw_addresses = TFM()->settings->get( 'nexus_addresses', [] );
+        } else {
+            $raw_addresses = get_user_meta( $vendor_id, 'tfm_nexus_addresses', true );
+        }
+
+        $addresses = [];
+
+        if ( is_array( $raw_addresses ) ) {
+            foreach ( $raw_addresses as $index => $address ) {
+                $addresses[] = [
+                    'id'      => $vendor_id . '_' . $index,
+                    'country' => $address['country'],
+                    'zip'     => $address['postcode'],
+                    'state'   => $address['state'],
+                    'city'    => $address['city'],
+                    'street'  => $address['address_1'],
+                ];
+            }
+        }
+
+        return $addresses;
+    }
+
+    /**
+     * Prepares a taxForOrder response.
+     *
+     * @param object $breakdown Tax breakdown from TaxJar SmartCalcs
+     * @param array $shipping_items
+     *
+     * @return array Line items and shipping lines with tax amounts
+     */
+    private function prepare_response( $breakdown, $shipping_items ) {
+        $line_items = [];
+
+        foreach ( $breakdown->line_items as $line_item ) {
+            $line_items[] = [
+                'id'  => $line_item->id,
+                'tax' => $line_item->tax_collectable,
+            ];
+        }
+
+        $shipping_lines = [];
+
+        if ( isset( $breakdown->shipping ) ) {
+            $shipping_tax   = $breakdown->shipping->tax_collectable;
+            $total_shipping = array_sum( wp_list_pluck( $shipping_items, 'total' ) );
+
+            // Distribute shipping tax proportionally amongst items
+            foreach ( $shipping_items as $shipping_item ) {
+                $shipping_lines[] = [
+                    'id'  => $shipping_item['id'],
+                    'tax' => round(
+                        ( $shipping_item['total'] / $total_shipping ) * $shipping_tax,
+                        wc_get_price_decimals()
+                    ),
+                ];
+            }
+        }
+
+        return compact( 'line_items', 'shipping_lines' );
+    }
+
+    /**
+     * Adds the calculated tax to the cart total (WC 3.2+)
+     *
+     * @param float $total Total calculated by WooCommerce (excl. tax)
+     *
+     * @return float
+     */
+    public function add_tax_to_cart_total( $total ) {
+        if ( version_compare( WC_VERSION, '3.2', '>=' ) ) {
+            $total += $this->cart->get_cart_contents_tax() + $this->cart->get_fee_tax() + $this->cart->get_shipping_tax(
+                );
+        }
+        return $total;
     }
 
 }
