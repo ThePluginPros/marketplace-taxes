@@ -21,6 +21,7 @@ class TFM_WC_Vendors_Admin {
             add_action( 'admin_menu', array( $this, 'add_admin_menu_item' ) );
             add_action( 'admin_init', array( $this, 'admin_save_settings' ) );
             add_filter( 'woocommerce_screen_ids', array( $this, 'register_admin_screen' ) );
+            add_action( 'current_screen', array( $this, 'check_tax_review_progress' ) );
         }
     }
 
@@ -83,6 +84,18 @@ class TFM_WC_Vendors_Admin {
             $instance = new TFM_Vendor_Settings_Form( get_current_user_id(), 'admin' );
         }
         return $instance;
+    }
+
+    /**
+     * Completes the 'Review your tax settings' setup step when the tax settings
+     * page is accessed.
+     */
+    public function check_tax_review_progress() {
+        $screen_id = get_current_screen()->id;
+
+        if ( 'shop-settings_page_tax-settings' === $screen_id ) {
+            update_user_meta( get_current_user_id(), 'tax_settings_reviewed', true );
+        }
     }
 
 }

@@ -47,3 +47,12 @@
     margin-left: 0.3em;
     vertical-align: middle;
 }
+
+.tfm-control-group {
+    line-height: 2;
+    margin-bottom: 1em;
+}
+
+.tfm-control-group label {
+    font-weight: 600;
+}

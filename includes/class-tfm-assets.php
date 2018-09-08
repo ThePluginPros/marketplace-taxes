@@ -162,6 +162,25 @@ class TFM_Assets {
                 ],
                 'context' => 'both',
             ],
+            [
+                'type'    => 'style',
+                'slug'    => 'taxjar-for-marketplaces.tax-setup',
+                'context' => 'both',
+            ],
+            [
+                'type'    => 'script',
+                'slug'    => 'taxjar-for-marketplaces.admin-notices',
+                'options' => [
+                    'deps'     => [ 'jquery', 'jquery-ui-core' ],
+                    'localize' => [
+                        'tfm_admin_notices' => [
+                            'dismiss_confirmation' => __(
+                                "Are you sure you want to dismiss this notice? You won't be warned about these sellers again."
+                            ),
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -186,6 +205,15 @@ class TFM_Assets {
      */
     private function _register_assets( $context ) {
         foreach ( $this->assets as $asset ) {
+            $defaults = [
+                'type'    => '',
+                'slug'    => '',
+                'context' => 'both',
+                'options' => [],
+            ];
+
+            $asset = wp_parse_args( $asset, $defaults );
+
             if ( 'both' === $asset['context'] || $context === $asset['context'] ) {
                 TFM()->assets->register( $asset['type'], $asset['slug'], $asset['options'] );
             }

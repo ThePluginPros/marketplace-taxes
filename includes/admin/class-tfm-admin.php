@@ -94,6 +94,7 @@ class TFM_Admin {
      */
     public function enqueue_stylesheet() {
         TFM()->assets->enqueue( 'style', 'taxjar-for-marketplaces.admin' );
+        TFM()->assets->enqueue( 'style', 'taxjar-for-marketplaces.tax-setup' );
     }
 
 }

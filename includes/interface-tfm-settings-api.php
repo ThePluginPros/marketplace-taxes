@@ -57,10 +57,10 @@ interface TFM_Settings_API {
     function addresses_required();
 
     /**
-     * Gets the default addresses for the Business Locations table.
+     * Returns the ID of the vendor the form is for.
      *
-     * @return array
+     * @return int
      */
-    function get_default_addresses();
+    function get_vendor_id();
 
 }

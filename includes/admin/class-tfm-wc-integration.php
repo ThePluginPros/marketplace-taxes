@@ -136,7 +136,7 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
             'desc_tip'      => false,
             'description'   => '',
             'wrapper_class' => '',
-            'value'         => TFM_Addresses::get_base_addresses(),
+            'value'         => TFM()->addresses->get( TFM_Vendors::MARKETPLACE ),
         ];
 
         $field = wp_parse_args( $field, $defaults );
@@ -219,10 +219,10 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
     /**
      * Gets the default addresses for the Business Locations table.
      *
-     * @return array
+     * @return int
      */
-    public function get_default_addresses() {
-        return TFM_Addresses::get_default_base_addresses();
+    public function get_vendor_id() {
+        return TFM_Vendors::MARKETPLACE;
     }
 
 }

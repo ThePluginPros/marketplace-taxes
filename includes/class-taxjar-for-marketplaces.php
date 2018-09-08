@@ -32,6 +32,16 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
     public $categories;
 
     /**
+     * @var TFM_Addresses Addresses instance.
+     */
+    public $addresses;
+
+    /**
+     * @var TFM_Integration The active marketplace plugin integration.
+     */
+    public $integration;
+
+    /**
      * Bootstraps the plugin when all requirements are met.
      */
     public function load() {
@@ -42,8 +52,10 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
         $this->settings   = new TFM_Settings();
         $this->categories = new TFM_Tax_Categories();
         $this->admin      = new TFM_Admin();
+        $this->addresses  = new TFM_Addresses();
 
         add_action( 'init', array( $this, 'trigger_activation' ) );
+        add_action( 'init', array( $this, 'load_integration' ) );
     }
 
     /**
@@ -61,10 +73,12 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
         require 'class-tfm-util.php';
         require 'class-tfm-vendor-settings-form.php';
         require 'admin/class-tfm-admin.php';
+        require 'class-tfm-integration.php';
         require 'class-tfm-integrations.php';
         require 'class-tfm-product-controller.php';
         require 'class-tfm-calculator.php';
         require 'class-tfm-addresses.php';
+        require 'class-tfm-vendors.php';
     }
 
     /**
@@ -179,6 +193,13 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
             $token = $this->settings->get( 'api_token' );
         }
         return TaxJar\Client::withApiKey( $token );
+    }
+
+    /**
+     * Loads an appropriate integration based on the detected marketplace plugin.
+     */
+    public function load_integration() {
+        $this->integration = TFM_Integrations::load();
     }
 
 }

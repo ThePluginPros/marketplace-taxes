@@ -55,7 +55,7 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
                     [
                         'id'             => 'nexus_addresses',
                         'context'        => $this->context,
-                        'value_callback' => array( 'TFM_Addresses', 'get_vendor_addresses' ),
+                        'value_callback' => array( TFM()->addresses, 'get' ),
                     ]
                 )
             ),
@@ -312,10 +312,10 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
     /**
      * Gets the default addresses for the Business Locations table.
      *
-     * @return array
+     * @return int
      */
-    public function get_default_addresses() {
-        return TFM_Addresses::get_default_vendor_addresses( $this->vendor_id );
+    public function get_vendor_id() {
+        return $this->vendor_id;
     }
 
 }

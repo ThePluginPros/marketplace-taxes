@@ -15,19 +15,20 @@ require_once __DIR__ . '/integrations/wc-vendors/class-tfm-integration-wc-vendor
 class TFM_Integrations {
 
     /**
-     * Constructor.
-     *
-     * Registers action hooks.
+     * @var TFM_Integration The loaded integration, if any.
      */
-    public function __construct() {
-        add_action( 'init', array( $this, 'load_integration' ) );
-    }
+    protected static $integration = null;
 
     /**
-     * Loads one of the available integrations based on which marketplace
-     * plugin is active.
+     * Loads an appropriate integration based on the detected marketplace plugin.
+     *
+     * @return TFM_Integration
      */
-    public function load_integration() {
+    public static function load() {
+        if ( ! is_null( self::$integration ) ) {
+            return self::$integration;
+        }
+
         $integrations = apply_filters(
             'tfm_integrations',
             [
@@ -45,43 +46,60 @@ class TFM_Integrations {
                 $plugin_info = $plugins[ $plugin_slug ];
 
                 if ( ! is_plugin_active( $plugin_slug ) ) {
-                    $error = sprintf(
-                        __(
-                            '<strong>%1$s not detected.</strong> Please install or active %1$s to use TaxJar for Marketplaces.',
-                            'taxjar-for-marketplaces'
-                        ),
-                        $plugin_info['Name']
+                    self::add_error(
+                        sprintf(
+                            __(
+                                '<strong>%1$s not detected.</strong> Please install or active %1$s to use TaxJar for Marketplaces.',
+                                'taxjar-for-marketplaces'
+                            ),
+                            $plugin_info['Name']
+                        )
                     );
-                } elseif ( isset( $integration['min_version'] ) && $plugin_info['Version'] < $integration['min_version'] ) {
-                    $error = sprintf(
-                        __(
-                            '<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires %1$s version %2$s or greater.',
-                            'taxjar-for-marketplaces'
-                        ),
-                        $plugin_info['Name'],
-                        $integration['min_version']
+                } elseif ( isset( $integration['min_version'] ) && version_compare(
+                        $plugin_info['Version'],
+                        $integration['min_version'],
+                        '<'
+                    ) ) {
+                    self::add_error(
+                        sprintf(
+                            __(
+                                '<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires %1$s version %2$s or greater.',
+                                'taxjar-for-marketplaces'
+                            ),
+                            $plugin_info['Name'],
+                            $integration['min_version']
+                        )
                     );
-                }
-
-                if ( isset( $error ) ) {
-                    TFM()->admin->add_notice( 'integration-error', 'error', $error );
                 } else {
-                    do_action( 'tfm_load_integration', new $integration['class']() );
+                    self::$integration = new $integration['class']();
+                    break;
                 }
-                return;
             }
         }
 
-        TFM()->admin->add_notice(
-            'no-compatible-plugin',
-            'error',
-            __(
-                '<strong>TaxJar for Marketplace is inactive</strong>. No compatible marketplace plugin detected.',
-                'taxjar-for-marketplaces'
-            )
-        );
+        // Load default integration if need be
+        if ( is_null( self::$integration ) ) {
+            self::$integration = new TFM_Integration();
+            self::add_error(
+                __(
+                    '<strong>TaxJar for Marketplace is inactive</strong>. No compatible marketplace plugin detected.',
+                    'taxjar-for-marketplaces'
+                )
+            );
+        }
+
+        do_action( 'tfm_load_integration', self::$integration );
+
+        return self::$integration;
+    }
+
+    /**
+     * Shows an integration error message.
+     *
+     * @param string $error
+     */
+    private static function add_error( $error ) {
+        TFM()->admin->add_notice( 'integration-error', 'error', $error );
     }
 
 }
-
-new TFM_Integrations();

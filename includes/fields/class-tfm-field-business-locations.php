@@ -69,10 +69,11 @@ class TFM_Field_Business_Locations {
         );
 
         if ( $this->integration->addresses_required() ) {
-            $all_addresses = array_merge( $this->integration->get_default_addresses(), $addresses );
+            $vendor_id     = $this->integration->get_vendor_id();
+            $all_addresses = array_merge( TFM()->addresses->get_default( $vendor_id ), $addresses );
 
             // Filter out addresses with missing fields
-            $all_addresses = array_filter( $all_addresses, array( __CLASS__, 'is_address_valid' ) );
+            $all_addresses = array_filter( $all_addresses, array( 'TFM_Addresses', 'is_address_valid' ) );
 
             // No addresses or default addresses? Bail.
             if ( empty( $all_addresses ) ) {
@@ -98,25 +99,6 @@ class TFM_Field_Business_Locations {
         }
 
         return array_merge( [ '' => __( 'Select an option...' ) ], $countries );
-    }
-
-    /**
-     * Checks whether the given nexus address is valid.
-     *
-     * @param array $address
-     *
-     * @return bool
-     */
-    private static function is_address_valid( $address ) {
-        $required = [ 'country', 'postcode', 'state' ];
-
-        foreach ( $required as $field ) {
-            if ( empty( $address[ $field ] ) ) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
 }

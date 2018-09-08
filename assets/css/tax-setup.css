@@ -1,0 +1,7 @@
+#tax_setup_steps li a {
+    text-decoration: underline;
+}
+
+#tax_setup_steps li.completed a {
+    text-decoration: line-through;
+}

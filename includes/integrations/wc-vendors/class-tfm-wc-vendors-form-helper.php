@@ -461,6 +461,59 @@ class TFM_WC_Vendors_Form_Helper {
     }
 
     /**
+     * Outputs a select2 country select box.
+     *
+     * @param array $field Field definition.
+     * @param string $context 'admin' or 'frontend'
+     */
+    public static function country_select2( $field, $context = 'frontend' ) {
+        $field['id']               = isset( $field['id'] ) ? $field['id'] : '';
+        $field['title']            = isset( $field['title'] ) ? $field['title'] : '';
+        $field['value']            = isset( $field['value'] ) ? $field['value'] : '';
+        $field['class']            = isset( $field['class'] ) ? $field['class'] : '';
+        $field['wrapper_start']    = isset( $field['wrapper_start'] ) ? $field['wrapper_start'] : '';
+        $field['wrapper_end']      = isset( $field['wrapper_end'] ) ? $field['wrapper_end'] : '';
+        $field['wrapper_class']    = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
+        $field['show_option_none'] = isset( $field['show_option_none'] ) ? $field['show_option_none'] : '';
+        $field['options']          = isset( $field['options'] ) ? $field['options'] : self::get_default_countries();
+
+        if ( $field['value'] == '' ) {
+            $field['value'] = WC()->countries->get_base_country();
+        }
+
+        do_action( 'wcv_form_country_select2_before_' . $field['id'], $field );
+
+        self::select(
+            [
+                'id'            => $field['id'],
+                'title'         => $field['title'],
+                'value'         => $field['value'],
+                'class'         => 'select2 tfm_country_to_state country_select ' . $field['class'],
+                'options'       => $field['options'],
+                'wrapper_start' => $field['wrapper_start'],
+                'wrapper_end'   => $field['wrapper_end'],
+                'wrapper_class' => $field['wrapper_class'],
+            ],
+            $context
+        );
+
+        do_action( 'wcv_form_country_select2_after_' . $field['id'], $field );
+    }
+
+    /**
+     * Returns the default options for country select boxes.
+     *
+     * @return array
+     */
+    private static function get_default_countries() {
+        if ( WC()->countries->get_allowed_countries() ) {
+            return WC()->countries->get_allowed_countries();
+        } else {
+            return WC()->countries->get_shipping_countries();
+        }
+    }
+
+    /**
      * Creates a textarea with a label.
      *
      * @param array $field Array defining all field attributes
