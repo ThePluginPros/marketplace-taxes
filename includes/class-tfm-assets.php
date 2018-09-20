@@ -63,7 +63,7 @@ class TFM_Assets {
                             'category_list' => TFM()->categories->get_categories(),
                             'strings'       => [
                                 'same_as_parent' => __( 'Same as parent', 'taxjar-for-marketplaces' ),
-                                'general'        => __( 'General', 'taxjar-for-marketplaces' ),
+                                'none'           => __( 'None', 'taxjar-for-marketplaces' ),
                                 'no_change'      => __( 'No change', 'taxjar-for-marketplaces' ),
                             ],
                         ],

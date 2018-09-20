@@ -11,15 +11,16 @@
                     this.input = this.$el.siblings('.tfm-category-input');
                     this.readout = this.$el.siblings('.tfm-selected-category');
 
-                    if ( 1 === this.$el.data( 'is-bulk' ) ) {
+                    if (1 === this.$el.data('is-bulk')) {
                         this.defaultLabel = data.strings.no_change;
-                    } else if ( 1 === this.$el.data( 'is-variation' ) ) {
+                    } else if (1 === this.$el.data('is-variation')) {
                         this.defaultLabel = data.strings.same_as_parent;
                     } else {
-                        this.defaultLabel = data.strings.general;
+                        this.defaultLabel = data.strings.none;
                     }
 
                     this.$el.click({view: this}, this.openModal);
+                    this.$el.siblings('.tfm-reset-category').click({view: this}, this.resetCategory);
                 },
                 render: function () {
                     this.selectCategory(this.input.val());
@@ -50,8 +51,6 @@
 
                     $list.empty();
 
-                    console.log('category list;', data.category_list);
-
                     _.each(data.category_list, function (rowData) {
                         $list.append(view.rowTemplate(rowData));
                     });
@@ -77,13 +76,17 @@
                     if ('' === selected_category) {
                         this.readout.text(this.defaultLabel);
                     } else {
-                        var category = categories[parseInt(selected_category)];
+                        var category = categories[selected_category];
 
                         this.readout.text(category['name'] + ' (' + category['product_tax_code'] + ')');
-                        this.input
-                            .val(selected_category)
-                            .trigger('change');
                     }
+
+                    this.input
+                        .val(selected_category)
+                        .trigger('change');
+                },
+                resetCategory: function (event) {
+                    event.data.view.selectCategory('');
                 }
             });
 

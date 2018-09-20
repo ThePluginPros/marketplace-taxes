@@ -56,3 +56,11 @@
 .tfm-control-group label {
     font-weight: 600;
 }
+
+.tfm-tip {
+    margin-left: 8px;
+}
+
+.tfm-tip .dashicons {
+    vertical-align: middle;
+}

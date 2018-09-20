@@ -105,7 +105,15 @@ class TFM_Tax_Categories {
      * @return array array of objects with props 'product_tax_code', 'description' and 'name'
      */
     public function get_categories() {
-        return (array) get_option( self::OPTION_NAME, [] );
+        $general_category = [
+            'product_tax_code' => '00000',
+            'description'      => __( "Products that don't fall into other categories", 'taxjar-for-marketplaces' ),
+            'name'             => __( 'General', 'taxjar-for-marketplaces' ),
+        ];
+
+        $categories = (array) get_option( self::OPTION_NAME, [] );
+
+        return array_merge( [ $general_category ], $categories );
     }
 
 }

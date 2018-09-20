@@ -18,7 +18,11 @@
  */
 .wp-core-ui .button.tfm-select-category {
     vertical-align: middle;
-    margin-left: 5px;
+    margin-left: 8px;
+}
+
+.wp-core-ui .button.tfm-reset-category {
+    vertical-align: middle;
 }
 
 .tfm-selected-category {
@@ -28,6 +32,11 @@
 
 .tfm-category-search {
     height: 32px;
+}
+
+p.variation-category label {
+    display: block;
+    margin-bottom: 5px;
 }
 
 /**
@@ -52,4 +61,15 @@
 table#nexus_addresses_table select, table#nexus_addresses_table input[type=text] {
     width: 100% !important;
     min-width: 150px !important;
+}
+
+/**
+ * Bulk editing
+ */
+.inline-edit-row fieldset label span.title {
+    width: 7em;
+}
+
+.inline-edit-row fieldset label span.input-text-wrap {
+    margin-left: 7em;
 }

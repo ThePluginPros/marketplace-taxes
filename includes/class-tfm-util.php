@@ -55,9 +55,10 @@ class TFM_Util {
             $tax_code = $parent->get_meta( 'tax_category', true );
         }
 
-        // Fall back to fabricated 'taxable product' tax code
-        if ( empty( $tax_code ) ) {
-            $tax_code = '00000';
+        // The 'General' tax code (00000) is not officially supported by TaxJar.
+        // If it's selected, return the empty string.
+        if ( '00000' === $tax_code ) {
+            $tax_code = '';
         }
 
         return $tax_code;

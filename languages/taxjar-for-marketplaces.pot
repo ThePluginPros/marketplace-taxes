@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TaxJar for Marketplaces 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues\n"
-"POT-Creation-Date: 2018-09-08 21:30:29+00:00\n"
+"POT-Creation-Date: 2018-09-20 16:01:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,21 +79,39 @@ msgid "Business locations"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:7
-#: includes/admin/views/html-select-category.php:23
-#: includes/integrations/wc-vendors/views/html-field-tax-category.php:19
+#: includes/admin/views/html-select-category.php:24
 msgid "Tax category"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:9
-#: includes/admin/views/html-select-category.php:28
-#: includes/class-tfm-assets.php:66
-msgid "General"
+#: includes/class-tfm-assets.php:67
+msgid "No change"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:14
-#: includes/admin/views/html-select-category.php:34
-#: includes/admin/views/html-tax-category-modal.php:13
+#: includes/admin/views/html-select-category.php:39
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:26
+msgid "Change"
+msgstr ""
+
+#: includes/admin/views/html-select-category-bulk.php:18
+#: includes/admin/views/html-select-category.php:44
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:31
+msgid "Reset"
+msgstr ""
+
+#: includes/admin/views/html-select-category.php:27
+msgid ""
+"Used for products that are either exempt from tax in some jurisdictions or "
+"are taxed at reduced rates. "
+msgstr ""
+
+#: includes/admin/views/html-select-category.php:33
+#: includes/class-tfm-assets.php:66
+msgid "None"
+msgstr ""
+
+#: includes/admin/views/html-tax-category-modal.php:13
 msgid "Select"
 msgstr ""
 
@@ -161,29 +179,29 @@ msgid ""
 "Taxes will not be calculated for %s."
 msgstr ""
 
-#: includes/class-tfm-addresses.php:265
+#: includes/class-tfm-addresses.php:267
 msgid "has"
 msgid_plural "have"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-tfm-addresses.php:266
+#: includes/class-tfm-addresses.php:268
 msgid "this vendor"
 msgid_plural "these vendors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-tfm-addresses.php:311
+#: includes/class-tfm-addresses.php:313
 msgid "Tax setup incomplete."
 msgstr ""
 
-#: includes/class-tfm-addresses.php:312
+#: includes/class-tfm-addresses.php:314
 msgid ""
 "Please complete the following steps to ensure your customers are taxed "
 "correctly:"
 msgstr ""
 
-#: includes/class-tfm-addresses.php:342
+#: includes/class-tfm-addresses.php:347
 msgid ""
 "<strong>Tax setup incomplete.</strong> Please <a href=\"%s\">complete your "
 "store address</a> to dismiss this notice."
@@ -193,10 +211,6 @@ msgstr ""
 #: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:323
 #: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:350
 msgid "Same as parent"
-msgstr ""
-
-#: includes/class-tfm-assets.php:67
-msgid "No change"
 msgstr ""
 
 #: includes/class-tfm-assets.php:96
@@ -254,6 +268,14 @@ msgstr ""
 
 #: includes/class-tfm-tax-categories.php:42
 msgid "Once monthly"
+msgstr ""
+
+#: includes/class-tfm-tax-categories.php:110
+msgid "Products that don't fall into other categories"
+msgstr ""
+
+#: includes/class-tfm-tax-categories.php:111
+msgid "General"
 msgstr ""
 
 #: includes/class-tfm-util.php:33
@@ -405,14 +427,18 @@ msgstr ""
 msgid "This field is disabled while TaxJar for Marketplaces is active."
 msgstr ""
 
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:19
+msgid "Tax Category"
+msgstr ""
+
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:23
 msgid "Loading..."
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/html-field-tax-category.php:36
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:41
 msgid ""
-"This is used to determine whether this product is exempt or qualifies for "
-"reduced tax rates."
+"Used for products that are either exempt from tax in some jurisdictions or "
+"are taxed at reduced rates."
 msgstr ""
 
 #: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:49

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="control-group">
         <label for="tax_category[<?php echo $product_id; ?>]">
-            <?php _e( 'Tax category', 'taxjar-for-marketplaces' ); ?>
+            <?php _e( 'Tax Category', 'taxjar-for-marketplaces' ); ?>
         </label>
 
         <div class="control">
@@ -24,7 +24,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <button type="button" class="button tfm-select-category"
                     data-is-variation="<?php echo (int) $is_variation; ?>"><?php esc_html_e(
-                    'Select',
+                    'Change',
+                    'taxjar-for-marketplaces'
+                ); ?></button>
+
+            <button type="button" class="button tfm-reset-category"><?php esc_html_e(
+                    'Reset',
                     'taxjar-for-marketplaces'
                 ); ?></button>
 
@@ -34,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <p class="tip">
             <?php _e(
-                'This is used to determine whether this product is exempt or qualifies for reduced tax rates.',
+                'Used for products that are either exempt from tax in some jurisdictions or are taxed at reduced rates.',
                 'taxjar-for-marketplaces'
             ); ?>
         </p>
