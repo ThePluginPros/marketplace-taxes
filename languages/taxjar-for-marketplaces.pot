@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TaxJar for Marketplaces 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues\n"
-"POT-Creation-Date: 2018-09-20 16:01:47+00:00\n"
+"POT-Creation-Date: 2018-09-24 20:26:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +79,7 @@ msgid "Business locations"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:7
-#: includes/admin/views/html-select-category.php:24
+#: includes/admin/views/html-select-category.php:26
 msgid "Tax category"
 msgstr ""
 
@@ -89,24 +89,24 @@ msgid "No change"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:14
-#: includes/admin/views/html-select-category.php:39
+#: includes/admin/views/html-select-category.php:43
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:26
 msgid "Change"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:18
-#: includes/admin/views/html-select-category.php:44
+#: includes/admin/views/html-select-category.php:48
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:31
 msgid "Reset"
 msgstr ""
 
-#: includes/admin/views/html-select-category.php:27
+#: includes/admin/views/html-select-category.php:29
 msgid ""
 "Used for products that are either exempt from tax in some jurisdictions or "
 "are taxed at reduced rates. "
 msgstr ""
 
-#: includes/admin/views/html-select-category.php:33
+#: includes/admin/views/html-select-category.php:37
 #: includes/class-tfm-assets.php:66
 msgid "None"
 msgstr ""
@@ -214,7 +214,7 @@ msgid "Same as parent"
 msgstr ""
 
 #: includes/class-tfm-assets.php:96
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:327
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:316
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -378,7 +378,7 @@ msgid "Tax Settings"
 msgstr ""
 
 #: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:35
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:54
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:49
 msgid "Taxes"
 msgstr ""
 
@@ -386,44 +386,44 @@ msgstr ""
 msgid "Settings saved."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:148
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:132
 msgid ""
 "A custom product variation template is in use. Tax category assignment "
 "won't work for variations."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:223
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:212
 msgid "Store Country"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:236
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:225
 msgid "Store Address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:237
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:226
 msgid "Street Address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:249
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:238
 msgid "Apartment, unit, suite etc."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:261
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:262
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:250
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:251
 msgid "City / Town"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:274
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:275
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:263
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:264
 msgid "State / County"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:287
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:288
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:276
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:277
 msgid "Postcode / Zip"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-settings-manager.php:52
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-settings-manager.php:107
 msgid "This field is disabled while TaxJar for Marketplaces is active."
 msgstr ""
 
@@ -601,7 +601,7 @@ msgstr ""
 msgid "At least one business address is required."
 msgstr ""
 
-#: taxjar-for-marketplaces.php:40
+#: taxjar-for-marketplaces.php:41
 msgid "WooCommerce"
 msgstr ""
 
