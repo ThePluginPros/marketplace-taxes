@@ -46,7 +46,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 						}
 
 						// Name will be something like attribute_pa_color
-						echo '<select data-taxonomy="'.sanitize_title( $attribute['name'] ).'" class="variation_attribute '. sanitize_title( $key ) .'" name="attribute_' . sanitize_title( $key ) . '[' . $loop . ']"><option value="">' . __( 'Any', 'wcvendors-pro', 'taxjar-for-marketplaces' ) . ' ' . esc_html( wc_attribute_label( $key ) ) . '&hellip;</option>';
+						echo '<select data-taxonomy="'.sanitize_title( $attribute['name'] ).'" class="variation_attribute '. sanitize_title( $key ) .'" name="attribute_' . sanitize_title( $key ) . '[' . $loop . ']"><option value="">' . __( 'Any', 'wcvendors-pro' ) . ' ' . esc_html( wc_attribute_label( $key ) ) . '&hellip;</option>';
 
 
 						if ( array_key_exists( 'values', $attribute ) ){
@@ -70,7 +70,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				?>
 				</span>
 				<span><i class="wcv-icon wcv-icon-caret-down" aria-hidden="true"></i></span>
-				<a href="#" class="remove_variation delete" rel="<?php echo esc_attr( $variation_id ); ?>" data-loop="<?php echo $loop; ?>"><?php _e( 'Remove', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></a>
+				<a href="#" class="remove_variation delete" rel="<?php echo esc_attr( $variation_id ); ?>" data-loop="<?php echo $loop; ?>"><?php _e( 'Remove', 'wcvendors-pro' ); ?></a>
 				<input type="hidden" name="variable_post_id[<?php echo $loop; ?>]" value="<?php echo esc_attr( $variation_id ); ?>" />
 				<input type="hidden" class="variation_menu_order" name="variation_menu_order[<?php echo $loop; ?>]" value="<?php echo isset( $menu_order ) ? absint( $menu_order ) : 0; ?>" />
 			</h5>
@@ -78,7 +78,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 	</div>
 	<div class="wcv_variable_attributes wcv-metabox-content" style="display: none;">
 
-			<?php do_action( 'wcv_product_variation_before_general', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_general', $variation_id, $loop ); ?>
 
 			<div class="wcv-cols-group wcv-horizontal-gutters">
 				<div class="all-50 upload_image">
@@ -93,7 +93,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 					<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_sku' ) )  : ?>
 						<?php if ( wc_product_sku_enabled() )  : ?>
 						<div class="control-group">
-							<label><?php _e( 'SKU', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?>: </label>
+							<label><?php _e( 'SKU', 'wcvendors-pro' ); ?>: </label>
 							<div class="control">
 								<input type="text" name="variable_sku[<?php echo $loop; ?>]" value="<?php if ( isset( $_sku ) ) echo esc_attr( $_sku ); ?>" placeholder="<?php echo esc_attr( $parent_data['sku'] ); ?>" />
 							</div>
@@ -107,11 +107,11 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				</div>
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_general', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_general', $variation_id, $loop ); ?>
 
 			<hr style="clear: both;" />
 
-			<?php do_action( 'wcv_product_variation_before_options', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_options', $variation_id, $loop ); ?>
 
 			<!-- Variable options  -->
 			<div class="wcv-cols-group wcv-horizontal-gutters">
@@ -121,26 +121,26 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				        <div class="all-25">
 				        	<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_enabled' ) )  : ?>
 				        	<input type="checkbox" class="checkbox variable_enabled" name="variable_enabled[<?php echo $loop; ?>]" <?php checked( $_enabled ); ?> />
-							<label><?php _e( 'Enabled', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+							<label><?php _e( 'Enabled', 'wcvendors-pro' ); ?></label>
 							<?php endif; ?>
 						</div>
 				        <div class="all-25">
 					        <?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_downloadable' ) )  : ?>
 				        	<input type="checkbox" class="checkbox variable_is_downloadable" name="variable_is_downloadable[<?php echo $loop; ?>]" <?php checked( isset( $_downloadable ) ? $_downloadable : '', 'yes' ); ?> />
-							<label><?php _e( 'Downloadable', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> </label>
+							<label><?php _e( 'Downloadable', 'wcvendors-pro' ); ?> </label>
 							<?php endif; ?>
 				        </div>
 				        <div class="all-25">
 					        <?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_virtual' ) )  : ?>
 				        	<input type="checkbox" class="checkbox variable_is_virtual" name="variable_is_virtual[<?php echo $loop; ?>]" <?php checked( isset( $_virtual ) ? $_virtual : '', 'yes' ); ?> />
-							<label><?php _e( 'Virtual', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+							<label><?php _e( 'Virtual', 'wcvendors-pro' ); ?></label>
 							<?php endif; ?>
 				        </div>
 				        <?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_manage_stock' ) )  : ?>
 				        <?php if ( get_option( 'woocommerce_manage_stock' ) == 'yes' ) : ?>
 				        <div class="all-25">
 				        	<input type="checkbox" class="checkbox variable_manage_stock" name="variable_manage_stock[<?php echo $loop; ?>]" <?php checked( isset( $_manage_stock ) ? $_manage_stock : '', 'yes' ); ?> />
-							<label><?php _e( 'Manage stock?', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+							<label><?php _e( 'Manage stock?', 'wcvendors-pro' ); ?></label>
 				        </div>
 				        <?php endif; ?>
 				        <?php endif; ?>
@@ -149,20 +149,20 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				</div>
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_options', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_options', $variation_id, $loop ); ?>
 
 			<hr style="clear: both;" />
 
-			<?php do_action( 'wcv_product_variation_before_pricing', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_pricing', $variation_id, $loop ); ?>
 
 			<!-- Variable pricing  -->
 			<div class="wcv-cols-group wcv-horizontal-gutters variable_pricing">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_price' ) )  : ?>
 				<div class="all-50">
 					<div class="control-group">
-						<label><?php echo __( 'Regular Price:', 'wcvendors-pro', 'taxjar-for-marketplaces' ) . ' (' . get_woocommerce_currency_symbol() . ')'; ?></label>
+						<label><?php echo __( 'Regular Price:', 'wcvendors-pro' ) . ' (' . get_woocommerce_currency_symbol() . ')'; ?></label>
 						<div class="control">
-							<input type="text" size="5" name="variable_regular_price[<?php echo $loop; ?>]" value="<?php if ( isset( $_regular_price ) ) echo esc_attr( $_regular_price ); ?>" class="wc_input_price variable_regular_price" placeholder="<?php esc_attr_e( 'Variation price (required)', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?>" />
+							<input type="text" size="5" name="variable_regular_price[<?php echo $loop; ?>]" value="<?php if ( isset( $_regular_price ) ) echo esc_attr( $_regular_price ); ?>" class="wc_input_price variable_regular_price" placeholder="<?php esc_attr_e( 'Variation price (required)', 'wcvendors-pro' ); ?>" />
 						</div>
 					</div>
 				</div>
@@ -170,11 +170,11 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				<div class="all-50">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_sale_price' ) )  : ?>
 					<div class="control-group">
-						<label><?php echo __( 'Sale Price:', 'wcvendors-pro', 'taxjar-for-marketplaces' ) . ' (' . get_woocommerce_currency_symbol() . ')'; ?></label>
+						<label><?php echo __( 'Sale Price:', 'wcvendors-pro' ) . ' (' . get_woocommerce_currency_symbol() . ')'; ?></label>
 						<div class="control">
 							<input type="text" size="5" name="variable_sale_price[<?php echo $loop; ?>]" class="variable_sale_price" value="<?php if ( isset( $_sale_price ) ) echo esc_attr( $_sale_price ); ?>" class="wc_input_price" />
 						</div>
-						 <p clas="tip"><a href="#" class="sale_schedule"><?php _e( 'Schedule', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></a></p>
+						 <p clas="tip"><a href="#" class="sale_schedule"><?php _e( 'Schedule', 'wcvendors-pro' ); ?></a></p>
 					</div>
 				<?php endif; ?>
 				</div>
@@ -183,34 +183,34 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 			<div class="wcv-cols-group wcv-horizontal-gutters sale_price_dates_fields" style="display:none;">
 					<div class="all-50">
 						<div class="control-group">
-							<label><?php _e( 'Sale start date:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+							<label><?php _e( 'Sale start date:', 'wcvendors-pro' ); ?></label>
 							<div class="control">
-							<input type="text" class="sale_price_dates_from wcv-datepicker" name="variable_sale_price_dates_from[<?php echo $loop; ?>]" value="<?php echo ! empty( $_sale_price_dates_from ) ? date_i18n( 'Y-m-d', $_sale_price_dates_from ) : ''; ?>" placeholder="<?php echo esc_attr_x( 'From&hellip;', 'placeholder', 'wcvendors-pro', 'taxjar-for-marketplaces' ) ?> YYYY-MM-DD" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" />
+							<input type="text" class="sale_price_dates_from wcv-datepicker" name="variable_sale_price_dates_from[<?php echo $loop; ?>]" value="<?php echo ! empty( $_sale_price_dates_from ) ? date_i18n( 'Y-m-d', $_sale_price_dates_from ) : ''; ?>" placeholder="<?php echo esc_attr_x( 'From&hellip;', 'placeholder', 'wcvendors-pro' ) ?> YYYY-MM-DD" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" />
 							</div>
 						</div>
 					</div>
 
 					<div class="all-50">
 						<div class="control-group">
-							<label><?php _e( 'Sale end date:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+							<label><?php _e( 'Sale end date:', 'wcvendors-pro' ); ?></label>
 							<div class="control">
-								<input type="text" class="sale_price_dates_to wcv-datepicker" name="variable_sale_price_dates_to[<?php echo $loop; ?>]" value="<?php echo ! empty( $_sale_price_dates_to ) ? date_i18n( 'Y-m-d', $_sale_price_dates_to ) : ''; ?>" placeholder="<?php echo esc_attr_x('To&hellip;', 'placeholder', 'wcvendors-pro', 'taxjar-for-marketplaces') ?> YYYY-MM-DD" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" />
+								<input type="text" class="sale_price_dates_to wcv-datepicker" name="variable_sale_price_dates_to[<?php echo $loop; ?>]" value="<?php echo ! empty( $_sale_price_dates_to ) ? date_i18n( 'Y-m-d', $_sale_price_dates_to ) : ''; ?>" placeholder="<?php echo esc_attr_x('To&hellip;', 'placeholder', 'wcvendors-pro') ?> YYYY-MM-DD" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" />
 							</div>
-							<p class="tip"><a href="#" class="cancel_sale_schedule" style="display:none"><?php _e( 'Cancel schedule', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></a></p>
+							<p class="tip"><a href="#" class="cancel_sale_schedule" style="display:none"><?php _e( 'Cancel schedule', 'wcvendors-pro' ); ?></a></p>
 						</div>
 					</div>
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_pricing', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_pricing', $variation_id, $loop ); ?>
 
-			<?php do_action( 'wcv_product_variation_before_stock', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_stock', $variation_id, $loop ); ?>
 
 			<?php if ( 'yes' == get_option( 'woocommerce_manage_stock' ) ) : ?>
 			<div class="wcv-cols-group wcv-horizontal-gutters show_if_variation_manage_stock" style="display: none;">
 				<div class="all-50">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_stock_qty' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Stock Qty:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> <?php //echo wc_help_tip( __( 'Enter a quantity to enable stock management at variation level, or leave blank to use the parent product\'s options.', 'wcvendors-pro' ) ); ?></label>
+						<label><?php _e( 'Stock Qty:', 'wcvendors-pro' ); ?> <?php //echo wc_help_tip( __( 'Enter a quantity to enable stock management at variation level, or leave blank to use the parent product\'s options.', 'wcvendors-pro' ) ); ?></label>
 						<div class="control">
 							<input type="number" size="5" name="variable_stock[<?php echo $loop; ?>]" class="variable_stock" value="<?php if ( isset( $_stock ) ) echo esc_attr( wc_stock_amount( $_stock ) ); ?>" step="any" />
 						</div>
@@ -220,7 +220,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				<div class="all-50">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_allow_backorders' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Allow Backorders?', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+						<label><?php _e( 'Allow Backorders?', 'wcvendors-pro' ); ?></label>
 						<div class="control">
 							<select name="variable_backorders[<?php echo $loop; ?>]">
 								<?php
@@ -240,7 +240,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				<div class="all-100">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_stock_status' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Stock status', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> <?php //echo wc_help_tip( __( 'Controls whether or not the product is listed as "in stock" or "out of stock" on the frontend.', 'wcvendors-pro' ) ); ?></label>
+						<label><?php _e( 'Stock status', 'wcvendors-pro' ); ?> <?php //echo wc_help_tip( __( 'Controls whether or not the product is listed as "in stock" or "out of stock" on the frontend.', 'wcvendors-pro' ) ); ?></label>
 						<div class="control">
 							<select name="variable_stock_status[<?php echo $loop; ?>]" style="width:100%">
 								<?php
@@ -255,9 +255,9 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				</div>
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_stock', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_stock', $variation_id, $loop ); ?>
 
-			<?php do_action( 'wcv_product_variation_before_weight_dimensions', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_weight_dimensions', $variation_id, $loop ); ?>
 
 			<?php if ( wc_product_weight_enabled() || wc_product_dimensions_enabled() ) : ?>
 				<div class="wcv-cols-group wcv-horizontal-gutters">
@@ -265,7 +265,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 					<?php if ( wc_product_weight_enabled() ) : ?>
 						<div class="all-50 hide_if_variation_virtual">
 							<div class="control-group">
-								<label><?php echo __( 'Weight', 'wcvendors-pro', 'taxjar-for-marketplaces' ) . ' (' . esc_html( get_option( 'woocommerce_weight_unit' ) ) . '):'; ?> <?php //echo wc_help_tip( __( 'Enter a weight for this variation or leave blank to use the parent product weight.', 'wcvendors-pro' ) ); ?></label>
+								<label><?php echo __( 'Weight', 'wcvendors-pro' ) . ' (' . esc_html( get_option( 'woocommerce_weight_unit' ) ) . '):'; ?> <?php //echo wc_help_tip( __( 'Enter a weight for this variation or leave blank to use the parent product weight.', 'wcvendors-pro' ) ); ?></label>
 								<div class="control">
 									<input type="text" size="5" name="variable_weight[<?php echo $loop; ?>]" class="variable_weight" value="<?php if ( isset( $_weight ) ) echo esc_attr( $_weight ); ?>" placeholder="<?php echo esc_attr( $parent_data['weight'] ); ?>" class="wc_input_decimal" />
 								</div>
@@ -279,7 +279,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 					<?php if ( wc_product_dimensions_enabled() ) : ?>
 					<div class="all-50 dimensions_field hide_if_variation_virtual">
 						<div class="control-group">
-							<label for="product_length"><?php echo __( 'Dimensions (L&times;W&times;H)', 'wcvendors-pro', 'taxjar-for-marketplaces' ) . ' (' . esc_html( get_option( 'woocommerce_dimension_unit' ) ) . '):'; ?></label>
+							<label for="product_length"><?php echo __( 'Dimensions (L&times;W&times;H)', 'wcvendors-pro' ) . ' (' . esc_html( get_option( 'woocommerce_dimension_unit' ) ) . '):'; ?></label>
 							<div class="wcv-cols-group wcv-horizontal-gutters">
 						        <div class="all-33">
 						        	<div class="control">
@@ -306,21 +306,21 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				</div>
 			<?php endif; ?>
 
-			<?php do_action( 'wcv_product_variation_after_weight_dimensions', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_weight_dimensions', $variation_id, $loop ); ?>
 
-			<?php do_action( 'wcv_product_variation_before_shipping_class', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_shipping_class', $variation_id, $loop ); ?>
 
 			<div class="wcv-cols-group wcv-horizontal-gutters hide_if_variation_virtual">
 				<div class="all-100">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_shipping_class' ) )  : ?>
 					<div class="control-group">
-					<label><?php _e( 'Shipping class:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+					<label><?php _e( 'Shipping class:', 'wcvendors-pro' ); ?></label>
 						<div class="control">
 							<?php
 							$args = array(
 								'taxonomy' 			=> 'product_shipping_class',
 								'hide_empty'		=> 0,
-								'show_option_none' 	=> __( 'Same as parent', 'wcvendors-pro', 'taxjar-for-marketplaces' ),
+								'show_option_none' 	=> __( 'Same as parent', 'wcvendors-pro' ),
 								'name' 				=> 'variable_shipping_class[' . $loop . ']',
 								'id'				=> '',
 								'selected'			=> isset( $shipping_class ) ? esc_attr( $shipping_class ) : '',
@@ -335,19 +335,19 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_shipping_class', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_shipping_class', $variation_id, $loop ); ?>
 
-			<?php do_action( 'wcv_product_variation_before_tax_class', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_tax_class', $variation_id, $loop ); ?>
 
 			<?php if ( wc_tax_enabled() ) : ?>
 			<div class="wcv-cols-group wcv-horizontal-gutters">
 				<div class="all-100">
 					<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_tax_class' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Tax class:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+						<label><?php _e( 'Tax class:', 'wcvendors-pro' ); ?></label>
 						<div class="control">
 							<select name="variable_tax_class[<?php echo $loop; ?>]">
-								<option value="parent" <?php selected( is_null( $_tax_class ), true ); ?>><?php _e( 'Same as parent', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></option>
+								<option value="parent" <?php selected( is_null( $_tax_class ), true ); ?>><?php _e( 'Same as parent', 'wcvendors-pro' ); ?></option>
 								<?php
 								foreach ( $parent_data['tax_class_options'] as $key => $value )
 									echo '<option value="' . esc_attr( $key ) . '" ' . selected( $key === $_tax_class, true, false ) . '>' . esc_html( $value ) . '</option>';
@@ -359,15 +359,15 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 			</div>
 			<?php endif; ?>
 
-			<?php do_action( 'wcv_product_variation_after_tax_class', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_tax_class', $variation_id, $loop ); ?>
 
-			<?php do_action( 'wcv_product_variation_before_shipping_class', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_shipping_class', $variation_id, $loop ); ?>
 
 			<div class="wcv-cols-group wcv-horizontal-gutters">
 				<div class="all-100">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_tax_class' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Variation Description:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></label>
+						<label><?php _e( 'Variation Description:', 'wcvendors-pro' ); ?></label>
 						<div class="control">
 							<textarea name="variable_description[<?php echo $loop; ?>]" rows="3" style="width:100%;"><?php echo isset( $variation_data['_variation_description'] ) ? esc_textarea( $variation_data['_variation_description'] ) : ''; ?></textarea>
 						</div>
@@ -376,21 +376,21 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				</div>
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_shipping_class', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_shipping_class', $variation_id, $loop ); ?>
 
-			<?php do_action( 'wcv_product_variation_before_download_files', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_before_download_files', $variation_id, $loop ); ?>
 
 			<div class="wcv-cols-group wcv-horizontal-gutters show_if_variation_downloadable" style="display: none;">
 				<div class="all-100">
 				<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_download_files' ) )  : ?>
 					<div class="control-group downloadable_files">
-						<label><?php _e( 'Downloadable Files', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?>:</label>
+						<label><?php _e( 'Downloadable Files', 'wcvendors-pro' ); ?>:</label>
 						<div class="control">
 							<table>
 								<thead>
 									<div>
-										<th><?php _e( 'Name', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> <?php //echo wc_help_tip( __( 'This is the name of the download shown to the customer.', 'wcvendors-pro' ) ); ?></th>
-										<th colspan="2"><?php _e( 'File URL', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> <?php //echo wc_help_tip( __( 'This is the URL or absolute path to the file which customers will get access to. URLs entered here should already be encoded.', 'wcvendors-pro' ) ); ?></th>
+										<th><?php _e( 'Name', 'wcvendors-pro' ); ?> <?php //echo wc_help_tip( __( 'This is the name of the download shown to the customer.', 'wcvendors-pro' ) ); ?></th>
+										<th colspan="2"><?php _e( 'File URL', 'wcvendors-pro' ); ?> <?php //echo wc_help_tip( __( 'This is the URL or absolute path to the file which customers will get access to. URLs entered here should already be encoded.', 'wcvendors-pro' ) ); ?></th>
 										<th>&nbsp;</th>
 									</div>
 								</thead>
@@ -430,7 +430,7 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 												ob_start();
 												include( 'wcvendors-pro-product-variation-download.php' );
 												echo esc_attr( ob_get_clean() );
-											?>"><?php _e( 'Add File', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?></a>
+											?>"><?php _e( 'Add File', 'wcvendors-pro' ); ?></a>
 										</th>
 									</div>
 								</tfoot>
@@ -446,9 +446,9 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				<div class="all-50">
 					<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_download_limit' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Download Limit:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> <?php // echo wc_help_tip( __( 'Leave blank for unlimited re-downloads.', 'wcvendors-pro' ) ); ?></label>
+						<label><?php _e( 'Download Limit:', 'wcvendors-pro' ); ?></label>
 						<div class="control">
-							<input type="number" size="5" name="variable_download_limit[<?php echo $loop; ?>]" class="variable_download_limit" value="<?php if ( isset( $_download_limit ) ) echo esc_attr( $_download_limit ); ?>" placeholder="<?php esc_attr_e( 'Unlimited', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?>" step="1" min="0" />
+							<input type="number" size="5" name="variable_download_limit[<?php echo $loop; ?>]" class="variable_download_limit" value="<?php if ( isset( $_download_limit ) ) echo esc_attr( $_download_limit ); ?>" placeholder="<?php esc_attr_e( 'Unlimited', 'wcvendors-pro' ); ?>" step="1" min="0" />
 						</div>
 					</div>
 					<?php endif; ?>
@@ -456,9 +456,9 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				<div class="all-50">
 					<?php if ( 'yes' != get_option( 'wcvendors_hide_product_variations_download_expiry' ) )  : ?>
 					<div class="control-group">
-						<label><?php _e( 'Download Expiry:', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?> <?php //echo wc_help_tip( __( 'Enter the number of days before a download link expires, or leave blank.', 'wcvendors-pro' ) ); ?></label>
+						<label><?php _e( 'Download Expiry:', 'wcvendors-pro' ); ?></label>
 						<div class="control">
-							<input type="number" size="5" name="variable_download_expiry[<?php echo $loop; ?>]" class="variable_download_expiry" value="<?php if ( isset( $_download_expiry ) ) echo esc_attr( $_download_expiry ); ?>" placeholder="<?php esc_attr_e( 'Unlimited', 'wcvendors-pro', 'taxjar-for-marketplaces' ); ?>" step="1" min="0" />
+							<input type="number" size="5" name="variable_download_expiry[<?php echo $loop; ?>]" class="variable_download_expiry" value="<?php if ( isset( $_download_expiry ) ) echo esc_attr( $_download_expiry ); ?>" placeholder="<?php esc_attr_e( 'Unlimited', 'wcvendors-pro' ); ?>" step="1" min="0" />
 						</div>
 					</div>
 					<?php endif; ?>
@@ -466,6 +466,6 @@ $variations_options 	= (array) get_option( 'wcvendors_hide_product_variations' )
 				<?php endif; ?>
 			</div>
 
-			<?php do_action( 'wcv_product_variation_after_download_files', $variation_id ); ?>
+			<?php do_action( 'wcv_product_variation_after_download_files', $variation_id, $loop ); ?>
 	</div>
 </div>
