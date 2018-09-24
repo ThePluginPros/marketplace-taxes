@@ -104,7 +104,22 @@
 
         initialize();
 
-        $('#woocommerce-product-data').on('woocommerce_variations_loaded', initialize);
-        $('#wcv_variable_product_options').on('wcv_variations_added', initialize);
+        // Runs initialize() when new variations are added via AJAX
+        $(document)
+            .on('ajaxSuccess', function (event, xhr, settings) {
+                var actions = [
+                    'wcv_json_add_variation',
+                    'wcv_json_link_all_variations',
+                    'woocommerce_add_variation',
+                    'woocommerce_link_all_variations'
+                ];
+
+                $.each(actions, function (key, action) {
+                    if (-1 !== settings.data.indexOf(action)) {
+                        initialize();
+                    }
+                });
+            })
+            .on('woocommerce_variations_loaded', initialize);
     });
 })(jQuery, tfm_category_select_data);

@@ -13,13 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( $is_variation ) {
-    $class = 'form-row form-field form-row-full variation-category';
+    $field_name = "variation_tax_category[$product_id]";
+    $class      = 'form-row form-field form-row-full variation-category';
 } else {
-    $class = 'form-field';
+    $field_name = 'tax_category';
+    $class      = 'form-field';
 } ?>
 
     <p class="<?php echo $class; ?> tax-category">
-        <label for="tax_category[<?php echo $product_id; ?>]">
+        <label for="<?php echo $field_name; ?>">
             <?php
             _e( 'Tax category', 'taxjar-for-marketplaces' );
 
@@ -48,7 +50,7 @@ if ( $is_variation ) {
                 'taxjar-for-marketplaces'
             ); ?></button>
 
-        <input type="hidden" name="tax_category[<?php echo $product_id; ?>]" class="tfm-category-input"
+        <input type="hidden" name="<?php echo $field_name; ?>" class="tfm-category-input"
                value="<?php echo $selected_category; ?>">
     </p>
 

@@ -20,13 +20,14 @@ class TFM_WC_Vendors_Dashboard {
         add_filter( 'wcv_product_tax_status', array( $this, 'hide_form_field' ) );
         add_filter( 'wcv_product_tax_class', array( $this, 'hide_form_field' ) );
         add_action( 'wcv_product_options_tax', array( $this, 'display_category_field' ) );
-        add_action( 'wcv_product_variation_before_tax_class', array( $this, 'display_category_field' ) );
+        add_action( 'wcv_product_variation_before_tax_class', array( $this, 'display_category_field' ), 10, 2 );
         add_filter( 'wcvendors_pro_product_variation_path', array( $this, 'set_variation_template_path' ) );
         add_filter(
             'pre_option_wcvendors_hide_product_variations_tax_class',
             array( $this, 'hide_variation_tax_class' )
         );
         add_filter( 'tfm_product_saved_actions', array( $this, 'register_save_action' ) );
+        add_action( 'wcv_save_product_variation', array( $this, 'set_variation_post_id' ), 10, 2 );
         add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
         add_action( 'wcvendors_shop_settings_admin_saved', array( $this, 'save_address_fields' ) );
         add_action( 'wcvendors_shop_settings_saved', array( $this, 'save_address_fields' ) );
@@ -113,13 +114,16 @@ class TFM_WC_Vendors_Dashboard {
      * Displays a 'Tax category' field on the Edit Product screen.
      *
      * @param int $variation_id
+     * @param int $loop
      */
-    public function display_category_field( $variation_id = null ) {
-        $is_variation = ! empty( $variation_id );
+    public function display_category_field( $variation_id = null, $loop = null ) {
+        $is_variation = ! is_null( $loop );
 
         if ( $is_variation ) {
+            $field_name = "variation_tax_category[$loop]";
             $product_id = $variation_id;
         } else {
+            $field_name = 'tax_category';
             $product_id = get_query_var( 'object_id' );
         }
 
@@ -177,6 +181,21 @@ class TFM_WC_Vendors_Dashboard {
     public function register_save_action( $actions ) {
         $actions[] = 'wcv_save_product';
         return $actions;
+    }
+
+    /**
+     * Sets the post ID for each product variation so that variation tax
+     * categories are saved correctly.
+     *
+     * @param int $variation_id
+     * @param int $loop
+     */
+    public function set_variation_post_id( $variation_id, $loop ) {
+        if ( isset( $_REQUEST['variation_tax_category'] ) ) {
+            $_REQUEST['variation_tax_category'][ $variation_id ] = $_REQUEST['variation_tax_category'][ $loop ];
+
+            unset( $_REQUEST['variation_tax_category'][ $loop ] );
+        }
     }
 
     /**

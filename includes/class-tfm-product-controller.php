@@ -17,50 +17,43 @@ class TFM_Product_Controller {
      * Registers action hooks and filters.
      */
     public function __construct() {
-        add_action( 'woocommerce_ajax_save_product_variations', array( $this, 'ajax_save_variations' ) );
         add_action( 'tfm_load_integration', array( $this, 'register_save_hooks' ) );
     }
 
     /**
-     * Registers save_product to run on save_post_product and any other actions
-     * defined by integrations.
+     * Adds action hooks for save_tax_categories.
      */
     public function register_save_hooks() {
-        $actions = apply_filters( 'tfm_product_saved_actions', [ 'save_post_product' ] );
+        $actions = [ 'woocommerce_ajax_save_product_variations' ];
+
+        if ( is_admin() ) {
+            $actions[] = 'save_post_product';
+        }
+
+        $actions = apply_filters( 'tfm_product_saved_actions', $actions );
 
         foreach ( $actions as $action ) {
-            add_action( $action, array( $this, 'save_product' ) );
+            add_action( $action, array( $this, 'save_tax_categories' ) );
         }
     }
 
     /**
-     * Saves the selected tax categories for product variations.
+     * Saves the selected tax category for a product and its variations (if any).
+     *
+     * @param int $product_id
      */
-    public function ajax_save_variations() {
-        $variable_post_id    = $_POST['variable_post_id'];
-        $category_selections = $_POST['tax_category'];
-        $max_loop            = max( array_keys( $_POST['variable_post_id'] ) );
-
-        for ( $i = 0; $i <= $max_loop; $i++ ) {
-            if ( isset( $variable_post_id[ $i ] ) ) {
-                $variation_id = $variable_post_id[ $i ];
-
-                if ( isset( $category_selections[ $variation_id ] ) ) {
-                    update_post_meta( $variation_id, 'tax_category', $category_selections[ $variation_id ] );
-                }
-            }
+    public function save_tax_categories( $product_id ) {
+        if ( isset( $_REQUEST['_inline_edit'] ) || isset( $_REQUEST['bulk_edit'] ) ) {
+            return;
         }
-    }
 
-    /**
-     * Saves the selected tax category for simple and variable products.
-     */
-    public function save_product() {
-        if ( ! isset( $_REQUEST['_inline_edit'] ) && ! isset( $_REQUEST['bulk_edit'] ) ) {
-            $selected_categories = isset( $_REQUEST['tax_category'] ) ? $_REQUEST['tax_category'] : [];
+        if ( isset( $_REQUEST['tax_category'] ) ) {
+            update_post_meta( $product_id, 'tax_category', $_REQUEST['tax_category'] );
+        }
 
-            foreach ( $selected_categories as $product_id => $category ) {
-                update_post_meta( $product_id, 'tax_category', $category );
+        if ( isset( $_REQUEST['variation_tax_category'] ) ) {
+            foreach ( $_REQUEST['variation_tax_category'] as $product_id => $tax_category ) {
+                update_post_meta( $product_id, 'tax_category', $tax_category );
             }
         }
     }

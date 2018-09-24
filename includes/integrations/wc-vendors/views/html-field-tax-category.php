@@ -5,7 +5,7 @@
  *
  * @global string $selected_category
  * @global bool $is_variation
- * @global int $product_id
+ * @global string $field_name
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
     <div class="control-group">
-        <label for="tax_category[<?php echo $product_id; ?>]">
+        <label for="<?php echo $field_name; ?>">
             <?php _e( 'Tax Category', 'taxjar-for-marketplaces' ); ?>
         </label>
 
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     'taxjar-for-marketplaces'
                 ); ?></button>
 
-            <input type="hidden" name="tax_category[<?php echo $product_id; ?>]" class="tfm-category-input"
+            <input type="hidden" name="<?php echo $field_name; ?>" class="tfm-category-input"
                    value="<?php echo $selected_category; ?>">
         </div>
 
