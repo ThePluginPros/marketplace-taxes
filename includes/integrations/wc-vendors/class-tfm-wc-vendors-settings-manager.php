@@ -1,5 +1,6 @@
 <?php
 
+use WCV_Settings\v1_0_2\Legacy_Settings_API;
 use WCV_Settings\v1_0_2\Settings_API;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,23 +27,58 @@ class TFM_WC_Vendors_Settings_Manager {
         Settings_API::on_saved( array( $this, 'set_give_taxes' ) );
 
         $this->hide_tax_fields();
+
+        if ( version_compare( WCV_VERSION, '2.0.0', '<' ) ) {
+            add_filter( 'option_wc_prd_vendor_options', array( $this, 'hide_legacy_tax_fields' ) );
+
+            // Must reload current options so filter is applied
+            Legacy_Settings_API::reload_settings();
+        }
     }
 
     /**
-     * Forces the Tax Class and Tax Status fields to be hidden.
+     * Hides the Tax Class and Tax Status fields in WC Vendors 2.0.0+.
      */
     public function hide_tax_fields() {
         $hide_options = [
             'wcvendors_hide_product_general_tax',
             'wcvendors_hide_product_variations_tax_class',
-            'hide_product_misc_taxes',
-            'hide_product_general_tax',
-            'hide_product_variations_tax_class',
         ];
 
         foreach ( $hide_options as $option_name ) {
             add_filter( "pre_option_{$option_name}", array( $this, 'hide_form_field' ) );
         }
+    }
+
+    /**
+     * Hides the Tax Class and Tax Status fields in WC Vendors < 2.0.0.
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    public function hide_legacy_tax_fields( $options ) {
+        if ( ! is_array( $options ) ) {
+            $options = [];
+        }
+
+        $options_to_hide = [
+            'hide_product_misc'       => [ 'taxes' ],
+            'hide_product_general'    => [ 'tax' ],
+            'hide_product_variations' => [ 'tax_class' ],
+        ];
+
+        foreach ( $options_to_hide as $parent_option => $to_hide ) {
+            if ( isset( $options[ $parent_option ] ) ) {
+                $options[ $parent_option ] = maybe_unserialize( $options[ $parent_option ] );
+
+                foreach ( $to_hide as $field ) {
+                    $options[ $parent_option ][ $field ] = 1;
+                }
+            }
+        }
+
+        return $options;
     }
 
     /**
@@ -98,7 +134,13 @@ class TFM_WC_Vendors_Settings_Manager {
     public function set_give_taxes() {
         $merchant_of_record = TFM()->settings->get( 'merchant_of_record', 'vendor' );
 
-        Settings_API::set( 'wcvendors_vendor_give_taxes', wc_bool_to_string( 'vendor' === $merchant_of_record ) );
+        if ( version_compare( WCV_VERSION, '2.0.0', '<' ) ) {
+            $cb_value = intval( 'vendor' === $merchant_of_record );
+        } else {
+            $cb_value = wc_bool_to_string( 'vendor' === $merchant_of_record );
+        }
+
+        Settings_API::set( 'wcvendors_vendor_give_taxes', $cb_value );
     }
 
     /**
