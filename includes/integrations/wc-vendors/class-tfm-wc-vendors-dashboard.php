@@ -17,15 +17,9 @@ class TFM_WC_Vendors_Dashboard {
      * Registers action hooks and filters.
      */
     public function __construct() {
-        add_filter( 'wcv_product_tax_status', array( $this, 'hide_form_field' ) );
-        add_filter( 'wcv_product_tax_class', array( $this, 'hide_form_field' ) );
-        add_action( 'wcv_product_options_tax', array( $this, 'display_category_field' ) );
+        add_action( 'wcv_after_product_details', array( $this, 'display_category_field' ) );
         add_action( 'wcv_product_variation_before_tax_class', array( $this, 'display_category_field' ), 10, 2 );
         add_filter( 'wcvendors_pro_product_variation_path', array( $this, 'set_variation_template_path' ) );
-        add_filter(
-            'pre_option_wcvendors_hide_product_variations_tax_class',
-            array( $this, 'hide_variation_tax_class' )
-        );
         add_filter( 'tfm_product_saved_actions', array( $this, 'register_save_action' ) );
         add_action( 'wcv_save_product_variation', array( $this, 'set_variation_post_id' ), 10, 2 );
         add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
@@ -97,20 +91,6 @@ class TFM_WC_Vendors_Dashboard {
     }
 
     /**
-     * Hides a WC Vendors form field by wrapping it in a hidden div.
-     *
-     * @param array $field
-     *
-     * @return array
-     */
-    public function hide_form_field( $field ) {
-        $field['wrapper_start'] = '<div style="display: none;">';
-        $field['wrapper_end']   = '</div>';
-
-        return $field;
-    }
-
-    /**
      * Displays a 'Tax category' field on the Edit Product screen.
      *
      * @param int $variation_id
@@ -156,16 +136,6 @@ class TFM_WC_Vendors_Dashboard {
             );
         }
         return $path;
-    }
-
-    /**
-     * Hides the tax class field for product variations by forcing the value
-     * of the option `wcvendors_hide_product_variations_tax_class` to 'yes'.
-     *
-     * @return string
-     */
-    public function hide_variation_tax_class() {
-        return 'yes';
     }
 
     /**

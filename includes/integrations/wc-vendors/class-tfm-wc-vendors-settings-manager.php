@@ -24,6 +24,25 @@ class TFM_WC_Vendors_Settings_Manager {
         add_filter( 'get_user_metadata', array( $this, 'set_give_tax_override' ), 10, 4 );
 
         Settings_API::on_saved( array( $this, 'set_give_taxes' ) );
+
+        $this->hide_tax_fields();
+    }
+
+    /**
+     * Forces the Tax Class and Tax Status fields to be hidden.
+     */
+    public function hide_tax_fields() {
+        $hide_options = [
+            'wcvendors_hide_product_general_tax',
+            'wcvendors_hide_product_variations_tax_class',
+            'hide_product_misc_taxes',
+            'hide_product_general_tax',
+            'hide_product_variations_tax_class',
+        ];
+
+        foreach ( $hide_options as $option_name ) {
+            add_filter( "pre_option_{$option_name}", array( $this, 'hide_form_field' ) );
+        }
     }
 
     /**
@@ -99,6 +118,16 @@ class TFM_WC_Vendors_Settings_Manager {
         $give_vendor_tax = 'vendor' === TFM()->settings->get( 'merchant_of_record' );
 
         return apply_filters( 'tfm_wcv_give_vendor_tax', $give_vendor_tax, $user_id );
+    }
+
+    /**
+     * Hides a form field by forcing the value of the `wcvendors_hide_{FIELD}`
+     * option to 'yes'.
+     *
+     * @return string
+     */
+    public function hide_form_field() {
+        return 'yes';
     }
 
 }
