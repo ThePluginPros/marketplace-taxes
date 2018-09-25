@@ -191,7 +191,7 @@ class TFM_WC_Vendors_Dashboard {
      * Outputs store address fields on the WC Vendors Free settings page.
      */
     public function output_address_fields() {
-        if ( ! apply_filters( 'tfm_output_address_fields', true ) ) {
+        if ( ! apply_filters( 'tfm_output_address_fields', ! tfm_wcv_is_dashboard_page() ) ) {
             return;
         }
 
