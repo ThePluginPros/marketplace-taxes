@@ -820,25 +820,17 @@ class TFM_Calculator {
      * @return array
      */
     private function get_nexus_addresses( $vendor_id ) {
-        if ( TFM_Vendors::MARKETPLACE == $vendor_id ) {
-            $raw_addresses = TFM()->settings->get( 'nexus_addresses', [] );
-        } else {
-            $raw_addresses = get_user_meta( $vendor_id, 'tfm_nexus_addresses', true );
-        }
-
         $addresses = [];
 
-        if ( is_array( $raw_addresses ) ) {
-            foreach ( $raw_addresses as $index => $address ) {
-                $addresses[] = [
-                    'id'      => $vendor_id . '_' . $index,
-                    'country' => $address['country'],
-                    'zip'     => $address['postcode'],
-                    'state'   => $address['state'],
-                    'city'    => $address['city'],
-                    'street'  => $address['address_1'],
-                ];
-            }
+        foreach ( TFM()->addresses->get( $vendor_id ) as $index => $address ) {
+            $addresses[] = [
+                'id'      => $vendor_id . '_' . $index,
+                'country' => $address['country'],
+                'zip'     => $address['postcode'],
+                'state'   => $address['state'],
+                'city'    => $address['city'],
+                'street'  => $address['address_1'],
+            ];
         }
 
         return $addresses;
