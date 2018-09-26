@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:          TaxJar for Marketplaces
- * Description:          Make your WooCommerce marketplace more attractive with sales tax automation by <a href="https://taxjar.com" target="_blank">TaxJar</a>.
+ * Description:          Make your WooCommerce marketplace more attractive with sales tax automation by <a href="https://thepluginpros.com/out/taxjar" target="_blank">TaxJar</a>.
  * Author:               The Plugin Pros
  * Author URI:           https://thepluginpros.com
  * Version:              1.0.0
