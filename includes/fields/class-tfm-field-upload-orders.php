@@ -190,7 +190,7 @@ class TFM_Field_Upload_Orders {
 
         if ( is_wp_error( $response ) ) {
             return false;
-        } elseif ( 200 !== $response['response']['code'] ) {
+        } elseif ( ! in_array( $response['response']['code'], [ 200, 404 ] ) ) {
             wc_get_logger()->error( "[TaxJar] Received (" . $response['response']['code'] . "): " . $response['body'] );
             return false;
         }
