@@ -282,15 +282,6 @@ class TFM_Vendor_Settings_Form implements TFM_Settings_API {
     }
 
     /**
-     * Gets the store URL to send to TaxJar.
-     *
-     * @return string
-     */
-    public function get_store_url() {
-        return WCV_Vendors::get_vendor_shop_page( $this->vendor_id );
-    }
-
-    /**
      * Checks whether an API token is required based on the user's settings.
      *
      * @return bool

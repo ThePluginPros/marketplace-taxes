@@ -11,7 +11,7 @@ class TFM_Vendor_Order_Manager {
 
     public function __construct() {
         add_action( 'woocommerce_vendor_order_created', array( $this, 'add_shipping_lines' ), 20 );
-        add_filter( 'woocommerce_rest_orders_prepare_object_query', array( $this, 'prepare_orders_query' ), 10, 2 );
+        add_filter( 'user_has_cap', array( $this, 'grant_permissions' ), 10, 3 );
         add_action( 'woocommerce_refund_created', array( $this, 'create_sub_order_refunds' ), 10, 2 );
         add_action( 'woocommerce_refund_deleted', array( $this, 'delete_sub_order_refunds' ) );
     }
@@ -132,75 +132,31 @@ class TFM_Vendor_Order_Manager {
     }
 
     /**
-     * Filters the query arguments for a WooCommerce REST API orders request.
+     * Grants vendors permission to read their own orders by filtering the
+     * current_user_can() function.
      *
-     * @param array $args
-     * @param WP_REST_Request $request
-     *
-     * @return array
-     */
-    public function prepare_orders_query( $args, $request ) {
-        $user_agent = $request->get_header( 'User-Agent' );
-
-        if ( false === stristr( $user_agent, 'taxjar' ) ) {
-            return $args;
-        }
-
-        $user_id = get_current_user_id();
-
-        if ( WCV_Vendors::is_vendor( $user_id ) ) {
-            $args = $this->prepare_orders_query_for_vendor( $args, $user_id );
-        } else {
-            $args = $this->prepare_orders_query_for_admin( $args );
-        }
-
-        return $args;
-    }
-
-    /**
-     * Prepares the order query arguments for an authenticated vendor.
-     *
-     * @param array $args
-     * @param int $vendor_id
+     * @param array $all_caps All capabilities of the user.
+     * @param array $cap [0] Required capability.
+     * @param array $args [0] Requested capability, [1] User ID, [2] Object ID
      *
      * @return array
      */
-    private function prepare_orders_query_for_vendor( $args, $vendor_id ) {
-        if ( 'vendor' === TFM()->settings->get( 'merchant_of_record', 'vendor' ) ) {
-            if ( 'shop_order' === $args['post_type'] ) {
-                $args['post_type'] = 'shop_order_vendor';
-            }
-
-            if ( ! isset( $args['meta_query'] ) ) {
-                $args['meta_query'] = [];
-            }
-
-            $args['meta_query'][] = [
-                'key'   => '_vendor_id',
-                'value' => $vendor_id,
-            ];
-        } else {
-            // Force empty response if vendor isn't seller of record
-            $args['post__in'] = [ 0 ];
+    public function grant_permissions( $all_caps, $cap, $args ) {
+        if ( ! in_array( $args[0], [ 'read_private_shop_orders', 'read_private_shop_order_refunds' ] ) ) {
+            return $all_caps;
         }
 
-        return $args;
-    }
-
-    /**
-     * Prepares the order query arguments for an authenticated admin.
-     *
-     * @param array $args
-     *
-     * @return array
-     */
-    private function prepare_orders_query_for_admin( $args ) {
-        if ( 'vendor' === TFM()->settings->get( 'merchant_of_record', 'vendor' ) ) {
-            // Force empty response if marketplace is not seller of record
-            $args['post__in'] = [ 0 ];
+        if ( ! WCV_Vendors::is_vendor( $args[1] ) ) {
+            return $all_caps;
         }
 
-        return $args;
+        $vendor_id = get_post_meta( $args[2], '_vendor_id', true );
+
+        if ( $vendor_id ) {
+            $all_caps[ $cap[0] ] = $vendor_id == $args[1];
+        }
+
+        return $all_caps;
     }
 
     /**

@@ -79,6 +79,8 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
         require 'class-tfm-calculator.php';
         require 'class-tfm-addresses.php';
         require 'class-tfm-vendors.php';
+        require 'class-tfm-vendor-order-manager.php';
+        require 'class-tfm-api.php';
     }
 
     /**

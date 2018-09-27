@@ -36,13 +36,6 @@ interface TFM_Settings_API {
     function is_reporting_enabled();
 
     /**
-     * Gets the store URL to send to TaxJar.
-     *
-     * @return string
-     */
-    function get_store_url();
-
-    /**
      * Checks whether an API token is required based on the user's settings.
      *
      * @return bool

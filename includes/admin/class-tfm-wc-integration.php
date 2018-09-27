@@ -190,15 +190,6 @@ class TFM_WC_Integration extends WC_Integration implements TFM_Settings_API {
     }
 
     /**
-     * Gets the store URL to send to TaxJar.
-     *
-     * @return string
-     */
-    public function get_store_url() {
-        return home_url();
-    }
-
-    /**
      * Checks whether an API token is required based on the user's settings.
      *
      * @return bool

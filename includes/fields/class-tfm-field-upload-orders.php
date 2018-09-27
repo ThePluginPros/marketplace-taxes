@@ -92,7 +92,7 @@ class TFM_Field_Upload_Orders {
                 if ( $keys ) {
                     $consumer_key    = $keys['consumer_key'];
                     $consumer_secret = $keys['consumer_secret'];
-                    $store_url       = $this->integration->get_store_url();
+                    $store_url       = home_url();
                     $success         = $this->link_provider( $consumer_key, $consumer_secret, $store_url );
                 }
 
@@ -107,7 +107,7 @@ class TFM_Field_Upload_Orders {
                     );
                 }
             } else {
-                $success = $this->unlink_provider( $this->integration->get_store_url() );
+                $success = $this->unlink_provider( home_url() );
 
                 if ( ! $success ) {
                     throw new Exception(
