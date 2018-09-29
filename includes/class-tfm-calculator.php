@@ -775,6 +775,11 @@ class TFM_Calculator {
 
                 if ( isset( $tax->breakdown ) ) {
                     $response = $this->prepare_response( $tax->breakdown, $shipping_lines );
+                } else {
+                    $response = [
+                        'line_items'     => [],
+                        'shipping_lines' => [],
+                    ];
                 }
             } catch ( Exception $ex ) {
                 throw new Exception( 'Error from TaxJar was ' . $ex->getMessage(), 0, $ex );
