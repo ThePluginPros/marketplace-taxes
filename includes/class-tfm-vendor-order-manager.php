@@ -183,7 +183,7 @@ class TFM_Vendor_Order_Manager {
         foreach ( $sub_orders as $sub_order ) {
             $refunded_items = [];
 
-            foreach ( $sub_order->get_items( 'line_item', 'fee', 'shipping' ) as $item_id => $item ) {
+            foreach ( $sub_order->get_items( [ 'line_item', 'fee', 'shipping' ] ) as $item_id => $item ) {
                 $order_item_id = $item->get_meta( '_vendor_order_item_id', true );
 
                 if ( $order_item_id && isset( $refund_items[ $order_item_id ] ) ) {
