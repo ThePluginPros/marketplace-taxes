@@ -862,12 +862,15 @@ class TFM_Calculator {
 
             // Distribute shipping tax proportionally amongst items
             foreach ( $shipping_items as $shipping_item ) {
+                $tax_amount = 0.0;
+
+                if ( 0 < $total_shipping ) {
+                    $tax_amount = ( $shipping_item['total'] / $total_shipping ) * $shipping_tax;
+                }
+
                 $shipping_lines[] = [
                     'id'  => $shipping_item['id'],
-                    'tax' => round(
-                        ( $shipping_item['total'] / $total_shipping ) * $shipping_tax,
-                        wc_get_price_decimals()
-                    ),
+                    'tax' => round( $tax_amount, wc_get_price_decimals() ),
                 ];
             }
         }
