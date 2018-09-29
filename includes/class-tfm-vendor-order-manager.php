@@ -67,6 +67,7 @@ class TFM_Vendor_Order_Manager {
                     $new_item->set_method_title( $shipping_item->get_method_title() );
                     $new_item->set_name( $shipping_item->get_name() );
                     $new_item->set_total( $vendor_cost );
+                    $new_item->set_taxes( $shipping_item->get_taxes() );
                 } catch ( Exception $ex ) {
                     continue;
                 }
@@ -75,7 +76,8 @@ class TFM_Vendor_Order_Manager {
             }
         }
 
-        $order->calculate_totals( true );
+        $order->update_taxes();
+        $order->calculate_totals( false );
     }
 
     /**
