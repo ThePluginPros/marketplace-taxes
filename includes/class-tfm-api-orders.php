@@ -143,6 +143,41 @@ class TFM_API_Orders extends WC_API_Orders {
     }
 
     /**
+     * Get the order for the given ID
+     *
+     * Updates vendor sub orders on the fly if they are missing information
+     * required for TaxJar Reporting to work.
+     *
+     * @since 2.1
+     *
+     * @param int $id the order ID
+     * @param array $fields
+     * @param array $filter
+     *
+     * @return array|WP_Error
+     */
+    public function get_order( $id, $fields = null, $filter = array() ) {
+        $order_data = parent::get_order( $id, $fields, $filter );
+
+        if ( 'shop_order_vendor' !== $this->post_type ) {
+            return $order_data;
+        }
+
+        if ( ! empty( $order_data['customer_ip'] ) ) {
+            return $order_data;
+        }
+
+        // The vendor order is missing one or more inherited properties. Save
+        // the parent so the inherited properties are set.
+        $parent = wc_get_order( get_post_field( 'post_parent', $id ) );
+        $parent->save();
+
+        $order_data = parent::get_order( $id, $fields, $filter );
+
+        return $order_data;
+    }
+
+    /**
      * Forces an empty response by setting post__in.
      *
      * @param array $args

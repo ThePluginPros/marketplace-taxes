@@ -9,11 +9,45 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class TFM_Vendor_Order_Manager {
 
+    /**
+     * @var array Order properties inherited from the parent order.
+     */
+    protected static $inherited_props = [
+        'billing_first_name',
+        'billing_last_name',
+        'billing_company',
+        'billing_address_1',
+        'billing_address_2',
+        'billing_city',
+        'billing_state',
+        'billing_postcode',
+        'billing_country',
+        'billing_email',
+        'billing_phone',
+        'shipping_first_name',
+        'shipping_last_name',
+        'shipping_company',
+        'shipping_address_1',
+        'shipping_address_2',
+        'shipping_city',
+        'shipping_state',
+        'shipping_postcode',
+        'shipping_country',
+        'payment_method',
+        'payment_method_title',
+        'customer_ip_address',
+        'customer_user_agent',
+        'customer_id',
+        'date_paid',
+    ];
+
     public function __construct() {
         add_action( 'woocommerce_vendor_order_created', array( $this, 'add_shipping_lines' ), 20 );
+        add_action( 'woocommerce_vendor_order_created', array( $this, 'set_inherited_properties' ) );
         add_filter( 'user_has_cap', array( $this, 'grant_permissions' ), 10, 3 );
         add_action( 'woocommerce_refund_created', array( $this, 'create_sub_order_refunds' ), 10, 2 );
         add_action( 'woocommerce_refund_deleted', array( $this, 'delete_sub_order_refunds' ) );
+        add_action( 'woocommerce_before_order_object_save', array( $this, 'update_sub_orders' ) );
     }
 
     /**
@@ -78,6 +112,19 @@ class TFM_Vendor_Order_Manager {
 
         $order->update_taxes();
         $order->calculate_totals( false );
+    }
+
+    /**
+     * Sets the inherited properties for a newly created vendor sub order.
+     *
+     * @param int $vendor_order_id
+     */
+    public function set_inherited_properties( $vendor_order_id ) {
+        $vendor_order = wc_get_order( $vendor_order_id );
+        $parent_order = wc_get_order( $vendor_order->get_parent_id() );
+
+        // Set inherited properties and save
+        $this->update_sub_order( $parent_order, $vendor_order );
     }
 
     /**
@@ -242,6 +289,44 @@ class TFM_Vendor_Order_Manager {
         foreach ( $child_refunds as $child_refund ) {
             $child_refund->delete( true );
         }
+    }
+
+    /**
+     * Updates the inherited properties for all vendor sub orders when a
+     * parent order is saved.
+     *
+     * @param WC_Order $order Parent order.
+     */
+    public function update_sub_orders( $order ) {
+        if ( is_a( $order, 'WC_Order_Vendor' ) ) {
+            return;
+        }
+
+        $sub_orders = wc_get_orders(
+            [
+                'type'   => 'shop_order_vendor',
+                'parent' => $order->get_id(),
+            ]
+        );
+
+        foreach ( $sub_orders as $sub_order ) {
+            $this->update_sub_order( $order, $sub_order );
+        }
+    }
+
+    /**
+     * Update the inherited properties for a sub order to match the parent
+     * order.
+     *
+     * @param WC_Order $order Parent order.
+     * @param WC_Order $sub_order Vendor sub order.
+     */
+    protected function update_sub_order( $order, $sub_order ) {
+        foreach ( self::$inherited_props as $prop ) {
+            $sub_order->{"set_$prop"}( $order->{"get_$prop"}() );
+        }
+
+        $sub_order->save();
     }
 
 }
