@@ -137,6 +137,9 @@ class TFM_API_Orders extends WC_API_Orders {
             } elseif ( ! $this->is_user_vendor && 'vendor' === $merchant_of_record ) {
                 add_filter( 'woocommerce_api_query_args', array( $this, 'force_empty_response' ) );
             }
+
+            // Ensure that partially refunded orders are included in TaxJar reports
+            add_filter( 'posts_clauses', array( $this, 'fix_refunds_query' ), 10, 2 );
         }
 
         return parent::get_orders( $fields, $filter, $status, $page );
@@ -172,9 +175,7 @@ class TFM_API_Orders extends WC_API_Orders {
         $parent = wc_get_order( get_post_field( 'post_parent', $id ) );
         $parent->save();
 
-        $order_data = parent::get_order( $id, $fields, $filter );
-
-        return $order_data;
+        return parent::get_order( $id, $fields, $filter );
     }
 
     /**
@@ -188,6 +189,42 @@ class TFM_API_Orders extends WC_API_Orders {
         $args['post__in'] = [ 0 ];
 
         return $args;
+    }
+
+    /**
+     * Modifies the posts query used to find refunds so that partially refunded
+     * orders are included in TaxJar reports.
+     *
+     * This is hooked only for TaxJar API requests.
+     *
+     * @param array $clauses
+     * @param WP_Query $query
+     *
+     * @return array
+     */
+    public function fix_refunds_query( $clauses, $query ) {
+        global $wpdb;
+
+        $post_type = $query->get( 'post_type' );
+
+        if ( ! in_array( $post_type, [ 'shop_order', 'shop_order_vendor' ] ) ) {
+            return $clauses;
+        }
+
+        if ( ! in_array( 'wc-refunded', $query->get( 'post_status' ) ) ) {
+            return $clauses;
+        }
+
+        // Return all completed OR refunded orders with associated refunds
+        $clauses['where'] = str_replace(
+            "post_status = 'wc-refunded'",
+            "post_status IN ( 'wc-refunded', 'wc-completed' )",
+            $clauses['where']
+        );
+
+        $clauses['join'] .= " JOIN {$wpdb->posts} `refund` ON `refund`.`post_parent` = {$wpdb->posts}.`ID` AND `refund`.`post_type` = 'shop_order_refund' AND `refund`.`post_status` != 'trash'";
+
+        return $clauses;
     }
 
 }
