@@ -102,6 +102,7 @@ class TFM_Vendor_Order_Manager {
                     $new_item->set_name( $shipping_item->get_name() );
                     $new_item->set_total( $vendor_cost );
                     $new_item->set_taxes( $shipping_item->get_taxes() );
+                    $new_item->update_meta_data( '_vendor_order_item_id', $shipping_item->get_id() );
                 } catch ( Exception $ex ) {
                     continue;
                 }
@@ -230,17 +231,28 @@ class TFM_Vendor_Order_Manager {
         $refund_items = $args['line_items'];
 
         foreach ( $sub_orders as $sub_order ) {
+            $refund_amount  = 0;
             $refunded_items = [];
 
             foreach ( $sub_order->get_items( [ 'line_item', 'fee', 'shipping' ] ) as $item_id => $item ) {
                 $order_item_id = $item->get_meta( '_vendor_order_item_id', true );
 
-                if ( $order_item_id && isset( $refund_items[ $order_item_id ] ) ) {
-                    $refunded_items[ $item_id ] = $refund_items[ $order_item_id ];
+                if ( ! $order_item_id && 'shipping' === $item->get_type() ) {
+                    $order_item_id = $this->find_vendor_shipping_item(
+                        $refund->get_parent_id(),
+                        $sub_order->get_meta( '_vendor_id', true )
+                    );
+                }
+
+                if ( isset( $refund_items[ $order_item_id ] ) ) {
+                    $refund_item                = $refund_items[ $order_item_id ];
+                    $refunded_items[ $item_id ] = $refund_item;
+                    $refund_amount              += $refund_item['refund_total'];
+                    $refund_amount              += array_sum( $refund_item['refund_tax'] );
                 }
             }
 
-            if ( empty( $refunded_items ) ) {
+            if ( 0 >= $refund_amount ) {
                 continue;
             }
 
@@ -251,12 +263,16 @@ class TFM_Vendor_Order_Manager {
                     [
                         'order_id'       => $sub_order->get_id(),
                         'line_items'     => $refunded_items,
-                        'amount'         => array_sum( wp_list_pluck( $refunded_items, 'refund_total' ) ),
+                        'amount'         => wc_format_decimal( $refund_amount ),
                         'restock_items'  => false,
                         'refund_payment' => false,
                         'reason'         => $args['reason'],
                     ]
                 );
+
+                if ( is_wp_error( $refund ) ) {
+                    throw new Exception( $refund->get_error_message() );
+                }
 
                 $refund->update_meta_data( '_vendor_id', $sub_order->get_meta( '_vendor_id', true ) );
                 $refund->update_meta_data( '_parent_refund_id', $refund_id );
@@ -270,6 +286,39 @@ class TFM_Vendor_Order_Manager {
                 add_action( 'woocommerce_refund_created', array( $this, 'create_sub_order_refunds' ), 10, 2 );
             }
         }
+    }
+
+    /**
+     * Finds a vendor's shipping item in an order.
+     *
+     * @param int $order_id
+     * @param int $vendor_id
+     *
+     * @return int Shipping item ID.
+     */
+    protected function find_vendor_shipping_item( $order_id, $vendor_id ) {
+        $order = wc_get_order( $order_id );
+
+        $vendor_products = [];
+
+        foreach ( $order->get_items() as $item ) {
+            $product        = $item->get_product();
+            $product_vendor = WCV_Vendors::get_vendor_from_product( $product->get_id() );
+
+            if ( $vendor_id == $product_vendor ) {
+                $vendor_products[] = $product->get_id();
+            }
+        }
+
+        foreach ( $order->get_shipping_methods() as $shipping_method ) {
+            $shipped_products = $this->get_shipped_product_ids( $shipping_method );
+
+            if ( 0 < count( array_intersect( $vendor_products, $shipped_products ) ) ) {
+                return $shipping_method->get_id();
+            }
+        }
+
+        return 0;
     }
 
     /**
