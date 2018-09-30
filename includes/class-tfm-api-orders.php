@@ -46,7 +46,7 @@ class TFM_API_Orders extends WC_API_Orders {
         if ( $this->is_user_vendor ) {
             $this->post_type = 'shop_order_vendor';
 
-            add_filter( 'pre_get_posts', array( $this, 'filter_order_query' ) );
+            add_action( 'pre_get_posts', array( $this, 'filter_order_query' ) );
         }
 
         return $user;
@@ -94,10 +94,10 @@ class TFM_API_Orders extends WC_API_Orders {
      *
      * @param WP_Query $query
      */
-    public function filter_order_query( $query ) {
+    public function filter_order_query( &$query ) {
         $post_type = $query->get( 'post_type' );
 
-        if ( ! in_array( $post_type, [ 'shop_order', 'shop_order_refund' ] ) ) {
+        if ( ! in_array( $post_type, [ 'shop_order_vendor', 'shop_order_refund' ] ) ) {
             return;
         }
 
