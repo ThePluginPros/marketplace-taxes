@@ -11,6 +11,8 @@ require_once WC()->plugin_path() . '/includes/api/legacy/v2/class-wc-api-orders.
  *
  * Custom implementation of the WC_API_Orders class that returns shop orders
  * or vendor shop orders based on the authenticated user's role.
+ *
+ * @todo make generic or move to WC Vendors integration
  */
 class TFM_API_Orders extends WC_API_Orders {
 
@@ -112,6 +114,14 @@ class TFM_API_Orders extends WC_API_Orders {
             'value' => get_current_user_id(),
         ];
 
+        // Ensure that only completed sub orders are included in API responses
+        if ( 'shop_order_vendor' === $post_type ) {
+            $meta_query[] = [
+                'key'     => '_sub_order_version',
+                'compare' => 'EXISTS',
+            ];
+        }
+
         $query->set( 'meta_query', $meta_query );
     }
 
@@ -143,39 +153,6 @@ class TFM_API_Orders extends WC_API_Orders {
         }
 
         return parent::get_orders( $fields, $filter, $status, $page );
-    }
-
-    /**
-     * Get the order for the given ID
-     *
-     * Updates vendor sub orders on the fly if they are missing information
-     * required for TaxJar Reporting to work.
-     *
-     * @since 2.1
-     *
-     * @param int $id the order ID
-     * @param array $fields
-     * @param array $filter
-     *
-     * @return array|WP_Error
-     */
-    public function get_order( $id, $fields = null, $filter = array() ) {
-        $order_data = parent::get_order( $id, $fields, $filter );
-
-        if ( 'shop_order_vendor' !== $this->post_type ) {
-            return $order_data;
-        }
-
-        if ( ! empty( $order_data['customer_ip'] ) ) {
-            return $order_data;
-        }
-
-        // The vendor order is missing one or more inherited properties. Save
-        // the parent so the inherited properties are set.
-        $parent = wc_get_order( get_post_field( 'post_parent', $id ) );
-        $parent->save();
-
-        return parent::get_order( $id, $fields, $filter );
     }
 
     /**

@@ -73,3 +73,70 @@ table#nexus_addresses_table select, table#nexus_addresses_table input[type=text]
 .inline-edit-row fieldset label span.input-text-wrap {
     margin-left: 7em;
 }
+
+/**
+ * Admin notices.
+ *
+ * Styles borrowed from WC Vendors (wcv-activation.css)
+ */
+div.tfm-message {
+    overflow: hidden;
+    position: relative;
+    border-left-color: #005580 !important;
+}
+
+div.tfm-message p {
+    max-width: 700px;
+}
+
+div.tfm-message p:last-child {
+    max-width: inherit;
+}
+
+p.tfm-actions .button-primary, .tfm-message .button-primary {
+    background: #005580;
+    border-color: #005580;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #a36597;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #a36597;
+    color: #fff;
+    text-shadow: 0 -1px 1px #005580, 1px 0 1px #005580, 0 1px 1px #005580, -1px 0 1px #005580;
+}
+
+p.tfm-actions .button-primary:hover, p.tfm-actions .button-primary:focus, p.tfm-actions .button-primary:active, .tfm-message .button-primary:hover, .tfm-message .button-primary:focus, .tfm-message .button-primary:active {
+    background: #005580;
+    border-color: #005580;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #005580;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #005580;
+}
+
+p.tfm-actions a.tfm-message-close, .tfm-message a.tfm-message-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px 15px 10px 21px;
+    font-size: 13px;
+    line-height: 1.23076923;
+    text-decoration: none;
+}
+
+p.tfm-actions a.tfm-message-close::before, .tfm-message a.tfm-message-close::before {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+p.tfm-actions .button-primary, p.tfm-actions .button-secondary, .tfm-message .button-primary, .tfm-message .button-secondary {
+    text-decoration: none !important;
+}
+
+p.tfm-actions .twitter-share-button, .tfm-message .twitter-share-button {
+    margin-top: -3px;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+p.tfm-actions, .tfm-about-text {
+    margin-bottom: 1em !important;
+}

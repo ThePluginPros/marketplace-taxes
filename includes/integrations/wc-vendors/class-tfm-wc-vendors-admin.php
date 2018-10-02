@@ -23,6 +23,15 @@ class TFM_WC_Vendors_Admin {
             add_filter( 'woocommerce_screen_ids', array( $this, 'register_admin_screen' ) );
             add_action( 'current_screen', array( $this, 'check_tax_review_progress' ) );
         }
+
+        add_action( 'tfm_load_integration', array( $this, 'includes' ) );
+    }
+
+    /**
+     * Includes all required files.
+     */
+    public function includes() {
+        require_once __DIR__ . '/class-tfm-wc-vendors-admin-notices.php';
     }
 
     /**

@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Vendor order manager.
  */
-class TFM_Vendor_Order_Manager {
+class TFM_WC_Vendors_Order_Manager {
 
     /**
      * @var array Order properties inherited from the parent order.
@@ -42,8 +42,8 @@ class TFM_Vendor_Order_Manager {
     ];
 
     public function __construct() {
-        add_action( 'woocommerce_vendor_order_created', array( $this, 'add_shipping_lines' ), 20 );
-        add_action( 'woocommerce_vendor_order_created', array( $this, 'set_inherited_properties' ) );
+        add_action( 'woocommerce_vendor_order_created', array( $this, 'on_order_created' ) );
+        add_action( 'tfm_vendor_order_created', array( $this, 'on_order_created' ) );
         add_filter( 'user_has_cap', array( $this, 'grant_permissions' ), 10, 3 );
         add_action( 'woocommerce_refund_created', array( $this, 'create_sub_order_refunds' ), 10, 2 );
         add_action( 'woocommerce_refund_deleted', array( $this, 'delete_sub_order_refunds' ) );
@@ -51,13 +51,35 @@ class TFM_Vendor_Order_Manager {
     }
 
     /**
-     * Adds shipping lines to newly created vendor orders when necessary.
+     * Completes newly created vendor orders by adding shipping lines and
+     * setting all inherited properties.
      *
      * @param int $order_id
      */
-    public function add_shipping_lines( $order_id ) {
-        $order = wc_get_order( $order_id );
+    public function on_order_created( $order_id ) {
+        $order  = wc_get_order( $order_id );
+        $parent = wc_get_order( $order->get_parent_id() );
 
+        // Bail if the sub order or parent no longer exists
+        if ( ! $parent || ! $order ) {
+            return;
+        }
+
+        // Add shipping lines as needed
+        $this->add_shipping_lines( $order );
+
+        $order->update_meta_data( '_sub_order_version', '0.0.1' );
+
+        // Set inherited order properties and save
+        $this->set_inherited_properties( $parent, $order );
+    }
+
+    /**
+     * Adds shipping lines to newly created vendor orders when necessary.
+     *
+     * @param WC_Order $order
+     */
+    protected function add_shipping_lines( &$order ) {
         // Bail if shipping lines were already added
         if ( 0 < sizeof( $order->get_items( 'shipping' ) ) ) {
             return;
@@ -67,9 +89,11 @@ class TFM_Vendor_Order_Manager {
         $item_map = [];
 
         foreach ( $order->get_items() as $item ) {
-            $product_id              = $item->get_product()->get_id();
-            $item_id                 = $item->get_meta( '_vendor_order_item_id', true );
-            $item_map[ $product_id ] = new WC_Order_Item_Product( $item_id );
+            $product_id = $item->get_product()->get_id();
+            $item_id    = $item->get_meta( '_vendor_order_item_id', true );
+            if ( ( $original_item = WC_Order_Factory::get_order_item( $item_id ) ) ) {
+                $item_map[ $product_id ] = $original_item;
+            }
         }
 
         // Add shipping line(s) for the vendor as needed
@@ -113,19 +137,6 @@ class TFM_Vendor_Order_Manager {
 
         $order->update_taxes();
         $order->calculate_totals( false );
-    }
-
-    /**
-     * Sets the inherited properties for a newly created vendor sub order.
-     *
-     * @param int $vendor_order_id
-     */
-    public function set_inherited_properties( $vendor_order_id ) {
-        $vendor_order = wc_get_order( $vendor_order_id );
-        $parent_order = wc_get_order( $vendor_order->get_parent_id() );
-
-        // Set inherited properties and save
-        $this->update_sub_order( $parent_order, $vendor_order );
     }
 
     /**
@@ -359,7 +370,7 @@ class TFM_Vendor_Order_Manager {
         );
 
         foreach ( $sub_orders as $sub_order ) {
-            $this->update_sub_order( $order, $sub_order );
+            $this->set_inherited_properties( $order, $sub_order );
         }
     }
 
@@ -370,7 +381,7 @@ class TFM_Vendor_Order_Manager {
      * @param WC_Order $order Parent order.
      * @param WC_Order $sub_order Vendor sub order.
      */
-    protected function update_sub_order( $order, $sub_order ) {
+    protected function set_inherited_properties( &$order, &$sub_order ) {
         foreach ( self::$inherited_props as $prop ) {
             $sub_order->{"set_$prop"}( $order->{"get_$prop"}() );
         }
@@ -380,4 +391,4 @@ class TFM_Vendor_Order_Manager {
 
 }
 
-new TFM_Vendor_Order_Manager();
+new TFM_WC_Vendors_Order_Manager();

@@ -12,7 +12,8 @@
   "require": {
     "taxjar/taxjar-php": "v1.7.0",
     "bporcelli/wordframe": "dev-master",
-    "thepluginpros/wcv-settings-api": "dev-master"
+    "thepluginpros/wcv-settings-api": "dev-master",
+    "a5hleyrich/wp-background-processing": "1.0.1"
   },
   "repositories": [
     {

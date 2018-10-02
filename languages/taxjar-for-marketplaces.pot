@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TaxJar for Marketplaces 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues\n"
-"POT-Creation-Date: 2018-09-26 15:13:38+00:00\n"
+"POT-Creation-Date: 2018-10-02 20:22:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,6 +24,14 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n1.0.2\n"
+
+#: includes/admin/class-tfm-admin-notices.php:98
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: includes/admin/class-tfm-admin-notices.php:102
+msgid "Cheatin&#8217; huh?"
+msgstr ""
 
 #: includes/admin/class-tfm-admin.php:54
 msgid "Settings"
@@ -127,28 +135,34 @@ msgstr ""
 msgid "Start typing to search"
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:132
+#: includes/admin/views/notices/html-notice-custom.php:18
+#: includes/integrations/wc-vendors/views/notices/html-notice-update.php:27
+#: includes/integrations/wc-vendors/views/notices/html-notice-updated.php:19
+msgid "Dismiss"
+msgstr ""
+
+#: includes/class-taxjar-for-marketplaces.php:133
 #. translators: 1: required plugin name, 2: minimum version
 msgid ""
 "<strong>%1$s needs to be updated.</strong> TaxJar for Marketplaces requires "
 "%1$s %2$s+."
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:143
+#: includes/class-taxjar-for-marketplaces.php:144
 #. translators: 1: required plugin name
 msgid ""
 "<strong>%1$s not detected.</strong> Please install or activate %1$s to use "
 "TaxJar for Marketplaces."
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:165
+#: includes/class-taxjar-for-marketplaces.php:166
 #. translators: 1 - list of required PHP extensions
 msgid ""
 "<strong>Required PHP extensions are missing.</strong> TaxJar for "
 "Marketplaces requires %1$s."
 msgstr ""
 
-#: includes/class-taxjar-for-marketplaces.php:174
+#: includes/class-taxjar-for-marketplaces.php:175
 #. translators: 1 - required php version
 msgid ""
 "<strong>PHP needs to be updated.</strong> TaxJar for Marketplaces requires "
@@ -356,33 +370,33 @@ msgid ""
 "contact support@thepluginpros.com"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:99
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:100
 msgid "Inherited from your store settings"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:115
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:116
 msgid "Inherited from your shipping settings"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:296
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:297
 msgid "Enter a complete store address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:309
+#: includes/integrations/wc-vendors/class-tfm-integration-wc-vendors.php:310
 msgid "Review your tax settings"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:34
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:43
 #: includes/integrations/wc-vendors/views/html-admin-tax-settings-page.php:15
 msgid "Tax Settings"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:35
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:44
 #: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:49
 msgid "Taxes"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:58
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:67
 msgid "Settings saved."
 msgstr ""
 
@@ -439,6 +453,50 @@ msgstr ""
 msgid ""
 "Used for products that are either exempt from tax in some jurisdictions or "
 "are taxed at reduced rates."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-update.php:22
+msgid "Your vendor orders need to be updated."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-update.php:23
+msgid ""
+"TaxJar for Marketplaces needs to update your database to ensure that "
+"transaction data imported into TaxJar is accurate."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-update.php:26
+msgid "Run the update"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-update.php:34
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-update.php:40
+msgid ""
+"Are you sure you want to skip the database update? Your vendors will only "
+"be able to import new orders into TaxJar."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-updated.php:20
+msgid ""
+"TaxJar for Marketplaces data update complete. The updated orders will be "
+"imported into TaxJar within 24 hours."
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-updating.php:17
+msgid "TaxJar for Marketplaces data update"
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-updating.php:18
+msgid "Your vendor sub orders are being updated in the background. "
+msgstr ""
+
+#: includes/integrations/wc-vendors/views/notices/html-notice-updating.php:21
+msgid "Taking a while? Click here to run it now."
 msgstr ""
 
 #: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:49

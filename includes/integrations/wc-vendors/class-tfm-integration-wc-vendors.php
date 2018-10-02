@@ -39,9 +39,10 @@ class TFM_Integration_WC_Vendors extends TFM_Integration {
         require_once __DIR__ . '/class-tfm-wc-vendors-admin.php';
         require_once __DIR__ . '/class-tfm-wc-vendors-dashboard.php';
         require_once __DIR__ . '/class-tfm-wc-vendors-settings-manager.php';
+        require_once __DIR__ . '/class-tfm-wc-vendors-order-manager.php';
+        require_once __DIR__ . '/class-tfm-wc-vendors-install.php';
         require_once __DIR__ . '/functions.php';
     }
-
 
     /**
      * Sets the callback for displaying vendor settings form fields.
