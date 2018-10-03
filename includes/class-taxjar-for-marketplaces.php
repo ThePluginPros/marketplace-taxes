@@ -42,6 +42,11 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
     public $integration;
 
     /**
+     * @var TFM_Refund_Uploader Refund uploader instance.
+     */
+    protected $refund_uploader;
+
+    /**
      * Bootstraps the plugin when all requirements are met.
      */
     public function load() {
@@ -49,10 +54,11 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
 
         $this->includes();
 
-        $this->settings   = new TFM_Settings();
-        $this->categories = new TFM_Tax_Categories();
-        $this->admin      = new TFM_Admin();
-        $this->addresses  = new TFM_Addresses();
+        $this->settings        = new TFM_Settings();
+        $this->categories      = new TFM_Tax_Categories();
+        $this->admin           = new TFM_Admin();
+        $this->addresses       = new TFM_Addresses();
+        $this->refund_uploader = new TFM_Refund_Uploader();
 
         add_action( 'init', array( $this, 'trigger_activation' ) );
         add_action( 'init', array( $this, 'load_integration' ) );
@@ -80,6 +86,7 @@ final class TaxJar_For_Marketplaces extends \WordFrame\v1_1_0\Plugin {
         require 'class-tfm-addresses.php';
         require 'class-tfm-vendors.php';
         require 'class-tfm-api.php';
+        require 'class-tfm-refund-uploader.php';
     }
 
     /**

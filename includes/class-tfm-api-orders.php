@@ -148,11 +148,49 @@ class TFM_API_Orders extends WC_API_Orders {
                 add_filter( 'woocommerce_api_query_args', array( $this, 'force_empty_response' ) );
             }
 
-            // Ensure that partially refunded orders are included in TaxJar reports
-            add_filter( 'posts_clauses', array( $this, 'fix_refunds_query' ), 10, 2 );
+            // Block TaxJar from importing refunds - we handle that ourselves
+            if ( 'refunded' === $filter['status'] ) {
+                add_filter( 'woocommerce_api_query_args', array( $this, 'force_empty_response' ) );
+            }
+
+            // Record the earliest requested transaction date so we know which
+            // refunds to upload
+            if ( isset( $filter['updated_at_min'] ) ) {
+                $this->update_reports_start_date( $filter['updated_at_min'] );
+            }
         }
 
         return parent::get_orders( $fields, $filter, $status, $page );
+    }
+
+    /**
+     * Updates the TaxJar reports start date based on the value of the
+     * `update_at_min` filter.
+     *
+     * @param string $updated_at_min
+     */
+    protected function update_reports_start_date( $updated_at_min ) {
+        if ( empty( $updated_at_min ) ) {
+            return;
+        }
+
+        if ( $this->is_user_vendor ) {
+            $current_min = get_user_meta( get_current_user_id(), 'tfm_reports_start_date', true );
+        } else {
+            $current_min = get_option( 'tfm_reports_start_date', '' );
+        }
+
+        $requested_time = strtotime( $updated_at_min );
+
+        if ( ! $current_min || $requested_time < strtotime( $current_min ) ) {
+            $current_min = date( 'Y-m-d 00:00:00', $requested_time );
+        }
+
+        if ( $this->is_user_vendor ) {
+            update_user_meta( get_current_user_id(), 'tfm_reports_start_date', $current_min );
+        } else {
+            update_option( 'tfm_reports_start_date', $current_min );
+        }
     }
 
     /**
@@ -166,42 +204,6 @@ class TFM_API_Orders extends WC_API_Orders {
         $args['post__in'] = [ 0 ];
 
         return $args;
-    }
-
-    /**
-     * Modifies the posts query used to find refunds so that partially refunded
-     * orders are included in TaxJar reports.
-     *
-     * This is hooked only for TaxJar API requests.
-     *
-     * @param array $clauses
-     * @param WP_Query $query
-     *
-     * @return array
-     */
-    public function fix_refunds_query( $clauses, $query ) {
-        global $wpdb;
-
-        $post_type = $query->get( 'post_type' );
-
-        if ( ! in_array( $post_type, [ 'shop_order', 'shop_order_vendor' ] ) ) {
-            return $clauses;
-        }
-
-        if ( ! in_array( 'wc-refunded', $query->get( 'post_status' ) ) ) {
-            return $clauses;
-        }
-
-        // Return all completed OR refunded orders with associated refunds
-        $clauses['where'] = str_replace(
-            "post_status = 'wc-refunded'",
-            "post_status IN ( 'wc-refunded', 'wc-completed' )",
-            $clauses['where']
-        );
-
-        $clauses['join'] .= " JOIN {$wpdb->posts} `refund` ON `refund`.`post_parent` = {$wpdb->posts}.`ID` AND `refund`.`post_type` = 'shop_order_refund' AND `refund`.`post_status` != 'trash'";
-
-        return $clauses;
     }
 
 }
