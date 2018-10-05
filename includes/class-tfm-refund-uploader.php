@@ -247,15 +247,18 @@ class TFM_Refund_Uploader extends WP_Background_Process {
 
             $line_item = [
                 'id'          => $item->get_id(),
-                'quantity'    => $item->get_quantity(),
+                'quantity'    => abs( $item->get_quantity() ),
                 'description' => $item->get_name(),
                 'unit_price'  => $refund->get_item_total( $item, false, true ),
-                'sales_tax'   => $item->get_total_tax(),
+                'sales_tax'   => abs( $item->get_total_tax() ),
             ];
 
             if ( 'line_item' === $item->get_type() && ( $product = $item->get_product() ) ) {
                 $line_item['product_identifier'] = $product->get_id();
-                $line_item['product_tax_code']   = TFM_Util::get_product_tax_code( $product->get_id() );
+
+                if ( ( $tax_code = TFM_Util::get_product_tax_code( $product->get_id() ) ) ) {
+                    $line_item['product_tax_code'] = $tax_code;
+                }
             }
 
             $line_items[] = $line_item;
@@ -287,7 +290,29 @@ class TFM_Refund_Uploader extends WP_Background_Process {
             'line_items'               => $line_items,
         ];
 
-        return array_filter( array_map( 'trim', $transaction ) );
+        return $this->prepare_transaction( $transaction );
+    }
+
+    /**
+     * Prepares a transaction for upload to TaxJar by removing all empty fields.
+     *
+     * @param array $transaction
+     *
+     * @return array
+     */
+    protected function prepare_transaction( $transaction ) {
+        $new_transaction = [];
+
+        foreach ( $transaction as $key => $value ) {
+            if ( is_string( $value ) ) {
+                $value = trim( $value );
+            }
+            if ( ! empty( $value ) ) {
+                $new_transaction[ $key ] = $value;
+            }
+        }
+
+        return $new_transaction;
     }
 
     /**
