@@ -42,6 +42,10 @@ class TFM_API_Orders extends WC_API_Orders {
      * @return WP_User
      */
     public function check_user_role( $user ) {
+        if ( is_wp_error( $user ) ) {
+            return $user;
+        }
+
         $this->is_user_vendor = WCV_Vendors::is_vendor( $user->ID );
 
         // Operate on vendor sub orders if the current user is a vendor
@@ -49,6 +53,7 @@ class TFM_API_Orders extends WC_API_Orders {
             $this->post_type = 'shop_order_vendor';
 
             add_action( 'pre_get_posts', array( $this, 'filter_order_query' ) );
+            add_filter( 'woocommerce_api_order_response', array( $this, 'filter_order_response' ), 10, 2 );
         }
 
         return $user;
@@ -123,6 +128,31 @@ class TFM_API_Orders extends WC_API_Orders {
         }
 
         $query->set( 'meta_query', $meta_query );
+    }
+
+    /**
+     * Replaces the sub order number with the parent order number in API responses.
+     *
+     * @param array $order_data Data for API response.
+     * @param WC_Order $order Order.
+     *
+     * @return array
+     */
+    public function filter_order_response( $order_data, $order ) {
+        if ( ! is_a( $order, 'WC_Order_Vendor' ) ) {
+            return $order_data;
+        }
+
+        $parent = wc_get_order( $order->get_parent_id() );
+
+        if ( ! $parent ) {
+            return $order_data;
+        }
+
+        $order_data['id']           = $parent->get_id();
+        $order_data['order_number'] = $parent->get_order_number();
+
+        return $order_data;
     }
 
     /**
