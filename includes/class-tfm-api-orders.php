@@ -53,6 +53,7 @@ class TFM_API_Orders extends WC_API_Orders {
             $this->post_type = 'shop_order_vendor';
 
             add_action( 'pre_get_posts', array( $this, 'filter_order_query' ) );
+            add_filter( 'posts_clauses', array( $this, 'filter_query_clauses' ), 10, 2 );
             add_filter( 'woocommerce_api_order_response', array( $this, 'filter_order_response' ), 10, 2 );
         }
 
@@ -128,6 +129,36 @@ class TFM_API_Orders extends WC_API_Orders {
         }
 
         $query->set( 'meta_query', $meta_query );
+    }
+
+    /**
+     * Filters sub orders by sub order status AND parent order status.
+     *
+     * Since WC Vendors doesn't update the status of sub orders, this is the only way
+     * to ensure that only completed sub orders are uploaded.
+     *
+     * @param array $clauses
+     * @param WP_Query $query
+     *
+     * @return array
+     */
+    public function filter_query_clauses( $clauses, $query ) {
+        global $wpdb;
+
+        if ( 'shop_order_vendor' !== $query->get( 'post_type' ) ) {
+            return $clauses;
+        }
+
+        $statuses = $query->get( 'post_status' );
+
+        if ( ! empty( $statuses ) ) {
+            $status_list = "'" . implode( "','", $statuses ) . "'";
+
+            $clauses['join']  .= " INNER JOIN {$wpdb->posts} parent ON ( {$wpdb->posts}.post_parent = parent.ID )";
+            $clauses['where'] .= " AND parent.post_status IN ( $status_list )";
+        }
+
+        return $clauses;
     }
 
     /**
