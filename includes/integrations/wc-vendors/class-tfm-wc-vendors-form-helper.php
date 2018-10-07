@@ -467,15 +467,16 @@ class TFM_WC_Vendors_Form_Helper {
      * @param string $context 'admin' or 'frontend'
      */
     public static function country_select2( $field, $context = 'frontend' ) {
-        $field['id']               = isset( $field['id'] ) ? $field['id'] : '';
-        $field['title']            = isset( $field['title'] ) ? $field['title'] : '';
-        $field['value']            = isset( $field['value'] ) ? $field['value'] : '';
-        $field['class']            = isset( $field['class'] ) ? $field['class'] : '';
-        $field['wrapper_start']    = isset( $field['wrapper_start'] ) ? $field['wrapper_start'] : '';
-        $field['wrapper_end']      = isset( $field['wrapper_end'] ) ? $field['wrapper_end'] : '';
-        $field['wrapper_class']    = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
-        $field['show_option_none'] = isset( $field['show_option_none'] ) ? $field['show_option_none'] : '';
-        $field['options']          = isset( $field['options'] ) ? $field['options'] : self::get_default_countries();
+        $field['id']                = isset( $field['id'] ) ? $field['id'] : '';
+        $field['title']             = isset( $field['title'] ) ? $field['title'] : '';
+        $field['value']             = isset( $field['value'] ) ? $field['value'] : '';
+        $field['class']             = isset( $field['class'] ) ? $field['class'] : '';
+        $field['wrapper_start']     = isset( $field['wrapper_start'] ) ? $field['wrapper_start'] : '';
+        $field['wrapper_end']       = isset( $field['wrapper_end'] ) ? $field['wrapper_end'] : '';
+        $field['wrapper_class']     = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
+        $field['show_option_none']  = isset( $field['show_option_none'] ) ? $field['show_option_none'] : '';
+        $field['options']           = isset( $field['options'] ) ? $field['options'] : self::get_default_countries();
+        $field['custom_attributes'] = isset( $field['custom_attributes'] ) ? $field['custom_attributes'] : [];
 
         if ( $field['value'] == '' ) {
             $field['value'] = WC()->countries->get_base_country();
@@ -485,14 +486,15 @@ class TFM_WC_Vendors_Form_Helper {
 
         self::select(
             [
-                'id'            => $field['id'],
-                'title'         => $field['title'],
-                'value'         => $field['value'],
-                'class'         => 'select2 tfm_country_to_state country_select ' . $field['class'],
-                'options'       => $field['options'],
-                'wrapper_start' => $field['wrapper_start'],
-                'wrapper_end'   => $field['wrapper_end'],
-                'wrapper_class' => $field['wrapper_class'],
+                'id'                => $field['id'],
+                'title'             => $field['title'],
+                'value'             => $field['value'],
+                'class'             => 'select2 tfm_country_to_state country_select ' . $field['class'],
+                'options'           => $field['options'],
+                'wrapper_start'     => $field['wrapper_start'],
+                'wrapper_end'       => $field['wrapper_end'],
+                'wrapper_class'     => $field['wrapper_class'],
+                'custom_attributes' => $field['custom_attributes'],
             ],
             $context
         );

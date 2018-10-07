@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: TaxJar for Marketplaces 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues\n"
-"POT-Creation-Date: 2018-10-03 18:00:12+00:00\n"
+"POT-Creation-Date: 2018-10-07 20:14:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -228,7 +228,6 @@ msgid "Same as parent"
 msgstr ""
 
 #: includes/class-tfm-assets.php:96
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:316
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -392,7 +391,7 @@ msgid "Tax Settings"
 msgstr ""
 
 #: includes/integrations/wc-vendors/class-tfm-wc-vendors-admin.php:44
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:49
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:66
 msgid "Taxes"
 msgstr ""
 
@@ -400,40 +399,40 @@ msgstr ""
 msgid "Settings saved."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:132
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:149
 msgid ""
 "A custom product variation template is in use. Tax category assignment "
 "won't work for variations."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:212
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:231
 msgid "Store Country"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:225
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:247
 msgid "Store Address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:226
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:248
 msgid "Street Address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:238
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:260
 msgid "Apartment, unit, suite etc."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:250
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:251
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:272
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:273
 msgid "City / Town"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:263
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:264
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:285
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:286
 msgid "State / County"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:276
-#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:277
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:298
+#: includes/integrations/wc-vendors/class-tfm-wc-vendors-dashboard.php:299
 msgid "Postcode / Zip"
 msgstr ""
 

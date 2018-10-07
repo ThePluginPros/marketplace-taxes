@@ -22,9 +22,15 @@ class TFM_WC_Vendors_Dashboard {
         add_filter( 'wcvendors_pro_product_variation_path', array( $this, 'set_variation_template_path' ) );
         add_filter( 'tfm_product_saved_actions', array( $this, 'register_save_action' ) );
         add_action( 'wcv_save_product_variation', array( $this, 'set_variation_post_id' ), 10, 2 );
-        add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
         add_action( 'wcvendors_shop_settings_admin_saved', array( $this, 'save_address_fields' ) );
         add_action( 'wcvendors_shop_settings_saved', array( $this, 'save_address_fields' ) );
+        add_filter( 'pre_option_wcvendors_hide_settings_store_address', 'tfm_return_yes' );
+
+        if ( is_admin() ) {
+            add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
+        } else {
+            add_action( 'template_redirect', array( $this, 'address_fields_hook' ) );
+        }
 
         if ( 'vendor' === TFM()->settings->get( 'merchant_of_record' ) ) {
             add_filter( 'wcv_store_tabs', array( $this, 'add_store_settings_tab' ) );
@@ -33,6 +39,17 @@ class TFM_WC_Vendors_Dashboard {
             add_action( 'wcv_form_input_before__wcv_store_address1', array( $this, 'output_address_anchor' ) );
             add_action( 'wp_ajax_tfm_complete_tax_setup', array( $this, 'ajax_complete_tax_setup' ) );
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+        }
+    }
+
+    /**
+     * Adds an appropriate hook to output the store address fields.
+     */
+    public function address_fields_hook() {
+        if ( tfm_wcv_is_dashboard_page() ) {
+            add_action( 'wcv_form_input_after__wcv_store_phone', array( $this, 'output_address_fields' ) );
+        } else {
+            add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
         }
     }
 
@@ -188,13 +205,9 @@ class TFM_WC_Vendors_Dashboard {
     }
 
     /**
-     * Outputs store address fields on the WC Vendors Free settings page.
+     * Outputs store address fields on the vendor store settings page.
      */
     public function output_address_fields() {
-        if ( ! apply_filters( 'tfm_output_address_fields', ! tfm_wcv_is_dashboard_page() ) ) {
-            return;
-        }
-
         $vendor_id = get_current_user_id();
 
         $country  = get_user_meta( $vendor_id, '_wcv_store_country', true );
@@ -206,15 +219,24 @@ class TFM_WC_Vendors_Dashboard {
 
         $context = is_admin() ? 'admin' : 'frontend';
 
+        if ( tfm_wcv_is_dashboard_page() ) {
+            $wrapper_class = '';
+        } else {
+            $wrapper_class = 'tfm-control-group';
+        }
+
         TFM_WC_Vendors_Form_Helper::country_select2(
             [
                 'id'                => '_wcv_store_country',
                 'title'             => __( 'Store Country', 'taxjar-for-marketplaces' ) . '<a name="address"></a>',
                 'type'              => 'text',
                 'value'             => $country,
-                'class'             => 'js_field-country regular-text',
-                'wrapper_class'     => 'tfm-control-group',
-                'custom_attributes' => [ 'required' => 'required' ],
+                'class'             => 'regular-text',
+                'wrapper_class'     => $wrapper_class,
+                'custom_attributes' => [
+                    'required'         => 'required',
+                    'data-state_input' => '#_wcv_store_state',
+                ],
             ],
             $context
         );
@@ -226,7 +248,7 @@ class TFM_WC_Vendors_Dashboard {
                 'placeholder'   => __( 'Street Address', 'taxjar-for-marketplaces' ),
                 'type'          => 'text',
                 'class'         => 'regular-text',
-                'wrapper_class' => 'tfm-control-group',
+                'wrapper_class' => $wrapper_class,
                 'value'         => $address1,
             ],
             $context
@@ -238,7 +260,7 @@ class TFM_WC_Vendors_Dashboard {
                 'placeholder'   => __( 'Apartment, unit, suite etc.', 'taxjar-for-marketplaces' ),
                 'type'          => 'text',
                 'class'         => 'regular-text',
-                'wrapper_class' => 'tfm-control-group',
+                'wrapper_class' => $wrapper_class,
                 'value'         => $address2,
             ],
             $context
@@ -251,7 +273,7 @@ class TFM_WC_Vendors_Dashboard {
                 'placeholder'   => __( 'City / Town', 'taxjar-for-marketplaces' ),
                 'type'          => 'text',
                 'class'         => 'regular-text',
-                'wrapper_class' => 'tfm-control-group',
+                'wrapper_class' => $wrapper_class,
                 'value'         => $city,
             ],
             $context
@@ -263,8 +285,8 @@ class TFM_WC_Vendors_Dashboard {
                 'title'             => __( 'State / County', 'taxjar-for-marketplaces' ),
                 'placeholder'       => __( 'State / County', 'taxjar-for-marketplaces' ),
                 'value'             => $state,
-                'class'             => 'js_field-state regular-text',
-                'wrapper_class'     => 'tfm-control-group',
+                'class'             => 'regular-text',
+                'wrapper_class'     => $wrapper_class,
                 'custom_attributes' => [ 'required' => 'required' ],
             ],
             $context
@@ -277,56 +299,13 @@ class TFM_WC_Vendors_Dashboard {
                 'placeholder'       => __( 'Postcode / Zip', 'taxjar-for-marketplaces' ),
                 'value'             => $postcode,
                 'class'             => 'regular-text',
-                'wrapper_class'     => 'tfm-control-group',
+                'wrapper_class'     => $wrapper_class,
                 'custom_attributes' => [ 'required' => 'required' ],
             ],
             $context
         );
 
-        if ( 'admin' === $context ) {
-            $this->enqueue_admin_assets();
-        }
-    }
-
-    /**
-     * Enqueues the assets for the admin dashboard page.
-     */
-    private function enqueue_admin_assets() {
-        // Enqueue the Woo user JS to power up the country select boxes
-        if ( ! wp_script_is( 'wc-users', 'enqueued' ) ) {
-            TFM()->assets->enqueue(
-                'script',
-                'woocommerce.admin/users',
-                [
-                    'deps'      => [
-                        'jquery',
-                        'woocommerce.admin/wc-enhanced-select',
-                        'woocommerce.selectWoo/selectWoo.full',
-                    ],
-                    'ver'       => WC_VERSION,
-                    'in_footer' => true,
-                    'localize'  => [
-                        'wc_users_params' => [
-                            'countries'              => json_encode(
-                                array_merge(
-                                    WC()->countries->get_allowed_country_states(),
-                                    WC()->countries->get_shipping_country_states()
-                                )
-                            ),
-                            'i18n_select_state_text' => esc_attr__(
-                                'Select an option&hellip;',
-                                'woocommerce',
-                                'taxjar-for-marketplaces'
-                            ),
-                        ],
-                    ],
-                ]
-            );
-        }
-
-        if ( ! wp_style_is( 'woocommerce_admin_styles', 'enqueued' ) ) {
-            TFM()->assets->enqueue( 'style', 'woocommerce.admin' );
-        }
+        TFM()->assets->enqueue( 'script', 'taxjar-for-marketplaces.country-select' );
     }
 
     /**

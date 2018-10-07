@@ -35,3 +35,21 @@ function tfm_wcv_is_dashboard_page( $page_id = 0 ) {
 
     return in_array( $page_id, $dashboard_page_ids );
 }
+
+/**
+ * A helper function that returns 'yes'. Useful for filtering checkbox options.
+ *
+ * @return string
+ */
+function tfm_return_yes() {
+    return 'yes';
+}
+
+/**
+ * A helper function that returns 'no'. Useful for filtering checkbox options.
+ *
+ * @return string
+ */
+function tfm_return_no() {
+    return 'no';
+}

@@ -19,12 +19,25 @@ jQuery(function ($) {
         // Grab wrapping element to target only stateboxes in same 'group'
         var $wrapper = $(this).closest('.wcv_shipping_rates');
 
+        var state_input,
+            state_input_selector = $(this).data('state_input');
+
+        if (state_input_selector) {
+            state_input = $(state_input_selector);
+        } else {
+            state_input = $(this).closest('tr, fieldset, form').find('.shipping_state');
+        }
+
         var country = $(this).val(),
-            $statebox = $(this).parent().next(),
-            state_input = $statebox.find('.shipping_state'),
             input_name = state_input.attr('name'),
+            input_id = state_input.attr('id'),
             value = state_input.val(),
-            placeholder = state_input.attr('placeholder') || '';
+            placeholder = state_input.attr('placeholder') || '',
+            classes = state_input.attr('class') || '';
+
+        if (-1 === classes.indexOf('shipping_state')) {
+            classes += ' shipping_state';
+        }
 
         if (states[country]) {
 
@@ -37,9 +50,12 @@ jQuery(function ($) {
                 }
             }
 
-            state_select = $('<select name="' + input_name + '" class="tfm_state_select shipping_state" placeholder="' + placeholder + '"><option value="">' + tfm_country_select_params.i18n_select_state_text + '</option>' + options + '</select>');
-            state_input.remove();
-            $statebox.append(state_select);
+            if (-1 === classes.indexOf('tfm_state_select')) {
+                classes += ' tfm_state_select';
+            }
+
+            state_select = $('<select name="' + input_name + '" id="' + input_id + '" class="' + classes.trim() + '"><option value="">' + tfm_country_select_params.i18n_select_state_text + '</option>' + options + '</select>');
+            state_input.replaceWith(state_select);
             state_select.val(value).change();
 
             $(document.body).trigger('country_to_state_changed', [country, $wrapper]);
@@ -48,9 +64,8 @@ jQuery(function ($) {
 
             if (state_input.is('select')) {
 
-                state_select = $('<input type="text" class="shipping_state" name="' + input_name + '" placeholder="' + placeholder + '" />');
-                state_input.remove();
-                $statebox.append(state_select);
+                state_select = $('<input type="text" class="' + classes.trim() + '" name="' + input_name + '" id="' + input_id + '" placeholder="' + placeholder + '" />');
+                state_input.replaceWith(state_select);
 
                 $(document.body).trigger('country_to_state_changed', [country, $wrapper]);
 
