@@ -15,9 +15,9 @@ jQuery(function ($) {
                 $('#review_tax_settings_step').addClass('completed');
                 $.ajax({
                     type: 'post',
-                    url: tfm_wcv_tax_setup_data.ajax_url,
+                    url: mt_wcv_tax_setup_data.ajax_url,
                     data: {
-                        action: 'tfm_complete_tax_setup'
+                        action: 'mt_complete_tax_setup'
                     },
                     dataType: 'json',
                     success: function (response) {

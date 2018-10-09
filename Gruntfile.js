@@ -23,7 +23,7 @@ module.exports = function( grunt ) {
                     potHeaders: {
                         poedit: true,
                         'x-poedit-keywordslist': true,
-                        'report-msgid-bugs-to': 'https://bitbucket.org/thepluginpros/taxjar-for-marketplaces/issues'
+                        'report-msgid-bugs-to': 'https://bitbucket.org/thepluginpros/marketplace-taxes/issues'
                     }
                 }
             }

@@ -9,7 +9,7 @@
  *
  * @return array
  */
-function tfm_wcv_get_dashboard_page_ids() {
+function mt_wcv_get_dashboard_page_ids() {
     return array_merge(
         [
             get_option( 'wcvendors_vendor_dashboard_page_id' ),
@@ -26,7 +26,7 @@ function tfm_wcv_get_dashboard_page_ids() {
  *
  * @return bool
  */
-function tfm_wcv_is_dashboard_page( $page_id = 0 ) {
+function mt_wcv_is_dashboard_page( $page_id = 0 ) {
     if ( ! $page_id ) {
         $page_id = get_the_ID();
     }
@@ -41,7 +41,7 @@ function tfm_wcv_is_dashboard_page( $page_id = 0 ) {
  *
  * @return string
  */
-function tfm_return_yes() {
+function mt_return_yes() {
     return 'yes';
 }
 
@@ -50,6 +50,6 @@ function tfm_return_yes() {
  *
  * @return string
  */
-function tfm_return_no() {
+function mt_return_no() {
     return 'no';
 }

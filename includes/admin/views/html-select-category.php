@@ -23,34 +23,34 @@ if ( $is_variation ) {
     <p class="<?php echo $class; ?> tax-category">
         <label for="<?php echo $field_name; ?>">
             <?php
-            _e( 'Tax category', 'taxjar-for-marketplaces' );
+            _e( 'Tax category', 'marketplace-taxes' );
 
             echo wc_help_tip(
                 __(
                     'Used for products that are either exempt from tax in some jurisdictions or are taxed at reduced rates. ',
-                    'taxjar-for-marketplaces'
+                    'marketplace-taxes'
                 )
             );
             ?>
         </label>
 
-        <span class="tfm-selected-category"><?php esc_html_e(
+        <span class="mt-selected-category"><?php esc_html_e(
                 'None',
-                'taxjar-for-marketplaces'
+                'marketplace-taxes'
             ); ?></span>
 
-        <button type="button" class="button tfm-select-category"
+        <button type="button" class="button mt-select-category"
                 data-is-variation="<?php echo (int) $is_variation; ?>"><?php esc_html_e(
                 'Change',
-                'taxjar-for-marketplaces'
+                'marketplace-taxes'
             ); ?></button>
 
-        <button type="button" class="button tfm-reset-category"><?php esc_html_e(
+        <button type="button" class="button mt-reset-category"><?php esc_html_e(
                 'Reset',
-                'taxjar-for-marketplaces'
+                'marketplace-taxes'
             ); ?></button>
 
-        <input type="hidden" name="<?php echo $field_name; ?>" class="tfm-category-input"
+        <input type="hidden" name="<?php echo $field_name; ?>" class="mt-category-input"
                value="<?php echo $selected_category; ?>">
     </p>
 

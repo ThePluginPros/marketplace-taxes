@@ -48,19 +48,19 @@
     vertical-align: middle;
 }
 
-.tfm-control-group {
+.mt-control-group {
     line-height: 2;
     margin-bottom: 1em;
 }
 
-.tfm-control-group label {
+.mt-control-group label {
     font-weight: 600;
 }
 
-.tfm-tip {
+.mt-tip {
     margin-left: 8px;
 }
 
-.tfm-tip .dashicons {
+.mt-tip .dashicons {
     vertical-align: middle;
 }

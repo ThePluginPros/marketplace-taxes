@@ -9,18 +9,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div id="message" class="updated tfm-message wc-connect tfm-message-success">
-    <a class="tfm-message-close notice-dismiss" href="<?php echo esc_url(
+<div id="message" class="updated mt-message wc-connect mt-message-success">
+    <a class="mt-message-close notice-dismiss" href="<?php echo esc_url(
         wp_nonce_url(
-            add_query_arg( 'tfm-hide-notice', 'sub_order_update', remove_query_arg( 'tfm_update_sub_orders' ) ),
-            'tfm_hide_notices_nonce',
-            '_tfm_notice_nonce'
+            add_query_arg( 'mt-hide-notice', 'sub_order_update', remove_query_arg( 'mt_update_sub_orders' ) ),
+            'mt_hide_notices_nonce',
+            '_mt_notice_nonce'
         )
-    ); ?>"><?php _e( 'Dismiss', 'taxjar-for-marketplaces' ); ?></a>
+    ); ?>"><?php _e( 'Dismiss', 'marketplace-taxes' ); ?></a>
     <p>
         <?php _e(
-            'TaxJar for Marketplaces data update complete. The updated orders will be imported into TaxJar within 24 hours.',
-            'taxjar-for-marketplaces'
+            'Marketplace Taxes data update complete. The updated orders will be imported into TaxJar within 24 hours.',
+            'marketplace-taxes'
         ); ?>
     </p>
 </div>

@@ -2,20 +2,20 @@
  * A modified version of the WC Vendors Pro country select script that doesn't
  * use select2.
  *
- * global tfm_country_select_params
+ * global mt_country_select_params
  */
 jQuery(function ($) {
 
-    // tfm_country_select_params is required to continue, ensure the object exists
-    if (typeof tfm_country_select_params === 'undefined') {
+    // mt_country_select_params is required to continue, ensure the object exists
+    if (typeof mt_country_select_params === 'undefined') {
         return false;
     }
 
     /* State/Country select boxes */
-    var states_json = tfm_country_select_params.countries.replace(/&quot;/g, '"'),
+    var states_json = mt_country_select_params.countries.replace(/&quot;/g, '"'),
         states = $.parseJSON(states_json);
 
-    $(document.body).on('change', 'select.tfm_country_to_state', function () {
+    $(document.body).on('change', 'select.mt_country_to_state', function () {
         // Grab wrapping element to target only stateboxes in same 'group'
         var $wrapper = $(this).closest('.wcv_shipping_rates');
 
@@ -50,11 +50,11 @@ jQuery(function ($) {
                 }
             }
 
-            if (-1 === classes.indexOf('tfm_state_select')) {
-                classes += ' tfm_state_select';
+            if (-1 === classes.indexOf('mt_state_select')) {
+                classes += ' mt_state_select';
             }
 
-            state_select = $('<select name="' + input_name + '" id="' + input_id + '" class="' + classes.trim() + '"><option value="">' + tfm_country_select_params.i18n_select_state_text + '</option>' + options + '</select>');
+            state_select = $('<select name="' + input_name + '" id="' + input_id + '" class="' + classes.trim() + '"><option value="">' + mt_country_select_params.i18n_select_state_text + '</option>' + options + '</select>');
             state_input.replaceWith(state_select);
             state_select.val(value).change();
 
@@ -76,6 +76,6 @@ jQuery(function ($) {
 
     });
 
-    $('.tfm_country_to_state').change();
+    $('.mt_country_to_state').change();
 
 });

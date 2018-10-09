@@ -16,21 +16,21 @@
 /**
  * Tax category select
  */
-.wp-core-ui .button.tfm-select-category {
+.wp-core-ui .button.mt-select-category {
     vertical-align: middle;
     margin-left: 8px;
 }
 
-.wp-core-ui .button.tfm-reset-category {
+.wp-core-ui .button.mt-reset-category {
     vertical-align: middle;
 }
 
-.tfm-selected-category {
+.mt-selected-category {
     display: inline-block;
     vertical-align: middle;
 }
 
-.tfm-category-search {
+.mt-category-search {
     height: 32px;
 }
 
@@ -79,21 +79,21 @@ table#nexus_addresses_table select, table#nexus_addresses_table input[type=text]
  *
  * Styles borrowed from WC Vendors (wcv-activation.css)
  */
-div.tfm-message {
+div.mt-message {
     overflow: hidden;
     position: relative;
     border-left-color: #005580 !important;
 }
 
-div.tfm-message p {
+div.mt-message p {
     max-width: 700px;
 }
 
-div.tfm-message p:last-child {
+div.mt-message p:last-child {
     max-width: inherit;
 }
 
-p.tfm-actions .button-primary, .tfm-message .button-primary {
+p.mt-actions .button-primary, .mt-message .button-primary {
     background: #005580;
     border-color: #005580;
     -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #a36597;
@@ -102,14 +102,14 @@ p.tfm-actions .button-primary, .tfm-message .button-primary {
     text-shadow: 0 -1px 1px #005580, 1px 0 1px #005580, 0 1px 1px #005580, -1px 0 1px #005580;
 }
 
-p.tfm-actions .button-primary:hover, p.tfm-actions .button-primary:focus, p.tfm-actions .button-primary:active, .tfm-message .button-primary:hover, .tfm-message .button-primary:focus, .tfm-message .button-primary:active {
+p.mt-actions .button-primary:hover, p.mt-actions .button-primary:focus, p.mt-actions .button-primary:active, .mt-message .button-primary:hover, .mt-message .button-primary:focus, .mt-message .button-primary:active {
     background: #005580;
     border-color: #005580;
     -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #005580;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #005580;
 }
 
-p.tfm-actions a.tfm-message-close, .tfm-message a.tfm-message-close {
+p.mt-actions a.mt-message-close, .mt-message a.mt-message-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -119,7 +119,7 @@ p.tfm-actions a.tfm-message-close, .tfm-message a.tfm-message-close {
     text-decoration: none;
 }
 
-p.tfm-actions a.tfm-message-close::before, .tfm-message a.tfm-message-close::before {
+p.mt-actions a.mt-message-close::before, .mt-message a.mt-message-close::before {
     position: absolute;
     top: 8px;
     left: 0;
@@ -127,16 +127,16 @@ p.tfm-actions a.tfm-message-close::before, .tfm-message a.tfm-message-close::bef
     transition: all 0.1s ease-in-out;
 }
 
-p.tfm-actions .button-primary, p.tfm-actions .button-secondary, .tfm-message .button-primary, .tfm-message .button-secondary {
+p.mt-actions .button-primary, p.mt-actions .button-secondary, .mt-message .button-primary, .mt-message .button-secondary {
     text-decoration: none !important;
 }
 
-p.tfm-actions .twitter-share-button, .tfm-message .twitter-share-button {
+p.mt-actions .twitter-share-button, .mt-message .twitter-share-button {
     margin-top: -3px;
     margin-left: 3px;
     vertical-align: middle;
 }
 
-p.tfm-actions, .tfm-about-text {
+p.mt-actions, .mt-about-text {
     margin-bottom: 1em !important;
 }

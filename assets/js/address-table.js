@@ -49,9 +49,9 @@
 
                     // Select country
                     if ('' !== country) {
-                        $tr.find('.tfm_country_to_state option[value="' + country + '"]').prop('selected', true);
+                        $tr.find('.mt_country_to_state option[value="' + country + '"]').prop('selected', true);
                     } else {
-                        $tr.find('.tfm_country_to_state').change();
+                        $tr.find('.mt_country_to_state').change();
                     }
                 },
                 onAddNewRow: function (event) {
@@ -104,7 +104,7 @@
     });
 
     $(window).load(function () {
-        $('.tfm_country_to_state').each(function () {
+        $('.mt_country_to_state').each(function () {
             $(this).trigger('change');
         });
     });

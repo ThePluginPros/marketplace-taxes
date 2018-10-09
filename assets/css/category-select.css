@@ -142,16 +142,16 @@
 /**
  * Tax category select
  */
-.wc-backbone-modal .wc-backbone-modal-content.tfm-select-tax-category-modal-content {
+.wc-backbone-modal .wc-backbone-modal-content.mt-select-tax-category-modal-content {
     width: 800px;
 }
 
-.tfm-category-search {
+.mt-category-search {
     width: 100%;
     height: 32px;
     margin-bottom: 1.5em;
 }
 
-.tfm-selected-category {
+.mt-selected-category {
     margin-right: 5px;
 }

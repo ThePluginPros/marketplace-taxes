@@ -16,31 +16,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="control-group">
         <label for="<?php echo $field_name; ?>">
-            <?php _e( 'Tax Category', 'taxjar-for-marketplaces' ); ?>
+            <?php _e( 'Tax Category', 'marketplace-taxes' ); ?>
         </label>
 
         <div class="control">
-            <span class="tfm-selected-category"><?php esc_html_e( 'Loading...', 'taxjar-for-marketplaces' ); ?></span>
+            <span class="mt-selected-category"><?php esc_html_e( 'Loading...', 'marketplace-taxes' ); ?></span>
 
-            <button type="button" class="button tfm-select-category"
+            <button type="button" class="button mt-select-category"
                     data-is-variation="<?php echo (int) $is_variation; ?>"><?php esc_html_e(
                     'Change',
-                    'taxjar-for-marketplaces'
+                    'marketplace-taxes'
                 ); ?></button>
 
-            <button type="button" class="button tfm-reset-category"><?php esc_html_e(
+            <button type="button" class="button mt-reset-category"><?php esc_html_e(
                     'Reset',
-                    'taxjar-for-marketplaces'
+                    'marketplace-taxes'
                 ); ?></button>
 
-            <input type="hidden" name="<?php echo $field_name; ?>" class="tfm-category-input"
+            <input type="hidden" name="<?php echo $field_name; ?>" class="mt-category-input"
                    value="<?php echo $selected_category; ?>">
         </div>
 
         <p class="tip">
             <?php _e(
                 'Used for products that are either exempt from tax in some jurisdictions or are taxed at reduced rates.',
-                'taxjar-for-marketplaces'
+                'marketplace-taxes'
             ); ?>
         </p>
     </div>

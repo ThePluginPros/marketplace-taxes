@@ -1,15 +1,15 @@
-/* global jQuery, tfm_category_select_data */
+/* global jQuery, mt_category_select_data */
 (function ($, data) {
     $(function () {
-        var $row_template = wp.template('tfm-category-row'),
+        var $row_template = wp.template('mt-category-row'),
             SelectView = Backbone.View.extend({
                 rowTemplate: $row_template,
                 input: null,
                 readout: null,
                 defaultLabel: false,
                 initialize: function () {
-                    this.input = this.$el.siblings('.tfm-category-input');
-                    this.readout = this.$el.siblings('.tfm-selected-category');
+                    this.input = this.$el.siblings('.mt-category-input');
+                    this.readout = this.$el.siblings('.mt-selected-category');
 
                     if (1 === this.$el.data('is-bulk')) {
                         this.defaultLabel = data.strings.no_change;
@@ -20,17 +20,17 @@
                     }
 
                     this.$el.click({view: this}, this.openModal);
-                    this.$el.siblings('.tfm-reset-category').click({view: this}, this.resetCategory);
+                    this.$el.siblings('.mt-reset-category').click({view: this}, this.resetCategory);
                 },
                 render: function () {
                     this.selectCategory(this.input.val());
                 },
                 bindEvents: function () {
-                    $(document.body).on('click', '.tfm-select-done', {view: this}, this.updateSelection);
+                    $(document.body).on('click', '.mt-select-done', {view: this}, this.updateSelection);
                     $(document.body).on('wc_backbone_modal_response', {view: this}, this.completeSelection);
                 },
                 unbindEvents: function () {
-                    $(document.body).off('click', '.tfm-select-done', this.updateSelection);
+                    $(document.body).off('click', '.mt-select-done', this.updateSelection);
                     $(document.body).off('wc_backbone_modal_response', this.completeSelection);
                 },
                 openModal: function (event) {
@@ -39,7 +39,7 @@
                     event.preventDefault();
 
                     $(this).SSTBackboneModal({
-                        'template': 'tfm-category-select-modal'
+                        'template': 'mt-category-select-modal'
                     });
 
                     view.bindEvents();
@@ -47,7 +47,7 @@
                 },
                 initModal: function () {
                     var view = this,
-                        $list = $('.tfm-category-list');
+                        $list = $('.mt-category-list');
 
                     $list.empty();
 
@@ -55,7 +55,7 @@
                         $list.append(view.rowTemplate(rowData));
                     });
 
-                    $('.tfm-category-search').hideseek();
+                    $('.mt-category-search').hideseek();
                 },
                 updateSelection: function (event) {
                     var $target = $(event.target),
@@ -65,7 +65,7 @@
                     $('#btn-ok').trigger('click');
                 },
                 completeSelection: function (event, target, posted) {
-                    if ('tfm-category-select-modal' === target) {
+                    if ('mt-category-select-modal' === target) {
                         event.data.view.selectCategory(posted['category']);
                         event.data.view.unbindEvents();
                     }
@@ -91,7 +91,7 @@
             });
 
         function initialize() {
-            $('.tfm-select-category:not(.initialized)').each(function () {
+            $('.mt-select-category:not(.initialized)').each(function () {
                 var selectView = new SelectView({
                     el: $(this)
                 });
@@ -122,4 +122,4 @@
             })
             .on('woocommerce_variations_loaded', initialize);
     });
-})(jQuery, tfm_category_select_data);
+})(jQuery, mt_category_select_data);

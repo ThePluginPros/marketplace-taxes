@@ -3,12 +3,12 @@ jQuery(function ($) {
         .click(function (e) {
             e.preventDefault();
 
-            if (confirm(tfm_admin_notices.dismiss_confirmation)) {
+            if (confirm(mt_admin_notices.dismiss_confirmation)) {
                 $.ajax({
                     type: 'post',
                     url: ajaxurl,
                     data: {
-                        action: 'tfm_dismiss_address_notice'
+                        action: 'mt_dismiss_address_notice'
                     },
                     success: function () {
                         var $notice = $('#address_notice');

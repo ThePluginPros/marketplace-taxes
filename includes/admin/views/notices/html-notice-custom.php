@@ -12,9 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div id="message" class="updated tfm-message">
-    <a class="tfm-message-close notice-dismiss" href="<?php echo esc_url(
-        wp_nonce_url( add_query_arg( 'tfm-hide-notice', $notice ), 'tfm_hide_notices_nonce', '_tfm_notice_nonce' )
-    ); ?>"><?php _e( 'Dismiss', 'taxjar-for-marketplaces' ); ?></a>
+<div id="message" class="updated mt-message">
+    <a class="mt-message-close notice-dismiss" href="<?php echo esc_url(
+        wp_nonce_url( add_query_arg( 'mt-hide-notice', $notice ), 'mt_hide_notices_nonce', '_mt_notice_nonce' )
+    ); ?>">
+        <?php _e( 'Dismiss', 'marketplace-taxes' ); ?>
+    </a>
     <?php echo wp_kses_post( wpautop( $notice_html ) ); ?>
 </div>

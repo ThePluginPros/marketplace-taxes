@@ -4,20 +4,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 } ?>
 
     <label class="alignleft">
-        <span class="title"><?php _e( 'Tax category', 'taxjar-for-marketplaces' ); ?></span>
+        <span class="title"><?php _e( 'Tax category', 'marketplace-taxes' ); ?></span>
         <span class="input-text-wrap">
-            <span class="tfm-selected-category"><?php esc_html_e(
+            <span class="mt-selected-category"><?php esc_html_e(
                     'No change',
-                    'taxjar-for-marketplaces'
+                    'marketplace-taxes'
                 ); ?></span>
-            <input type="hidden" name="tax_category" class="tfm-category-input" value="">
-            <button type="button" class="button button tfm-select-category" data-is-bulk="1"><?php esc_html_e(
+            <input type="hidden" name="tax_category" class="mt-category-input" value="">
+            <button type="button" class="button button mt-select-category" data-is-bulk="1"><?php esc_html_e(
                     'Change',
-                    'taxjar-for-marketplaces'
+                    'marketplace-taxes'
                 ); ?></button>
-            <button type="button" class="button tfm-reset-category"><?php esc_html_e(
+            <button type="button" class="button mt-reset-category"><?php esc_html_e(
                     'Reset',
-                    'taxjar-for-marketplaces'
+                    'marketplace-taxes'
                 ); ?></button>
         </span>
     </label>
