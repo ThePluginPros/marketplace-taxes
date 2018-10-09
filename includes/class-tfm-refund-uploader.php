@@ -231,6 +231,7 @@ class TFM_Refund_Uploader extends WP_Background_Process {
         if ( ! $this->is_valid_address( $from_address, 'from' ) ) {
             return new WP_Error( 'invalid_from_address', 'From address is invalid.' );
         }
+
         if ( ! $this->is_valid_address( $to_address, 'to' ) ) {
             return new WP_Error( 'invalid_to_address', 'To address is invalid.' );
         }
@@ -248,7 +249,7 @@ class TFM_Refund_Uploader extends WP_Background_Process {
             $line_item = [
                 'id'          => $item->get_id(),
                 'quantity'    => abs( $item->get_quantity() ),
-                'description' => $item->get_name(),
+                'description' => trim( $item->get_name() ),
                 'unit_price'  => $refund->get_item_total( $item, false, true ),
                 'sales_tax'   => abs( $item->get_total_tax() ),
             ];
@@ -270,7 +271,7 @@ class TFM_Refund_Uploader extends WP_Background_Process {
             $total_tax      += (float) $shipping_method->get_total_tax();
         }
 
-        $transaction = [
+        return [
             'transaction_id'           => $refund->get_id(),
             'transaction_reference_id' => $refund->get_parent_id(),
             'transaction_date'         => $date_created->format( 'c' ),
@@ -289,30 +290,6 @@ class TFM_Refund_Uploader extends WP_Background_Process {
             'sales_tax'                => abs( $total_tax ),
             'line_items'               => $line_items,
         ];
-
-        return $this->prepare_transaction( $transaction );
-    }
-
-    /**
-     * Prepares a transaction for upload to TaxJar by removing all empty fields.
-     *
-     * @param array $transaction
-     *
-     * @return array
-     */
-    protected function prepare_transaction( $transaction ) {
-        $new_transaction = [];
-
-        foreach ( $transaction as $key => $value ) {
-            if ( is_string( $value ) ) {
-                $value = trim( $value );
-            }
-            if ( ! empty( $value ) ) {
-                $new_transaction[ $key ] = $value;
-            }
-        }
-
-        return $new_transaction;
     }
 
     /**
@@ -337,6 +314,8 @@ class TFM_Refund_Uploader extends WP_Background_Process {
             ];
         }
 
+        $address = array_map( 'trim', $address );
+
         return apply_filters( 'tfm_refund_from_address', $address, $refund );
     }
 
@@ -348,23 +327,23 @@ class TFM_Refund_Uploader extends WP_Background_Process {
      * @return array
      */
     protected function get_to_address( $refund ) {
-        $address = [
-            'country'  => '',
-            'postcode' => '',
-            'city'     => '',
-            'state'    => '',
-            'address'  => '',
-        ];
-
         $order = wc_get_order( $refund->get_parent_id() );
 
         if ( $order ) {
             $address = [
-                'country'  => $order->get_shipping_country(),
-                'postcode' => $order->get_shipping_postcode(),
-                'city'     => $order->get_shipping_city(),
-                'state'    => $order->get_shipping_state(),
-                'address'  => $order->get_shipping_address_1(),
+                'country'  => trim( $order->get_shipping_country() ),
+                'postcode' => trim( $order->get_shipping_postcode() ),
+                'city'     => trim( $order->get_shipping_city() ),
+                'state'    => trim( $order->get_shipping_state() ),
+                'address'  => trim( $order->get_shipping_address_1() ),
+            ];
+        } else {
+            $address = [
+                'country'  => '',
+                'postcode' => '',
+                'city'     => '',
+                'state'    => '',
+                'address'  => '',
             ];
         }
 
