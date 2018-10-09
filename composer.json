@@ -2,7 +2,7 @@
   "name": "thepluginpros/marketplace-taxes",
   "description": "Make your WooCommerce marketplace more attractive with sales tax automation by TaxJar.",
   "minimum-stability": "dev",
-  "license": "proprietary",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Brett Porcelli",
