@@ -5,6 +5,7 @@
  * Description:          Make your WooCommerce marketplace more attractive with sales tax automation by <a href="https://thepluginpros.com/out/taxjar" target="_blank">TaxJar</a>.
  * Author:               The Plugin Pros
  * Author URI:           https://thepluginpros.com
+ * GitHub Plugin URI:    https://github.com/ThePluginPros/marketplace-taxes
  * Version:              1.0.0
  * Text Domain:          marketplace-taxes
  * Domain Path:          /languages/
