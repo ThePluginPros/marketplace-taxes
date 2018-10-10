@@ -4,7 +4,7 @@
 
 Marketplace Taxes connects your WooCommerce based marketplace to [TaxJar](https://taxjar.com), enabling you to automate sales tax calculations, reporting, and filing so you can focus on running your business.
 
-Whether you want to collect tax on behalf of your merchants or simply make tax compliance easier for them, Marketplace Taxes is a great way to make your WooCommerce marketplace more attractive.
+Whether you want to collect tax on behalf of your merchants or simply make tax collection easier for them, Marketplace Taxes is a great way to make your WooCommerce marketplace more attractive.
 
 ### Features
 

@@ -9,13 +9,13 @@ Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Enhance your WooCommerce based marketplace with sales tax automation by TaxJar.
+Connect your WooCommerce based marketplace to TaxJar to automate sales tax calculations, reporting, and filing.
 
 == Description ==
 
 Marketplace Taxes connects your WooCommerce based marketplace to [TaxJar](https://taxjar.com), enabling you to automate sales tax calculations, reporting, and filing so you can focus on running your business.
 
-Whether you want to collect tax on behalf of your merchants or simply make tax compliance easier for them, Marketplace Taxes is a great way to make your WooCommerce marketplace more attractive.
+Whether you want to collect tax on behalf of your merchants or simply make tax collection easier for them, Marketplace Taxes is a great way to make your WooCommerce marketplace more attractive.
 
 == Features ==
 
@@ -105,6 +105,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This p
 = 1.0.0 - DATE TBD =
 
 Initial public release.
+
+== Upgrade Notice ==
+
+None yet.
 
 == Translation ==
 

@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:          Marketplace Taxes
- * Description:          Make your WooCommerce marketplace more attractive with sales tax automation by <a href="https://thepluginpros.com/out/taxjar" target="_blank">TaxJar</a>.
+ * Description:          Connect your WooCommerce based marketplace to <a href="https://thepluginpros.com/out/taxjar" target="_blank">TaxJar</a> to automate sales tax calculations, reporting, and filing.
  * Author:               The Plugin Pros
  * Author URI:           https://thepluginpros.com
  * GitHub Plugin URI:    https://github.com/ThePluginPros/marketplace-taxes
