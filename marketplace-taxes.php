@@ -58,15 +58,6 @@ function MT() {
                     ],
                 ],
             ],
-            'updates'  => [
-                'checker' => 'EDD_SL',
-                'options' => [
-                    'store_url' => 'https://thepluginpros.com',
-                    'item_id'   => 1428,
-                    'author'    => __( 'The Plugin Pros', 'marketplace-taxes' ),
-                    'beta'      => false,
-                ],
-            ],
         ]
     );
 }
