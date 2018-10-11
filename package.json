@@ -9,8 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/thepluginpros/marketplace-taxes.git"
+    "url": "git+https://github.com/ThePluginPros/marketplace-taxes.git"
   },
+  "license": "GPL-2.0-or-later",
   "keywords": [
     "woocommerce",
     "wc vendors",
@@ -20,7 +21,7 @@
     "tax automation"
   ],
   "author": "The Plugin Pros",
-  "homepage": "https://bitbucket.org/thepluginpros/marketplace-taxes#readme",
+  "homepage": "https://github.com/ThePluginPros/marketplace-taxes#readme",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
