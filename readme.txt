@@ -102,7 +102,7 @@ You can submit a question on the [support tab](https://wordpress.org/support/plu
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-= 1.0.0 - DATE TBD =
+= 1.0.0 - 2018-10-12 =
 
 Initial public release.
 
