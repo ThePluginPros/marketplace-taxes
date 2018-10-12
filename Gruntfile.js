@@ -72,7 +72,8 @@ module.exports = function (grunt) {
                 options: {
                     plugin_slug: 'marketplace-taxes',
                     build_dir: 'build',
-                    assets_dir: 'wp-assets'
+                    assets_dir: 'wp-assets',
+                    svn_user: 'thepluginpros'
                 }
             }
         }
