@@ -47,7 +47,7 @@ With TaxJar, you pay a simple monthly fee based on your transaction volume. Pric
 
 In order to use Marketplace Taxes, you'll need a TaxJar account. You can register for your free 30 day trial [here](https://thepluginpros.com/out/taxjar)*.
 
-* We will be compensated if you subscribe to TaxJar after clicking this link. For a non-affiliate link, click [here](https://taxjar.com).
+\* We will be compensated if you subscribe to TaxJar after clicking this link. For a non-affiliate link, click [here](https://taxjar.com).
 
 = Installing the Plugin =
 
@@ -90,7 +90,7 @@ Once you know the approximate number of transactions you'll use, you can choose 
 
 = Where do I get help? =
 
-You can submit a question on the [support tab](https://wordpress.org/support/plugin/marketplace-taxes). Before doing so, we encourage you to consult the [plugin documentation](https://docs.thepluginpros.com/knowledge-base/taxjar-for-marketplaces/).
+You can submit a question on the [support tab](https://wordpress.org/support/plugin/marketplace-taxes). Before doing so, we encourage you to consult the [plugin documentation](https://docs.thepluginpros.com/knowledge-base/marketplace-taxes/).
 
 == Screenshots ==
 

@@ -79,7 +79,7 @@ Once you know the approximate number of transactions you'll use, you can choose 
 
 #### Where do I get help?
 
-You can submit a question through our [support forum](https://wordpress.org/support/plugin/marketplace-taxes). Before doing so, we encourage you to consult the [plugin documentation](https://docs.thepluginpros.com/knowledge-base/taxjar-for-marketplaces/).
+You can submit a question through our [support forum](https://wordpress.org/support/plugin/marketplace-taxes). Before doing so, we encourage you to consult the [plugin documentation](https://docs.thepluginpros.com/knowledge-base/marketplace-taxes/).
 
 ### Translation
 
