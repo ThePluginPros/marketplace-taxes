@@ -4,7 +4,7 @@ Donate link: https://paypal.me/ThePluginPros
 Tags: wc vendors tax, dokan tax, wc marketplace tax, wooocommerce marketplace tax, marketplace tax, marketplace sales tax, marketplace taxes
 Requires at least: 4.4
 Tested up to: 4.9
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -102,9 +102,10 @@ You can submit a question on the [support tab](https://wordpress.org/support/plu
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-= 1.0.0 - 2018-10-12 =
+= [1.0.1] - 2018-10-23 =
 
-Initial public release.
+Changed:
+- Update tested WC version to 3.5.0
 
 == Upgrade Notice ==
 

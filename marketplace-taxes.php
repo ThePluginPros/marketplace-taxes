@@ -6,7 +6,7 @@
  * Author:               The Plugin Pros
  * Author URI:           https://thepluginpros.com
  * GitHub Plugin URI:    https://github.com/ThePluginPros/marketplace-taxes
- * Version:              1.0.0
+ * Version:              1.0.1
  * Text Domain:          marketplace-taxes
  * Domain Path:          /languages/
  *

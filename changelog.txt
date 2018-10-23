@@ -1,5 +1,10 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-= 1.0.0 - 2018-10-12 =
+= [1.0.1] - 2018-10-23 =
+
+Changed:
+- Update tested WC version to 3.5.0
+
+= [1.0.0] - 2018-10-12 =
 
 Initial public release.

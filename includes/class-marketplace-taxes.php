@@ -14,7 +14,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
     /**
      * @var string Current plugin version.
      */
-    public $version = '1.0.0';
+    public $version = '1.0.1';
 
     /**
      * @var MT_Settings Settings instance.
