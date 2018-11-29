@@ -200,7 +200,23 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
         if ( empty( $token ) ) {
             $token = $this->settings->get( 'api_token' );
         }
-        return TaxJar\Client::withApiKey( $token );
+
+        $client = TaxJar\Client::withApiKey( $token );
+
+        if ( $this->is_sandbox_enabled() ) {
+            $client->setApiConfig( 'api_url', TaxJar\TaxJar::SANDBOX_API_URL );
+        }
+
+        return $client;
+    }
+
+    /**
+     * Checks whether the TaxJar API sandbox is enabled.
+     *
+     * @return bool True if sandbox is enabled, otherwise false.
+     */
+    public function is_sandbox_enabled() {
+        return apply_filters( 'mt_sandbox_enabled', defined( 'MT_SANDBOX_ENABLED' ) && MT_SANDBOX_ENABLED );
     }
 
     /**
