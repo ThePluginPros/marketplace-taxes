@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/integrations/wc-vendors/class-mt-integration-wc-vendors.php';
+require_once __DIR__ . '/integrations/dokan/class-mt-integration-dokan.php';
 
 /**
  * Integrations class.
@@ -35,6 +36,10 @@ class MT_Integrations {
                 'wc-vendors/class-wc-vendors.php' => [
                     'class'       => 'MT_Integration_WC_Vendors',
                     'min_version' => '1.9.14',
+                ],
+                'dokan-lite/dokan.php'            => [
+                    'class'       => 'MT_Integration_Dokan',
+                    'min_version' => '2.6.0',
                 ],
             ]
         );

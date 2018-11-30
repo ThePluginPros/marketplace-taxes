@@ -149,6 +149,7 @@ class MT_Addresses {
      */
     private function format_additional_address( $address ) {
         $address['default'] = false;
+
         return $address;
     }
 
@@ -211,10 +212,17 @@ class MT_Addresses {
 
             $vendors = get_users( $query );
 
+            /**
+             * Allows developers to filter the list of vendors with no address.
+             *
+             * @param array $vendors Vendor IDs returned by get_users().
+             */
+            $vendors = apply_filters( 'mt_vendors_with_no_address', $vendors );
+
             set_transient( 'mt_vendors_with_no_address', $vendors, DAY_IN_SECONDS / 2 );
         }
 
-        return apply_filters( 'mt_vendors_with_no_address', $vendors );
+        return $vendors;
     }
 
     /**
@@ -299,34 +307,15 @@ class MT_Addresses {
             return '';
         }
 
-        $setup_steps      = MT()->integration->get_vendor_setup_steps( $context );
-        $incomplete_steps = array_filter(
-            $setup_steps,
-            function ( $step ) {
-                return ! $step['complete'];
-            }
-        );
+        $setup_steps = mt_get_seller_setup_steps( $context );
 
-        if ( 0 < sizeof( $incomplete_steps ) ) {
-            ob_start();
-            ?>
-            <strong><?php _e( 'Tax setup incomplete.', 'marketplace-taxes' ); ?></strong>
-            <p><?php _e(
-                    'Please complete the following steps to ensure your customers are taxed correctly:',
-                    'marketplace-taxes'
-                ); ?></p>
-            <ol id="tax_setup_steps">
-                <?php foreach ( $setup_steps as $id => $step ): ?>
-                    <li id="<?php echo esc_attr( $id ); ?>_step"
-                        class="<?php echo $step['complete'] ? 'completed' : ''; ?>">
-                        <a href="<?php echo esc_attr( $step['url'] ); ?>"><?php echo wp_kses_post(
-                                $step['label']
-                            ); ?></a>
-                    </li>
-                <?php endforeach; ?>
-            </ol>
-            <?php
-            return ob_get_clean();
+        if ( ! mt_is_seller_setup_complete() ) {
+            return wc_get_template_html(
+                'address-notice.php',
+                compact( 'setup_steps' ),
+                'marketplace-taxes/',
+                MT()->path( 'templates/' )
+            );
         }
 
         return '';

@@ -120,6 +120,7 @@
                     }
                 });
             })
-            .on('woocommerce_variations_loaded', initialize);
+            .on('woocommerce_variations_loaded', initialize)
+            .on('mfpOpen', initialize);
     });
 })(jQuery, mt_category_select_data);

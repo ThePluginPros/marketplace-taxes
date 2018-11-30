@@ -68,6 +68,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
      * Includes all required files.
      */
     private function includes() {
+        require 'functions.php';
         require 'interface-mt-settings-api.php';
         require 'fields/class-mt-field-upload-orders.php';
         require 'fields/class-mt-field-api-token.php';
