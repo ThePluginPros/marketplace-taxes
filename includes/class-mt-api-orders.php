@@ -164,7 +164,7 @@ class MT_API_Orders extends WC_API_Orders {
             }
 
             // Block TaxJar from importing refunds - we handle that ourselves
-            if ( 'refunded' === $filter['status'] ) {
+            if ( isset( $filter['status'] ) && 'refunded' === $filter['status'] ) {
                 add_filter( 'woocommerce_api_query_args', array( $this, 'force_empty_response' ) );
             }
 
