@@ -27,6 +27,7 @@ class MT_Integration_WC_Vendors extends MT_Integration {
         add_filter( 'mt_vendor_settings_hooks', array( $this, 'register_settings_hooks' ) );
         add_filter( 'mt_vendor_address_query', array( $this, 'filter_no_addresses_query' ) );
         add_filter( 'mt_should_display_vendor_notice', array( $this, 'should_display_vendor_notice' ) );
+        add_filter( 'mt_vendor_order_post_type', array( $this, 'filter_vendor_order_post_type' ) );
 
         $this->is_pro = class_exists( 'WCVendors_Pro' );
     }
@@ -40,6 +41,7 @@ class MT_Integration_WC_Vendors extends MT_Integration {
         require_once __DIR__ . '/class-mt-wc-vendors-dashboard.php';
         require_once __DIR__ . '/class-mt-wc-vendors-settings-manager.php';
         require_once __DIR__ . '/class-mt-wc-vendors-order-manager.php';
+        require_once __DIR__ . '/class-mt-wc-vendors-order-api.php';
         require_once __DIR__ . '/class-mt-wc-vendors-install.php';
         require_once __DIR__ . '/functions.php';
     }
@@ -352,6 +354,62 @@ class MT_Integration_WC_Vendors extends MT_Integration {
      */
     public function get_vendor_sold_by( $vendor_id ) {
         return WCV_Vendors::get_vendor_sold_by( $vendor_id );
+    }
+
+    /**
+     * Sets the vendor order post type to `shop_order_vendor`.
+     *
+     * @return string
+     */
+    public function filter_vendor_order_post_type() {
+        return 'shop_order_vendor';
+    }
+
+    /**
+     * Gets the ID of the parent order item corresponding to a sub order item.
+     *
+     * @param WC_Order_Item $item Sub order item.
+     * @param WC_Order $parent_order Parent order.
+     *
+     * @return int Parent order item ID.
+     */
+    public function get_parent_order_item_id( $item, $parent_order ) {
+        if ( 'shipping' === $item->get_type() ) {
+            return 0;
+        }
+
+        return (int) $item->get_meta( '_vendor_order_item_id', true );
+    }
+
+    /**
+     * Returns the ID of a vendor's shipping method.
+     *
+     * @param int $vendor_id Vendor ID.
+     * @param WC_Order $order Order object.
+     *
+     * @return int Shipping method ID, or 0 if no shipping method is found.
+     */
+    public function get_vendor_shipping_method_id( $vendor_id, $order ) {
+        $vendor_products = [];
+
+        foreach ( $order->get_items() as $item ) {
+            $product        = $item->get_product();
+            $product_vendor = WCV_Vendors::get_vendor_from_product( $product->get_id() );
+
+            if ( $vendor_id == $product_vendor ) {
+                $vendor_products[] = $product->get_id();
+            }
+        }
+
+        foreach ( $order->get_shipping_methods() as $shipping_method ) {
+            $shipped_products = mt_wcv_get_shipped_product_ids( $shipping_method );
+
+            if ( 0 < count( array_intersect( $vendor_products, $shipped_products ) ) ) {
+                return $shipping_method->get_id();
+            }
+        }
+
+        return 0;
     }
 
 }

@@ -11,8 +11,6 @@ require_once WC()->plugin_path() . '/includes/api/legacy/v2/class-wc-api-orders.
  *
  * Custom implementation of the WC_API_Orders class that returns shop orders
  * or vendor shop orders based on the authenticated user's role.
- *
- * @todo make generic or move to WC Vendors integration
  */
 class MT_API_Orders extends WC_API_Orders {
 
@@ -46,16 +44,16 @@ class MT_API_Orders extends WC_API_Orders {
             return $user;
         }
 
-        $this->is_user_vendor = WCV_Vendors::is_vendor( $user->ID );
+        $this->is_user_vendor = MT()->integration->is_vendor( $user->ID );
 
         // Operate on vendor sub orders if the current user is a vendor
         if ( $this->is_user_vendor ) {
-            $this->post_type = 'shop_order_vendor';
+            $this->post_type = apply_filters( 'mt_vendor_order_post_type', 'shop_order' );
 
-            add_action( 'pre_get_posts', array( $this, 'filter_order_query' ) );
             add_filter( 'posts_clauses', array( $this, 'filter_query_clauses' ), 10, 2 );
-            add_filter( 'woocommerce_api_order_response', array( $this, 'filter_order_response' ), 10, 2 );
         }
+
+        add_action( 'pre_get_posts', array( $this, 'filter_order_query' ) );
 
         return $user;
     }
@@ -103,39 +101,35 @@ class MT_API_Orders extends WC_API_Orders {
      * @param WP_Query $query
      */
     public function filter_order_query( &$query ) {
-        $post_type = $query->get( 'post_type' );
-
-        if ( ! in_array( $post_type, [ 'shop_order_vendor', 'shop_order_refund' ] ) ) {
-            return;
-        }
-
         $meta_query = $query->get( 'meta_query' );
 
         if ( ! is_array( $meta_query ) ) {
             $meta_query = [];
         }
 
-        $meta_query[] = [
-            'key'   => '_vendor_id',
-            'value' => get_current_user_id(),
-        ];
+        $id_key = apply_filters( 'mt_vendor_order_vendor_key', '_vendor_id' );
 
-        // Ensure that only completed sub orders are included in API responses
-        if ( 'shop_order_vendor' === $post_type ) {
+        if ( $this->is_user_vendor ) {
             $meta_query[] = [
-                'key'     => '_sub_order_version',
-                'compare' => 'EXISTS',
+                'key'   => $id_key,
+                'value' => get_current_user_id(),
+            ];
+        } else {
+            $meta_query[] = [
+                'key'     => $id_key,
+                'compare' => 'NOT EXISTS',
             ];
         }
 
         $query->set( 'meta_query', $meta_query );
+
+        if ( $this->is_user_vendor ) {
+            do_action( 'mt_pre_get_vendor_orders', $query );
+        }
     }
 
     /**
-     * Filters sub orders by sub order status AND parent order status.
-     *
-     * Since WC Vendors doesn't update the status of sub orders, this is the only way
-     * to ensure that only completed sub orders are uploaded.
+     * Allows integrations to filter the vendor order query clauses.
      *
      * @param array $clauses
      * @param WP_Query $query
@@ -143,47 +137,7 @@ class MT_API_Orders extends WC_API_Orders {
      * @return array
      */
     public function filter_query_clauses( $clauses, $query ) {
-        global $wpdb;
-
-        if ( 'shop_order_vendor' !== $query->get( 'post_type' ) ) {
-            return $clauses;
-        }
-
-        $statuses = $query->get( 'post_status' );
-
-        if ( ! empty( $statuses ) ) {
-            $status_list = "'" . implode( "','", $statuses ) . "'";
-
-            $clauses['join']  .= " INNER JOIN {$wpdb->posts} parent ON ( {$wpdb->posts}.post_parent = parent.ID )";
-            $clauses['where'] .= " AND parent.post_status IN ( $status_list )";
-        }
-
-        return $clauses;
-    }
-
-    /**
-     * Replaces the sub order number with the parent order number in API responses.
-     *
-     * @param array $order_data Data for API response.
-     * @param WC_Order $order Order.
-     *
-     * @return array
-     */
-    public function filter_order_response( $order_data, $order ) {
-        if ( ! is_a( $order, 'WC_Order_Vendor' ) ) {
-            return $order_data;
-        }
-
-        $parent = wc_get_order( $order->get_parent_id() );
-
-        if ( ! $parent ) {
-            return $order_data;
-        }
-
-        $order_data['id']           = $parent->get_id();
-        $order_data['order_number'] = $parent->get_order_number();
-
-        return $order_data;
+        return apply_filters( 'mt_vendor_order_clauses', $clauses, $query );
     }
 
     /**

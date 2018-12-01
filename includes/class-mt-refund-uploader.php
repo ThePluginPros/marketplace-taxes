@@ -585,26 +585,11 @@ SQL;
                     'compare' => 'IN',
                 ],
             ];
-
-            // Limit to refunds with updated parents
-            $query['post_parent'] = $this->get_updated_sub_order_ids();
         }
 
         $query['meta_query'] = array_merge( $query['meta_query'], $meta_query );
 
         return apply_filters( 'mt_refund_uploader_orders_query', $query, $query_vars );
-    }
-
-    /**
-     * Returns the IDs of all updated sub orders. Only the refunds for these
-     * sub order will be uploaded to TaxJar.
-     *
-     * @return int[] Sub order IDs.
-     */
-    protected function get_updated_sub_order_ids() {
-        global $wpdb;
-
-        return $wpdb->get_col( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_sub_order_version'" );
     }
 
     /**

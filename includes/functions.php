@@ -38,3 +38,21 @@ function mt_is_seller_setup_complete() {
 function mt_get_seller_setup_steps( $context = 'frontend' ) {
     return MT()->integration->get_vendor_setup_steps( $context );
 }
+
+/**
+ * A helper function that returns 'yes'. Useful for filtering checkbox options.
+ *
+ * @return string
+ */
+function mt_return_yes() {
+    return 'yes';
+}
+
+/**
+ * A helper function that returns 'no'. Useful for filtering checkbox options.
+ *
+ * @return string
+ */
+function mt_return_no() {
+    return 'no';
+}

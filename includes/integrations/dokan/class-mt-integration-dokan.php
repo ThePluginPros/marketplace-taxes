@@ -21,6 +21,7 @@ class MT_Integration_Dokan extends MT_Integration {
         add_filter( 'mt_default_vendor_addresses', array( $this, 'get_default_vendor_addresses' ), 10, 2 );
         add_filter( 'mt_vendor_settings_hooks', array( $this, 'register_settings_hooks' ) );
         add_filter( 'mt_vendors_with_no_address', array( $this, 'filter_vendors_with_no_address' ) );
+        add_filter( 'mt_vendor_order_vendor_key', array( $this, 'filter_vendor_order_vendor_key' ) );
 
         // Hide the default vendor setup notice - we will output our own
         add_filter( 'mt_should_display_vendor_notice', '__return_false' );
@@ -32,6 +33,7 @@ class MT_Integration_Dokan extends MT_Integration {
     private function includes() {
         include_once 'class-mt-dokan-form-helper.php';
         include_once 'class-mt-dokan-dashboard.php';
+        include_once 'class-mt-dokan-order-manager.php';
     }
 
     /**
@@ -142,7 +144,9 @@ class MT_Integration_Dokan extends MT_Integration {
      * @return bool
      */
     public function is_vendor( $user_id ) {
-        return dokan_is_user_seller( $user_id );
+        $user = get_user_by( 'id', $user_id );
+
+        return count( array_intersect( $this->get_vendor_roles(), $user->roles ) ) > 0;
     }
 
     /**
@@ -233,17 +237,6 @@ class MT_Integration_Dokan extends MT_Integration {
     }
 
     /**
-     * Returns the ID of the vendor who created a product.
-     *
-     * @param int $product_id
-     *
-     * @return int Vendor ID
-     */
-    public function get_vendor_from_product( $product_id ) {
-        return get_post_field( 'post_author', $product_id );
-    }
-
-    /**
      * Returns the 'Sold by' label for a vendor.
      *
      * @param int $vendor_id
@@ -261,6 +254,35 @@ class MT_Integration_Dokan extends MT_Integration {
      */
     public function get_vendor_roles() {
         return [ 'seller' ];
+    }
+
+    /**
+     * Sets the meta key used to store the vendor for vendor sub orders.
+     *
+     * @return string
+     */
+    public function filter_vendor_order_vendor_key() {
+        return '_dokan_vendor_id';
+    }
+
+    /**
+     * Gets a vendor's shipping method from an order.
+     *
+     * @param int $vendor_id Vendor ID.
+     * @param WC_Order $order Order object.
+     *
+     * @return int Shipping method ID, or 0 if no shipping method was found.
+     */
+    public function get_vendor_shipping_method_id( $vendor_id, $order ) {
+        foreach ( $order->get_shipping_methods() as $item_id => $method ) {
+            $shipping_seller_id = $method->get_meta( 'seller_id', true );
+
+            if ( $vendor_id == $shipping_seller_id ) {
+                return $method->get_id();
+            }
+        }
+
+        return 0;
     }
 
 }

@@ -37,19 +37,54 @@ function mt_wcv_is_dashboard_page( $page_id = 0 ) {
 }
 
 /**
- * A helper function that returns 'yes'. Useful for filtering checkbox options.
+ * Returns the IDS of the products associated with a particular shipping item.
  *
- * @return string
+ * @param WC_Order_Item_Shipping $shipping_item
+ *
+ * @return array
  */
-function mt_return_yes() {
-    return 'yes';
-}
+function mt_wcv_get_shipped_product_ids( $shipping_item ) {
+    $item_map = [];
 
-/**
- * A helper function that returns 'no'. Useful for filtering checkbox options.
- *
- * @return string
- */
-function mt_return_no() {
-    return 'no';
+    if ( empty( $item_map ) ) {
+        $order = $shipping_item->get_order();
+
+        foreach ( $order->get_items() as $item ) {
+            $product_id = $item->get_product()->get_id();
+
+            // Map item name to item ID
+            $item_map[ $item->get_name() ] = $product_id;
+
+            // Map vendor IDs to vendor item IDs
+            $vendor_id = \WCV_Vendors::get_vendor_from_product( $product_id );
+
+            if ( ! isset( $item_map[ $vendor_id ] ) ) {
+                $item_map[ $vendor_id ] = [];
+            }
+            $item_map[ $vendor_id ][] = $product_id;
+        }
+    }
+
+    $vendor_id     = $shipping_item->get_meta( 'vendor_id', true );    // TRS
+    $vendor_costs  = $shipping_item->get_meta( 'vendor_costs', true ); // Pro shipping
+    $package_items = $shipping_item->get_meta( 'Items', true );        // Other methods
+
+    $product_ids = [];
+
+    if ( $vendor_id ) {
+        if ( isset( $item_map[ $vendor_id ] ) ) {
+            $product_ids = $item_map[ $vendor_id ];
+        }
+    } elseif ( $vendor_costs ) {
+        $product_ids = wp_list_pluck( $vendor_costs['items'], 'product_id' );
+    } elseif ( $package_items ) {
+        foreach ( explode( ',', $package_items ) as $item ) {
+            $item_name = trim( current( explode( '&times;', $item ) ) );
+            if ( isset( $item_map[ $item_name ] ) ) {
+                $product_ids[] = $item_map[ $item_name ];
+            }
+        }
+    }
+
+    return $product_ids;
 }

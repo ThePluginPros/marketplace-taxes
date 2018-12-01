@@ -88,6 +88,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
         require 'class-mt-vendors.php';
         require 'class-mt-api.php';
         require 'class-mt-refund-uploader.php';
+        require 'class-mt-refund-manager.php';
     }
 
     /**
@@ -156,6 +157,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
                     $violation['data']['name']
                 );
         }
+
         return '';
     }
 
@@ -169,6 +171,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
     public function get_php_notice( $violation ) {
         if ( 'extensions' === $violation['type'] ) {
             $ext_list = implode( ', ', $violation['data']['required'] );
+
             /* translators: 1 - list of required PHP extensions */
             return sprintf(
                 __(
@@ -187,6 +190,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
                 $violation['data']['required']
             );
         }
+
         return '';
     }
 
