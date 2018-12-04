@@ -48,7 +48,7 @@ module.exports = function (grunt) {
         copy: {
             target: {
                 expand: true,
-                src: ['assets/**', 'includes/**', 'languages/**', 'vendor/**', 'marketplace-taxes.php', 'readme.txt'],
+                src: ['assets/**', 'includes/**', 'languages/**', 'templates/**', 'vendor/**', 'marketplace-taxes.php', 'readme.txt'],
                 dest: 'build/'
             }
         },
