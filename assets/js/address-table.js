@@ -44,7 +44,10 @@
                 },
                 initRow: function (rowData) {
                     var view = this,
-                        $tr = view.$el.find('tr[data-id="' + rowData['id'] + '"]'),
+                        $tbody = view.$el,
+                        $table = $tbody.closest('table'),
+                        $tr = $tbody.find('tr[data-id="' + rowData['id'] + '"]'),
+                        $headings = $table.find('tr:first th'),
                         country = rowData['country'];
 
                     // Select country
@@ -53,6 +56,19 @@
                     } else {
                         $tr.find('.mt_country_to_state').change();
                     }
+
+                    // Set mobile table headings
+                    $tr.find('td').each(function () {
+                        var th = $headings.eq($(this).index());
+                        if (th.attr('data-label')) {
+                            var label = th.data('label');
+                        } else {
+                            var label = th.text();
+                        }
+                        if (label.trim()) {
+                            $(this).attr('data-label', label + ':');
+                        }
+                    });
                 },
                 onAddNewRow: function (event) {
                     var view = event.data.view;
