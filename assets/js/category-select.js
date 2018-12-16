@@ -115,7 +115,7 @@
                 ];
 
                 $.each(actions, function (key, action) {
-                    if (-1 !== settings.data.indexOf(action)) {
+                    if (settings.data && -1 !== settings.data.indexOf(action)) {
                         initialize();
                     }
                 });
