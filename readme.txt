@@ -3,13 +3,13 @@ Contributors: bporcelli
 Donate link: https://paypal.me/ThePluginPros
 Tags: wc vendors tax, dokan tax, wc marketplace tax, wooocommerce marketplace tax, marketplace tax, marketplace sales tax, marketplace taxes
 Requires at least: 4.4
-Tested up to: 4.9
-Stable tag: 1.0.1
+Tested up to: 5.0
+Stable tag: 1.1.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Connect your WooCommerce based marketplace to TaxJar to automate sales tax calculations, reporting, and filing.
+Connect your Dokan or WC Vendors marketplace to TaxJar to automate sales tax calculations, reporting, and filing.
 
 == Description ==
 
@@ -65,7 +65,9 @@ PHP 5.6 or later is required.
 
 = Which marketplace plugins are supported? =
 
-Marketplaces Taxes is compatible with [WC Vendors Marketplace](https://wordpress.org/plugins/wc-vendors) 1.9.14 and later. Support for [Dokan](https://wordpress.org/plugins/dokan-lite) and [WC Marketplace](https://wordpress.org/plugins/dc-woocommerce-multi-vendor) will be added soon!
+Marketplaces Taxes is compatible with [WC Vendors Marketplace](https://wordpress.org/plugins/wc-vendors) 1.9.14 or later and [Dokan](https://wordpress.org/plugins/dokan-lite) 2.6.0 or later.
+
+Support for [WC Marketplace](https://wordpress.org/plugins/dc-woocommerce-multi-vendor) will be added soon!
 
 = Do I need a TaxJar account? =
 
@@ -102,10 +104,14 @@ You can submit a question on the [support tab](https://wordpress.org/support/plu
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-= [1.0.1] - 2018-10-23 =
+= [1.1.0] - 2018-12-18 =
+
+Added:
+- Dokan integration
 
 Changed:
-- Update tested WC version to 3.5.0
+- Improve the display of the nexus addresses table on mobile devices
+- Update tested WP version to 5.0
 
 == Upgrade Notice ==
 

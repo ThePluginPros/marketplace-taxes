@@ -54,7 +54,9 @@ PHP 5.6 or later is required.
 
 #### Which marketplace plugins are supported?
 
-Marketplaces Taxes is compatible with [WC Vendors Marketplace](https://wordpress.org/plugins/wc-vendors) 1.9.14 and later. Support for [Dokan](https://wordpress.org/plugins/dokan-lite) and [WC Marketplace](https://wordpress.org/plugins/dc-woocommerce-multi-vendor) will be added soon!
+Marketplaces Taxes is compatible with [WC Vendors Marketplace](https://wordpress.org/plugins/wc-vendors) 1.9.14 or later and [Dokan](https://wordpress.org/plugins/dokan-lite) 2.6.0 or later.
+
+Support for [WC Marketplace](https://wordpress.org/plugins/dc-woocommerce-multi-vendor) will be added soon!
 
 #### Do I need a TaxJar account?
 

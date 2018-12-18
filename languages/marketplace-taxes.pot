@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Marketplace Taxes package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Marketplace Taxes 1.0.1\n"
+"Project-Id-Version: Marketplace Taxes 1.1.0\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/ThePluginPros/marketplace-taxes/issues\n"
-"POT-Creation-Date: 2018-10-23 19:29:14+00:00\n"
+"POT-Creation-Date: 2018-12-18 15:01:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -98,12 +98,14 @@ msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:14
 #: includes/admin/views/html-select-category.php:43
+#: includes/integrations/dokan/templates/tax-category-dropdown.php:38
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:26
 msgid "Change"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:18
 #: includes/admin/views/html-select-category.php:48
+#: includes/integrations/dokan/templates/tax-category-dropdown.php:42
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:31
 msgid "Reset"
 msgstr ""
@@ -141,28 +143,28 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:140
+#: includes/class-marketplace-taxes.php:142
 #. translators: 1: required plugin name, 2: minimum version
 msgid ""
 "<strong>%1$s needs to be updated.</strong> Marketplace Taxes requires %1$s "
 "%2$s+."
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:151
+#: includes/class-marketplace-taxes.php:153
 #. translators: 1: required plugin name
 msgid ""
 "<strong>%1$s not detected.</strong> Please install or activate %1$s to use "
 "Marketplace Taxes."
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:173
+#: includes/class-marketplace-taxes.php:177
 #. translators: 1 - list of required PHP extensions
 msgid ""
 "<strong>Required PHP extensions are missing.</strong> Marketplace Taxes "
 "requires %1$s."
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:182
+#: includes/class-marketplace-taxes.php:186
 #. translators: 1 - required php version
 msgid ""
 "<strong>PHP needs to be updated.</strong> Marketplace Taxes requires PHP "
@@ -177,45 +179,35 @@ msgstr ""
 msgid "Default address"
 msgstr ""
 
-#: includes/class-mt-addresses.php:243
+#: includes/class-mt-addresses.php:251
 msgid "%1$s and <a href=\"%4$s\">%2$s other %3$s</a>"
 msgstr ""
 
-#: includes/class-mt-addresses.php:246
+#: includes/class-mt-addresses.php:254
 msgid "seller"
 msgid_plural "sellers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-mt-addresses.php:262
+#: includes/class-mt-addresses.php:270
 msgid ""
 "<strong>Warning!</strong> %s %s not configured their business addresses. "
 "Taxes will not be calculated for %s."
 msgstr ""
 
-#: includes/class-mt-addresses.php:267
+#: includes/class-mt-addresses.php:275
 msgid "has"
 msgid_plural "have"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-mt-addresses.php:268
+#: includes/class-mt-addresses.php:276
 msgid "this vendor"
 msgid_plural "these vendors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-mt-addresses.php:313
-msgid "Tax setup incomplete."
-msgstr ""
-
-#: includes/class-mt-addresses.php:314
-msgid ""
-"Please complete the following steps to ensure your customers are taxed "
-"correctly:"
-msgstr ""
-
-#: includes/class-mt-addresses.php:347
+#: includes/class-mt-addresses.php:336
 msgid ""
 "<strong>Tax setup incomplete.</strong> Please <a href=\"%s\">complete your "
 "store address</a> to dismiss this notice."
@@ -261,19 +253,19 @@ msgid ""
 "rates."
 msgstr ""
 
-#: includes/class-mt-integrations.php:51
+#: includes/class-mt-integrations.php:56
 msgid ""
 "<strong>%1$s not detected.</strong> Please install or active %1$s to use "
 "Marketplace Taxes."
 msgstr ""
 
-#: includes/class-mt-integrations.php:65
+#: includes/class-mt-integrations.php:70
 msgid ""
 "<strong>%1$s needs to be updated.</strong> Marketplace Taxes requires %1$s "
 "version %2$s or greater."
 msgstr ""
 
-#: includes/class-mt-integrations.php:84
+#: includes/class-mt-integrations.php:89
 msgid ""
 "<strong>TaxJar for Marketplace is inactive</strong>. No compatible "
 "marketplace plugin detected."
@@ -369,20 +361,62 @@ msgid ""
 "contact support@thepluginpros.com"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:100
-msgid "Inherited from your store settings"
+#: includes/integrations/dokan/class-mt-dokan-dashboard.php:60
+msgid "Tax"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:116
-msgid "Inherited from your shipping settings"
+#: includes/integrations/dokan/class-mt-dokan-dashboard.php:105
+msgid "Are you cheating?"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:297
+#: includes/integrations/dokan/class-mt-dokan-dashboard.php:127
+msgid "Your information has been saved successfully"
+msgstr ""
+
+#: includes/integrations/dokan/class-mt-dokan-dashboard.php:203
+msgid "A valid API key is required."
+msgstr ""
+
+#: includes/integrations/dokan/class-mt-integration-dokan.php:94
+msgid "Inherited from your store settings."
+msgstr ""
+
+#: includes/integrations/dokan/class-mt-integration-dokan.php:184
+#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:299
 msgid "Enter a complete store address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:310
+#: includes/integrations/dokan/class-mt-integration-dokan.php:191
+#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:312
 msgid "Review your tax settings"
+msgstr ""
+
+#: includes/integrations/dokan/templates/tax-category-dropdown.php:21
+msgid ""
+"For products that are exempt from tax in some jurisdictions or taxed at "
+"reduced rates."
+msgstr ""
+
+#: includes/integrations/dokan/templates/tax-category-dropdown.php:29
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:19
+msgid "Tax Category"
+msgstr ""
+
+#: includes/integrations/dokan/templates/tax-category-dropdown.php:35
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:23
+msgid "Loading..."
+msgstr ""
+
+#: includes/integrations/dokan/templates/tax-settings-form.php:30
+msgid "Update Settings"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:102
+msgid "Inherited from your store settings"
+msgstr ""
+
+#: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:118
+msgid "Inherited from your shipping settings"
 msgstr ""
 
 #: includes/integrations/wc-vendors/class-mt-wc-vendors-admin.php:43
@@ -438,14 +472,6 @@ msgstr ""
 
 #: includes/integrations/wc-vendors/class-mt-wc-vendors-settings-manager.php:107
 msgid "This field is disabled while Marketplace Taxes is active."
-msgstr ""
-
-#: includes/integrations/wc-vendors/views/html-field-tax-category.php:19
-msgid "Tax Category"
-msgstr ""
-
-#: includes/integrations/wc-vendors/views/html-field-tax-category.php:23
-msgid "Loading..."
 msgstr ""
 
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:41
@@ -615,51 +641,61 @@ msgstr ""
 msgid "Download Expiry:"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:27
+#: includes/views/html-field-address-table.php:32
 msgid "Address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:28
+#: includes/views/html-field-address-table.php:33
 msgid "Country"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:29
-#: includes/views/html-field-address-table.php:84
+#: includes/views/html-field-address-table.php:34
+#: includes/views/html-field-address-table.php:89
 msgid "State"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:30
-#: includes/views/html-field-address-table.php:90
+#: includes/views/html-field-address-table.php:35
+#: includes/views/html-field-address-table.php:95
 msgid "City"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:31
-#: includes/views/html-field-address-table.php:95
+#: includes/views/html-field-address-table.php:36
+#: includes/views/html-field-address-table.php:100
 msgid "Postcode"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:40
+#: includes/views/html-field-address-table.php:45
 msgid "Add Address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:57
+#: includes/views/html-field-address-table.php:62
 msgid "No addresses entered."
 msgstr ""
 
-#: includes/views/html-field-address-table.php:58
+#: includes/views/html-field-address-table.php:63
 msgid "Add one."
 msgstr ""
 
-#: includes/views/html-field-address-table.php:69
+#: includes/views/html-field-address-table.php:74
 msgid "Street address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:141
+#: includes/views/html-field-address-table.php:230
 msgid "At least one business address is required."
 msgstr ""
 
 #: marketplace-taxes.php:57
 msgid "WooCommerce"
+msgstr ""
+
+#: templates/address-notice.php:18
+msgid "Tax setup incomplete."
+msgstr ""
+
+#: templates/address-notice.php:19
+msgid ""
+"Please complete the following steps to ensure your customers are taxed "
+"correctly:"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
