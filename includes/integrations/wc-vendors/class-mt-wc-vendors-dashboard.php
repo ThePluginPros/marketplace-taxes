@@ -306,6 +306,10 @@ class MT_WC_Vendors_Dashboard {
         );
 
         MT()->assets->enqueue( 'script', 'marketplace-taxes.country-select' );
+
+        if ( 'admin' === $context ) {
+	        add_action( 'admin_footer', array( $this, 'fix_country_select_issue' ) );
+        }
     }
 
     /**
@@ -367,6 +371,36 @@ class MT_WC_Vendors_Dashboard {
             );
         }
     }
+
+    /**
+     * Temporary fix for https://github.com/wcvendors/wcvendors/issues/556.
+     *
+     * This can be removed once we drop support for versions of WC Vendors
+     * where this issue has not been fixed.
+     */
+	public function fix_country_select_issue() {
+		?>
+        <script>
+            (function () {
+                if (!window.jQuery) {
+                    return;
+                }
+
+                var $ = jQuery;
+
+                $(document).on('country_to_state_changed', function () {
+                    var $form = $('table.form-table > form');
+                    var $input = $('#_wcv_store_state');
+
+                    if ($form.length && $input.length) {
+                        $form.attr('id', 'vendor-settings-form');
+                        $input.attr('form', 'vendor-settings-form');
+                    }
+                });
+            })();
+        </script>
+		<?php
+	}
 
 }
 
