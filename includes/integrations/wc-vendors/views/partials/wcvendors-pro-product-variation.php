@@ -399,7 +399,7 @@ $variations_options = (array) get_option( 'wcvendors_hide_product_variations' );
                                         '%s (%s)',
                                         __( 'Dimensions (L&times;W&times;H)', 'wcvendors-pro' ),
                                         esc_html( get_option( 'woocommerce_dimension_unit' ) )
-                                    ); ?> ?>
+                                    ); ?>
                                 </label>
                                 <div class="wcv-cols-group wcv-horizontal-gutters">
                                     <div class="all-33">
