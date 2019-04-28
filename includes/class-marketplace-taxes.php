@@ -1,5 +1,7 @@
 <?php
 
+use WordFrame\v1_1_0\Plugin;
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -9,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package Marketplace_Taxes
  */
-final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
+final class Marketplace_Taxes extends Plugin {
 
     /**
      * @var string Current plugin version.
@@ -173,6 +175,7 @@ final class Marketplace_Taxes extends \WordFrame\v1_1_0\Plugin {
             $ext_list = implode( ', ', $violation['data']['required'] );
 
             /* translators: 1 - list of required PHP extensions */
+
             return sprintf(
                 __(
                     '<strong>Required PHP extensions are missing.</strong> Marketplace Taxes requires %1$s.',

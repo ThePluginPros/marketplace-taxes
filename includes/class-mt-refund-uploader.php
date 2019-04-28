@@ -106,6 +106,7 @@ class MT_Refund_Uploader extends WP_Background_Process {
 
             return 'yes' === $settings->get( 'upload_transactions' ) && ! empty( $settings->get( 'api_token' ) );
         }
+
         return true;
     }
 
@@ -145,6 +146,7 @@ class MT_Refund_Uploader extends WP_Background_Process {
 
         if ( ! $this->needs_update() ) {
             $logger->info( 'Skipping update.', [ 'source' => 'mt_refund_uploader' ] );
+
             return;
         }
 
@@ -353,7 +355,7 @@ class MT_Refund_Uploader extends WP_Background_Process {
     /**
      * Checks whether a 'Shipped From' or 'Shipped To' address is valid.
      *
-     * @param array $address
+     * @param array  $address
      * @param string $type 'from' or 'to'
      *
      * @return bool
@@ -470,6 +472,7 @@ SQL;
                 'Skipping invalid refund: ' . print_r( $item, true ),
                 [ 'source' => 'mt_refund_uploader' ]
             );
+
             return false;
         }
 
@@ -480,6 +483,7 @@ SQL;
                 sprintf( 'Skipping refund #%s: refund no longer exists.', $item['refund_id'] ),
                 [ 'source' => 'mt_refund_uploader' ]
             );
+
             return false;
         }
 
@@ -535,7 +539,7 @@ SQL;
     /**
      * Handles the `for_taxjar` order query variable.
      *
-     * @param array $query Args for WP_Query.
+     * @param array $query      Args for WP_Query.
      * @param array $query_vars Query vars from WC_Order_Query.
      *
      * @return array Modified $query

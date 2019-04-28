@@ -14,8 +14,8 @@ interface MT_Settings_API {
     /**
      * Gets an option from the DB, using defaults if necessary to prevent undefined notices.
      *
-     * @param string $key Option key.
-     * @param mixed $empty_value Value when empty.
+     * @param string $key         Option key.
+     * @param mixed  $empty_value Value when empty.
      *
      * @return string The value specified for the option or a default value for the option.
      */

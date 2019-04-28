@@ -92,6 +92,7 @@ class MT_WC_Vendors_Admin {
         if ( is_null( $instance ) ) {
             $instance = new MT_Vendor_Settings_Form( get_current_user_id(), 'admin' );
         }
+
         return $instance;
     }
 

@@ -43,6 +43,7 @@ class MT_Tax_Categories {
                 'interval' => 30 * DAY_IN_SECONDS,
             ];
         }
+
         return $schedules;
     }
 

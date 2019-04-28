@@ -430,8 +430,8 @@ class MT_Dokan_Form_Helper {
     /**
      * Outputs a field label.
      *
-     * @param array $field Form field.
-     * @param bool $full_width Should the label occupy the full form width?
+     * @param array $field      Form field.
+     * @param bool  $full_width Should the label occupy the full form width?
      */
     private static function field_label( $field, $full_width = false ) {
         if ( $full_width ) {

@@ -161,7 +161,7 @@ class MT_Dokan_Dashboard {
      * Sets the help text for the tax settings page.
      *
      * @param string $help_text Help text.
-     * @param string $page Settings page ID.
+     * @param string $page      Settings page ID.
      *
      * @return string
      */
@@ -248,7 +248,7 @@ class MT_Dokan_Dashboard {
      * @todo Ask Dokan devs to add a suitable action
      *
      * @param string $output Output from `wp_dropdown_categories`
-     * @param array $args Arguments passed to `wp_dropdown_categories`
+     * @param array  $args   Arguments passed to `wp_dropdown_categories`
      *
      * @return string
      */
@@ -321,7 +321,7 @@ class MT_Dokan_Dashboard {
     /**
      * Saves the Tax Category for a newly created product.
      *
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $post_data
      */
     public function save_tax_category( $product_id, $post_data ) {

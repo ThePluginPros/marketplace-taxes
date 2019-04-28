@@ -95,8 +95,8 @@ class MT_Integration {
     /**
      * Returns the ID of the parent order item corresponding to a sub order item.
      *
-     * @param WC_Order_Item $item Sub order item.
-     * @param WC_Order $parent_order Parent order.
+     * @param WC_Order_Item $item         Sub order item.
+     * @param WC_Order      $parent_order Parent order.
      *
      * @return int Parent order item ID, or 0 if no item is found.
      */
@@ -115,8 +115,8 @@ class MT_Integration {
     /**
      * Returns the ID of a vendor's shipping method.
      *
-     * @param int $vendor_id Vendor ID.
-     * @param WC_Order $order Order object.
+     * @param int      $vendor_id Vendor ID.
+     * @param WC_Order $order     Order object.
      *
      * @return int Shipping method ID, or 0 if no shipping method is found.
      */

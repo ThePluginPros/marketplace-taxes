@@ -17,7 +17,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Create an input field with a label.
      *
-     * @param array $field Array defining all field attributes
+     * @param array  $field Array defining all field attributes
      * @param string $context
      */
     public static function input( $field, $context = 'frontend' ) {
@@ -102,25 +102,25 @@ class MT_WC_Vendors_Form_Helper {
             echo '<input type="checkbox" class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr(
                     $field['style']
                 ) . '" name="' . esc_attr(
-                    $field['name']
-                ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['cbvalue'] ) . '" ' . checked(
-                    $field['value'],
-                    $field['cbvalue'],
-                    false
-                ) . '  ' . implode( ' ', $custom_attributes ) . '/>';
+                     $field['name']
+                 ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['cbvalue'] ) . '" ' . checked(
+                     $field['value'],
+                     $field['cbvalue'],
+                     false
+                 ) . '  ' . implode( ' ', $custom_attributes ) . '/>';
 
             echo '<label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label>';
         } else {
             echo '<input type="' . esc_attr( $field['type'] ) . '" class="' . esc_attr(
                     $field['class']
                 ) . '" style="' . esc_attr( $field['style'] ) . '" name="' . esc_attr(
-                    $field['name']
-                ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr(
-                    $field['value']
-                ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode(
-                    ' ',
-                    $custom_attributes
-                ) . ' /> ';
+                     $field['name']
+                 ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr(
+                     $field['value']
+                 ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode(
+                     ' ',
+                     $custom_attributes
+                 ) . ' /> ';
         }
 
         if ( ! empty( $field['description'] ) ) {
@@ -160,7 +160,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Creates a select box with a label.
      *
-     * @param array $field Array defining all field attributes
+     * @param array  $field   Array defining all field attributes
      * @param string $context 'admin' or 'frontend'
      */
     public static function select( $field, $context = 'frontend' ) {
@@ -304,7 +304,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Creates a select2 drop down with a label.
      *
-     * @param array $field Array defining all field attributes
+     * @param array  $field   Array defining all field attributes
      * @param string $context 'admin' or 'frontend'
      */
     public static function select2( $field, $context = 'frontend' ) {
@@ -463,7 +463,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Outputs a select2 country select box.
      *
-     * @param array $field Field definition.
+     * @param array  $field   Field definition.
      * @param string $context 'admin' or 'frontend'
      */
     public static function country_select2( $field, $context = 'frontend' ) {
@@ -518,7 +518,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Creates a textarea with a label.
      *
-     * @param array $field Array defining all field attributes
+     * @param array  $field   Array defining all field attributes
      * @param string $context 'admin' or 'frontend'
      */
     public static function textarea( $field, $context = 'frontend' ) {
@@ -571,13 +571,13 @@ class MT_WC_Vendors_Form_Helper {
         echo '<textarea class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr(
                 $field['style']
             ) . '"  name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr(
-                $field['id']
-            ) . '" placeholder="' . esc_attr(
-                $field['placeholder']
-            ) . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '" ' . implode(
-                ' ',
-                $custom_attributes
-            ) . '>' . esc_textarea( $field['value'] ) . '</textarea> ';
+                 $field['id']
+             ) . '" placeholder="' . esc_attr(
+                 $field['placeholder']
+             ) . '" rows="' . $field['rows'] . '" cols="' . $field['cols'] . '" ' . implode(
+                 ' ',
+                 $custom_attributes
+             ) . '>' . esc_textarea( $field['value'] ) . '</textarea> ';
 
         self::field_description( $field['description'], $context );
 
@@ -600,7 +600,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Outputs a custom form input based on an included file.
      *
-     * @param array $field Field attributes
+     * @param array  $field   Field attributes
      * @param string $context 'admin' or 'frontend'
      */
     public static function custom_field( $field, $context = 'frontend' ) {
@@ -639,7 +639,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Opens a new control group.
      *
-     * @param array $field
+     * @param array  $field
      * @param string $context 'admin' or 'frontend'
      */
     private static function start_control_group( $field, $context ) {
@@ -672,7 +672,7 @@ class MT_WC_Vendors_Form_Helper {
     /**
      * Outputs a field label.
      *
-     * @param array $field
+     * @param array  $field
      * @param string $context 'admin' or 'frontend'
      */
     private static function field_label( $field, $context ) {
@@ -691,8 +691,8 @@ class MT_WC_Vendors_Form_Helper {
                 echo '<i class="dashicons dashicons-editor-help has-tip right" data-tooltip data-tip="' . esc_attr(
                         $field['description']
                     ) . '" aria-haspopup="true" title="' . esc_attr(
-                        $field['description']
-                    ) . '"></i>';
+                         $field['description']
+                     ) . '"></i>';
             }
         }
 

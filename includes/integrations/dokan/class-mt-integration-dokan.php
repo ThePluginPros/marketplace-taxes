@@ -50,7 +50,7 @@ class MT_Integration_Dokan extends MT_Integration {
      *
      * For Dokan, only the frontend context is used.
      *
-     * @param array $field Field definition
+     * @param array  $field   Field definition
      * @param string $context 'admin' or 'frontend'
      */
     public function display_field( $field, $context ) {
@@ -83,7 +83,7 @@ class MT_Integration_Dokan extends MT_Integration {
      * Gets the default nexus addresses for a vendor.
      *
      * @param array $addresses
-     * @param int $vendor_id
+     * @param int   $vendor_id
      *
      * @return array
      */
@@ -268,8 +268,8 @@ class MT_Integration_Dokan extends MT_Integration {
     /**
      * Gets a vendor's shipping method from an order.
      *
-     * @param int $vendor_id Vendor ID.
-     * @param WC_Order $order Order object.
+     * @param int      $vendor_id Vendor ID.
+     * @param WC_Order $order     Order object.
      *
      * @return int Shipping method ID, or 0 if no shipping method was found.
      */

@@ -7,7 +7,7 @@
  *
  * IMPORTANT: DO NOT close div.dokan-form-group. It will be closed for you.
  *
- * @since 1.1.0
+ * @since   1.1.0
  *
  * @version 1.0.0
  */
@@ -35,14 +35,12 @@ $tooltip      = esc_attr__(
         <span class="mt-selected-category"><?php esc_html_e( 'Loading...', 'marketplace-taxes' ); ?></span>
 
         <button type="button" class="dokan-btn mt-select-category"
-                data-is-variation="<?php echo (int) $is_variation; ?>"><?php esc_html_e(
-                'Change',
-                'marketplace-taxes'
-            ); ?></button>
-        <button type="button" class="dokan-btn dokan-btn-danger mt-reset-category"><?php esc_html_e(
-                'Reset',
-                'marketplace-taxes'
-            ); ?></button>
+                data-is-variation="<?php echo (int) $is_variation; ?>">
+            <?php esc_html_e( 'Change', 'marketplace-taxes' ); ?>
+        </button>
+        <button type="button" class="dokan-btn dokan-btn-danger mt-reset-category">
+            <?php esc_html_e( 'Reset', 'marketplace-taxes' ); ?>
+        </button>
 
         <input type="hidden" name="tax_category" class="mt-category-input" value="<?php echo $selected; ?>">
     </div>

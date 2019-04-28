@@ -4,8 +4,8 @@
  * Tax category select box template.
  *
  * @global string $selected_category
- * @global bool $is_variation
- * @global int $product_id
+ * @global bool   $is_variation
+ * @global int    $product_id
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,9 @@ if ( $is_variation ) {
 } else {
     $field_name = 'tax_category';
     $class      = 'form-field';
-} ?>
+}
+
+?>
 
     <p class="<?php echo $class; ?> tax-category">
         <label for="<?php echo $field_name; ?>">
@@ -34,21 +36,17 @@ if ( $is_variation ) {
             ?>
         </label>
 
-        <span class="mt-selected-category"><?php esc_html_e(
-                'None',
-                'marketplace-taxes'
-            ); ?></span>
+        <span class="mt-selected-category">
+            <?php esc_html_e( 'None', 'marketplace-taxes' ); ?>
+        </span>
 
-        <button type="button" class="button mt-select-category"
-                data-is-variation="<?php echo (int) $is_variation; ?>"><?php esc_html_e(
-                'Change',
-                'marketplace-taxes'
-            ); ?></button>
+        <button type="button" class="button mt-select-category" data-is-variation="<?php echo (int) $is_variation; ?>">
+            <?php esc_html_e( 'Change', 'marketplace-taxes' ); ?>
+        </button>
 
-        <button type="button" class="button mt-reset-category"><?php esc_html_e(
-                'Reset',
-                'marketplace-taxes'
-            ); ?></button>
+        <button type="button" class="button mt-reset-category">
+            <?php esc_html_e( 'Reset', 'marketplace-taxes' ); ?>
+        </button>
 
         <input type="hidden" name="<?php echo $field_name; ?>" class="mt-category-input"
                value="<?php echo $selected_category; ?>">

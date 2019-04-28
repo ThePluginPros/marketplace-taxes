@@ -95,8 +95,8 @@ class MT_Install {
     public function tax_rates_warning() {
         $settings_url = add_query_arg(
             [
-                'page' => 'wc-settings',
-                'tab' => 'integration',
+                'page'    => 'wc-settings',
+                'tab'     => 'integration',
                 'section' => 'marketplace_taxes',
             ],
             admin_url( 'admin.php' )

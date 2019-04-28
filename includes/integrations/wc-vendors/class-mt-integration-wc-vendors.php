@@ -58,7 +58,7 @@ class MT_Integration_WC_Vendors extends MT_Integration {
     /**
      * Displays a settings field in the admin or frontend context.
      *
-     * @param array $field Field definition
+     * @param array  $field   Field definition
      * @param string $context 'admin' or 'frontend'
      */
     public function display_field( $field, $context ) {
@@ -87,7 +87,7 @@ class MT_Integration_WC_Vendors extends MT_Integration {
      * Gets the default nexus addresses for a vendor.
      *
      * @param array $addresses
-     * @param int $vendor_id
+     * @param int   $vendor_id
      *
      * @return array
      */
@@ -368,8 +368,8 @@ class MT_Integration_WC_Vendors extends MT_Integration {
     /**
      * Gets the ID of the parent order item corresponding to a sub order item.
      *
-     * @param WC_Order_Item $item Sub order item.
-     * @param WC_Order $parent_order Parent order.
+     * @param WC_Order_Item $item         Sub order item.
+     * @param WC_Order      $parent_order Parent order.
      *
      * @return int Parent order item ID.
      */
@@ -384,8 +384,8 @@ class MT_Integration_WC_Vendors extends MT_Integration {
     /**
      * Returns the ID of a vendor's shipping method.
      *
-     * @param int $vendor_id Vendor ID.
-     * @param WC_Order $order Order object.
+     * @param int      $vendor_id Vendor ID.
+     * @param WC_Order $order     Order object.
      *
      * @return int Shipping method ID, or 0 if no shipping method is found.
      */

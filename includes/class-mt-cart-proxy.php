@@ -31,8 +31,8 @@ class MT_Cart_Proxy {
     /**
      * Constructor.
      *
-     * @param WC_Cart $cart Cart to wrap
-     * @param string $tax_rate_id Tax rate ID for cart
+     * @param WC_Cart $cart        Cart to wrap
+     * @param string  $tax_rate_id Tax rate ID for cart
      */
     public function __construct( $cart, $tax_rate_id ) {
         $this->cart        = $cart;
@@ -127,7 +127,7 @@ class MT_Cart_Proxy {
     /**
      * Set the tax for a particular fee.
      *
-     * @param mixed $id fee ID.
+     * @param mixed $id  fee ID.
      * @param float $tax sales tax for fee.
      */
     public function set_fee_item_tax( $id, $tax ) {
@@ -194,7 +194,7 @@ class MT_Cart_Proxy {
      * Set the tax amount for a given tax rate.
      *
      * @param string $tax_rate_id ID of the tax rate to set taxes for.
-     * @param float $amount
+     * @param float  $amount
      */
     public function set_tax_amount( $tax_rate_id, $amount ) {
         if ( $this->use_new_api ) {
@@ -210,7 +210,7 @@ class MT_Cart_Proxy {
      * Set the shipping tax amount for a given tax rate.
      *
      * @param string $tax_rate_id ID of the tax rate to set shipping taxes for.
-     * @param float $amount
+     * @param float  $amount
      */
     public function set_shipping_tax_amount( $tax_rate_id, $amount ) {
         if ( $this->use_new_api ) {
@@ -234,7 +234,7 @@ class MT_Cart_Proxy {
      * Forward calls to inaccessible methods to the underlying cart object.
      *
      * @param string $name name of method being called.
-     * @param array $args parameters of method.
+     * @param array  $args parameters of method.
      *
      * @return mixed
      */
@@ -256,8 +256,8 @@ class MT_Cart_Proxy {
     /**
      * Forward write requests for inaccessible properties to the underlying cart object.
      *
-     * @param string $name name of property being written to.
-     * @param mixed $value value being written.
+     * @param string $name  name of property being written to.
+     * @param mixed  $value value being written.
      */
     public function __set( $name, $value ) {
         $this->cart->$name = $value;

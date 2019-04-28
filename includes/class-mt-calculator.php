@@ -108,9 +108,9 @@ class MT_Calculator {
      *
      * Pulled from WC Vendors Pro.
      *
-     * @param string $title The shipping package title
-     * @param int $count The shipping package position
-     * @param array $package The package from the cart
+     * @param string $title   The shipping package title
+     * @param int    $count   The shipping package position
+     * @param array  $package The package from the cart
      *
      * @return string $title The modified shipping package title
      */
@@ -269,6 +269,7 @@ class MT_Calculator {
             ),
             'discount'         => $cart_item['line_subtotal'] - $cart_item['line_total'],
         ];
+
         return $line_item;
     }
 
@@ -367,7 +368,7 @@ class MT_Calculator {
     /**
      * Gets the correct shipping destination for a package.
      *
-     * @param int $key Package key
+     * @param int   $key Package key
      * @param array $package
      *
      * @return array Package destination address
@@ -456,11 +457,14 @@ class MT_Calculator {
         }
 
         return sizeof(
-                array_intersect(
-                    wc_get_chosen_shipping_method_ids(),
-                    apply_filters( 'woocommerce_local_pickup_methods', array( 'legacy_local_pickup', 'local_pickup' ) )
-                )
-            ) > 0;
+                   array_intersect(
+                       wc_get_chosen_shipping_method_ids(),
+                       apply_filters(
+                           'woocommerce_local_pickup_methods',
+                           array( 'legacy_local_pickup', 'local_pickup' )
+                       )
+                   )
+               ) > 0;
     }
 
     /**
@@ -704,7 +708,7 @@ class MT_Calculator {
      * Sets the tax rate code for the TFM tax rate.
      *
      * @param string $code
-     * @param mixed $tax_rate_id
+     * @param mixed  $tax_rate_id
      *
      * @return string
      */
@@ -794,7 +798,7 @@ class MT_Calculator {
     /**
      * Formats an address for TaxJar.
      *
-     * @param array $address
+     * @param array  $address
      * @param string $type 'from' or 'to'
      *
      * @return array
@@ -845,7 +849,7 @@ class MT_Calculator {
      * Prepares a taxForOrder response.
      *
      * @param object $breakdown Tax breakdown from TaxJar SmartCalcs
-     * @param array $shipping_items
+     * @param array  $shipping_items
      *
      * @return array Line items and shipping lines with tax amounts
      */
@@ -892,9 +896,11 @@ class MT_Calculator {
      */
     public function add_tax_to_cart_total( $total ) {
         if ( version_compare( WC_VERSION, '3.2', '>=' ) ) {
-            $total += $this->cart->get_cart_contents_tax() + $this->cart->get_fee_tax() + $this->cart->get_shipping_tax(
-                );
+            $total += $this->cart->get_cart_contents_tax();
+            $total += $this->cart->get_fee_tax();
+            $total += $this->cart->get_shipping_tax();
         }
+
         return $total;
     }
 

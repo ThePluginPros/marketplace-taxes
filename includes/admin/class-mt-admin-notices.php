@@ -71,7 +71,7 @@ class MT_Admin_Notices {
     /**
      * Remove a notice from being displayed.
      *
-     * @param  string $name
+     * @param string $name
      */
     public static function remove_notice( $name ) {
         self::$notices = array_diff( self::get_notices(), [ $name ] );
@@ -81,7 +81,7 @@ class MT_Admin_Notices {
     /**
      * See if a notice is being shown.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return boolean
      */

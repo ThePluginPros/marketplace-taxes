@@ -22,7 +22,7 @@ class MT_Dokan_Order_Manager {
      * This is required to prevent Dokan from removing all sub order
      * tax lines.
      *
-     * @param array $args
+     * @param array    $args
      * @param WC_Order $order
      */
     public function maybe_restore_order_taxes( $args, $order ) {

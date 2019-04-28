@@ -1,10 +1,10 @@
 /** global jQuery */
-jQuery( function( $ ) {
-    $('.input-toggle').on('change', function() {
-        var id  = $(this).attr('id'),
+jQuery(function ($) {
+    $('.input-toggle').on('change', function () {
+        var id = $(this).attr('id'),
             val = $(this).val();
 
-        if ($(this).is('[type="checkbox"]') && ! $(this).is(':checked')) {
+        if ($(this).is('[type="checkbox"]') && !$(this).is(':checked')) {
             val = null;
         }
 
@@ -24,10 +24,10 @@ jQuery( function( $ ) {
     });
 
     function init() {
-        $('.input-toggle').each(function() {
+        $('.input-toggle').each(function () {
             $(this).trigger('change');
         });
     }
 
     init();
-} );
+});

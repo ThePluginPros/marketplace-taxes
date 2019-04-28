@@ -53,7 +53,7 @@ class MT_Settings {
      * Gets a plugin option.
      *
      * @param string $option_name
-     * @param mixed $default Default value (default: null)
+     * @param mixed  $default Default value (default: null)
      *
      * @return mixed
      */
@@ -61,6 +61,7 @@ class MT_Settings {
         if ( isset( $this->integration ) ) {
             return $this->integration->get_option( $option_name, $default );
         }
+
         return null;
     }
 

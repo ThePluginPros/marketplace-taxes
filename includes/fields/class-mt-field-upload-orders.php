@@ -158,6 +158,7 @@ class MT_Field_Upload_Orders {
             return false;
         } elseif ( 201 != $response['response']['code'] ) {
             wc_get_logger()->error( "[TaxJar] Received (" . $response['response']['code'] . "): " . $response['body'] );
+
             return false;
         }
 
@@ -192,6 +193,7 @@ class MT_Field_Upload_Orders {
             return false;
         } elseif ( ! in_array( $response['response']['code'], [ 200, 404 ] ) ) {
             wc_get_logger()->error( "[TaxJar] Received (" . $response['response']['code'] . "): " . $response['body'] );
+
             return false;
         }
 

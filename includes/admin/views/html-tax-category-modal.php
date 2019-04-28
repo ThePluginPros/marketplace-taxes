@@ -1,7 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
-} ?>
+}
+
+?>
 
 <script type="text/html" id="tmpl-mt-category-row">
     <tr class="tax-category-row" data-id="{{ data.product_tax_code }}">
@@ -10,10 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             <p>{{ data.description }}</p>
         </td>
         <td width="1%">
-            <button type="button" class="button button-primary mt-select-done"><?php _e(
-                    'Select',
-                    'marketplace-taxes'
-                ); ?></button>
+            <button type="button" class="button button-primary mt-select-done">
+                <?php _e( 'Select', 'marketplace-taxes' ); ?>
+            </button>
         </td>
     </tr>
 </script>
@@ -25,10 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <header class="wc-backbone-modal-header">
                     <h1><?php _e( 'Select tax category', 'marketplace-taxes' ); ?></h1>
                     <button class="modal-close modal-close-link dashicons dashicons-no-alt">
-                        <span class="screen-reader-text"><?php _e(
-                                'Close modal panel',
-                                'marketplace-taxes'
-                            ); ?></span>
+                        <span class="screen-reader-text">
+                            <?php _e( 'Close modal panel', 'marketplace-taxes' ); ?>
+                        </span>
                     </button>
                 </header>
                 <article>

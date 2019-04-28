@@ -51,7 +51,7 @@ class MT_WC_Vendors_Order_API {
      * This is required because WC Vendors doesn't update the status of sub
      * orders when the parent order status is changed.
      *
-     * @param array $clauses
+     * @param array    $clauses
      * @param WP_Query $query
      *
      * @return array
@@ -74,8 +74,8 @@ class MT_WC_Vendors_Order_API {
     /**
      * Replaces the sub order number with the parent order number in API responses.
      *
-     * @param array $order_data Data for API response.
-     * @param WC_Order $order Order.
+     * @param array    $order_data Data for API response.
+     * @param WC_Order $order      Order.
      *
      * @return array
      */

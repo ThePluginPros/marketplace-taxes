@@ -26,11 +26,11 @@ class MT_API {
      * @return array
      */
     public function register_api_class( $classes ) {
-    	$api_version = defined( 'WC_API_REQUEST_VERSION' ) ? WC_API_REQUEST_VERSION : '';
+        $api_version = defined( 'WC_API_REQUEST_VERSION' ) ? WC_API_REQUEST_VERSION : '';
 
-    	if ( 2 !== $api_version ) {
-    	    return $classes;
-	    }
+        if ( 2 !== $api_version ) {
+            return $classes;
+        }
 
         $key = array_search( 'WC_API_Orders', $classes );
 
@@ -50,8 +50,8 @@ class MT_API {
      * current_user_can() function.
      *
      * @param array $all_caps All capabilities of the user.
-     * @param array $cap [0] Required capability.
-     * @param array $args [0] Requested capability, [1] User ID, [2] Object ID
+     * @param array $cap      [0] Required capability.
+     * @param array $args     [0] Requested capability, [1] User ID, [2] Object ID
      *
      * @return array
      */

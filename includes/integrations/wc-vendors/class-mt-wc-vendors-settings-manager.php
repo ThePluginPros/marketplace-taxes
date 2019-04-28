@@ -146,8 +146,8 @@ class MT_WC_Vendors_Settings_Manager {
     /**
      * Sets the vendor level 'Give Tax' override based on the selected M.O.R.
      *
-     * @param mixed $value
-     * @param int $user_id
+     * @param mixed  $value
+     * @param int    $user_id
      * @param string $meta_key
      *
      * @return mixed

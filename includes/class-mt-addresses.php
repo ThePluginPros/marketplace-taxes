@@ -49,8 +49,8 @@ class MT_Addresses {
     /**
      * Gets the nexus addresses for a vendor or the marketplace.
      *
-     * @param int $vendor_id Use `0` to get the marketplace addresses.
-     * @param bool $valid Should only valid addresses be returned?
+     * @param int  $vendor_id Use `0` to get the marketplace addresses.
+     * @param bool $valid     Should only valid addresses be returned?
      *
      * @return array
      */

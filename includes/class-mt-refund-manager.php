@@ -22,8 +22,8 @@ class MT_Refund_Manager {
     /**
      * Creates refunds for vendor sub orders when a parent order is refunded.
      *
-     * @param int $refund_id ID of newly created refund
-     * @param array $args Arguments passed to wc_create_refund
+     * @param int   $refund_id ID of newly created refund
+     * @param array $args      Arguments passed to wc_create_refund
      */
     public function create_sub_order_refunds( $refund_id, $args ) {
         $refund     = wc_get_order( $refund_id );

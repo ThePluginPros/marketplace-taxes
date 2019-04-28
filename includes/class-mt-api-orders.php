@@ -22,9 +22,9 @@ class MT_API_Orders extends WC_API_Orders {
     /**
      * Setup class
      *
-     * @since 2.1
-     *
      * @param WC_API_Server $server
+     *
+     * @since 2.1
      */
     public function __construct( $server ) {
         add_filter( 'woocommerce_api_check_authentication', array( $this, 'check_user_role' ) );
@@ -131,7 +131,7 @@ class MT_API_Orders extends WC_API_Orders {
     /**
      * Allows integrations to filter the vendor order query clauses.
      *
-     * @param array $clauses
+     * @param array    $clauses
      * @param WP_Query $query
      *
      * @return array
@@ -143,14 +143,14 @@ class MT_API_Orders extends WC_API_Orders {
     /**
      * Get all orders
      *
-     * @since 2.1
-     *
      * @param string $fields
-     * @param array $filter
+     * @param array  $filter
      * @param string $status
-     * @param int $page
+     * @param int    $page
      *
      * @return array
+     * @since 2.1
+     *
      */
     public function get_orders( $fields = null, $filter = array(), $status = null, $page = 1 ) {
         if ( $this->is_taxjar_request() ) {

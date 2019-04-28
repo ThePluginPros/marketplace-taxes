@@ -3,9 +3,9 @@
 /**
  * Nexus Addresses table template.
  *
- * @global string $context 'admin' or 'frontend'
- * @global array $value Selected addresses
- * @global array $countries Countries available for selection
+ * @global string $context   'admin' or 'frontend'
+ * @global array  $value     Selected addresses
+ * @global array  $countries Countries available for selection
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -57,11 +57,13 @@ $mobile_breakpoint = apply_filters( 'mt_mobile_breakpoint', $in_admin ? 1200 : 9
 <script type="text/html" id="tmpl-vt-nexus-addresses-empty">
     <tr id="nexus_addresses_blank_row">
         <td colspan="6">
-            <p><?php printf(
+            <p>
+                <?php printf(
                     '%s <a href="#" class="vt-add-nexus-address">%s</a>',
                     __( 'No addresses entered.', 'marketplace-taxes' ),
                     __( 'Add one.', 'marketplace-taxes' )
-                ); ?></p>
+                ); ?>
+            </p>
         </td>
     </tr>
 </script>

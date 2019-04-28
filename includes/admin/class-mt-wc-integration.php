@@ -51,6 +51,7 @@ class MT_WC_Integration extends WC_Integration implements MT_Settings_API {
                 'marketplace-taxes'
             ),
         ];
+
         return '<p>' . implode( '</p><p>', $paragraphs ) . '</p>';
     }
 
@@ -125,7 +126,7 @@ class MT_WC_Integration extends WC_Integration implements MT_Settings_API {
      * Generates the HTML for a custom field.
      *
      * @param string $key
-     * @param array $field
+     * @param array  $field
      *
      * @return string
      */
@@ -174,6 +175,7 @@ class MT_WC_Integration extends WC_Integration implements MT_Settings_API {
         if ( $_POST ) {
             return $this->get_field_value( 'api_token', $this->form_fields['api_token'] );
         }
+
         return $this->get_option( 'api_token' );
     }
 
@@ -186,6 +188,7 @@ class MT_WC_Integration extends WC_Integration implements MT_Settings_API {
         if ( 'vendor' === $this->get_option( 'merchant_of_record' ) ) {
             return false;
         }
+
         return 'yes' === $this->get_option( 'upload_transactions' );
     }
 

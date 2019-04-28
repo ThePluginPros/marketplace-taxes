@@ -29,8 +29,8 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
     /**
      * Constructor.
      *
-     * @param int $vendor_id ID of the vendor
-     * @param string $context 'admin' or 'frontend'
+     * @param int    $vendor_id ID of the vendor
+     * @param string $context   'admin' or 'frontend'
      */
     public function __construct( $vendor_id = 0, $context = 'frontend' ) {
         if ( ! $vendor_id ) {
@@ -140,7 +140,7 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
      * Get a field's POSTed and validated value.
      *
      * @param string $field_id Field key/ID
-     * @param array $post_data
+     * @param array  $post_data
      *
      * @return mixed
      *
@@ -170,7 +170,7 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
     /**
      * Get field name from field ID.
      *
-     * @param  string $field_id
+     * @param string $field_id
      *
      * @return string
      */
@@ -227,7 +227,7 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
      * Validates checkbox fields.
      *
      * @param string $field_name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return string
      */
@@ -238,8 +238,8 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
     /**
      * Gets an option from the DB, using defaults if necessary to prevent undefined notices.
      *
-     * @param string $key Option key.
-     * @param mixed $empty_value Value when empty.
+     * @param string $key         Option key.
+     * @param mixed  $empty_value Value when empty.
      *
      * @return string The value specified for the option or a default value for the option.
      */
@@ -266,6 +266,7 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
                 return null;
             }
         }
+
         return $this->get_option( 'taxjar_api_token' );
     }
 
@@ -278,6 +279,7 @@ class MT_Vendor_Settings_Form implements MT_Settings_API {
         if ( 'merchant' === MT()->settings->get( 'merchant_of_record' ) ) {
             return false;
         }
+
         return 'yes' === $this->get_option( 'upload_transactions', 'no' );
     }
 

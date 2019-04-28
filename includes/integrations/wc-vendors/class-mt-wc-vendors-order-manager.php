@@ -164,7 +164,7 @@ class MT_WC_Vendors_Order_Manager {
      * Update the inherited properties for a sub order to match the parent
      * order.
      *
-     * @param WC_Order $order Parent order.
+     * @param WC_Order $order     Parent order.
      * @param WC_Order $sub_order Vendor sub order.
      */
     protected function set_inherited_properties( &$order, &$sub_order ) {

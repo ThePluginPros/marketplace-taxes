@@ -68,6 +68,7 @@ class MT_WC_Vendors_Dashboard {
                 'class'  => [],
             ];
         }
+
         return $tabs;
     }
 
@@ -152,6 +153,7 @@ class MT_WC_Vendors_Dashboard {
                 )
             );
         }
+
         return $path;
     }
 
@@ -167,6 +169,7 @@ class MT_WC_Vendors_Dashboard {
      */
     public function register_save_action( $actions ) {
         $actions[] = 'wcv_save_product';
+
         return $actions;
     }
 
@@ -308,7 +311,7 @@ class MT_WC_Vendors_Dashboard {
         MT()->assets->enqueue( 'script', 'marketplace-taxes.country-select' );
 
         if ( 'admin' === $context ) {
-	        add_action( 'admin_footer', array( $this, 'fix_country_select_issue' ) );
+            add_action( 'admin_footer', array( $this, 'fix_country_select_issue' ) );
         }
     }
 
@@ -378,8 +381,8 @@ class MT_WC_Vendors_Dashboard {
      * This can be removed once we drop support for versions of WC Vendors
      * where this issue has not been fixed.
      */
-	public function fix_country_select_issue() {
-		?>
+    public function fix_country_select_issue() {
+        ?>
         <script>
             (function () {
                 if (!window.jQuery) {
@@ -399,8 +402,8 @@ class MT_WC_Vendors_Dashboard {
                 });
             })();
         </script>
-		<?php
-	}
+        <?php
+    }
 
 }
 

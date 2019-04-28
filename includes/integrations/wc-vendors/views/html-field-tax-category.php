@@ -4,7 +4,7 @@
  * Template for the Tax Category select box.
  *
  * @global string $selected_category
- * @global bool $is_variation
+ * @global bool   $is_variation
  * @global string $field_name
  */
 
@@ -23,15 +23,13 @@ if ( ! defined( 'ABSPATH' ) ) {
             <span class="mt-selected-category"><?php esc_html_e( 'Loading...', 'marketplace-taxes' ); ?></span>
 
             <button type="button" class="button mt-select-category"
-                    data-is-variation="<?php echo (int) $is_variation; ?>"><?php esc_html_e(
-                    'Change',
-                    'marketplace-taxes'
-                ); ?></button>
+                    data-is-variation="<?php echo (int) $is_variation; ?>">
+                <?php esc_html_e( 'Change', 'marketplace-taxes' ); ?>
+            </button>
 
-            <button type="button" class="button mt-reset-category"><?php esc_html_e(
-                    'Reset',
-                    'marketplace-taxes'
-                ); ?></button>
+            <button type="button" class="button mt-reset-category">
+                <?php esc_html_e( 'Reset', 'marketplace-taxes' ); ?>
+            </button>
 
             <input type="hidden" name="<?php echo $field_name; ?>" class="mt-category-input"
                    value="<?php echo $selected_category; ?>">

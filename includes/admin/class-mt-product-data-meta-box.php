@@ -24,7 +24,7 @@ class MT_Product_Data_Meta_Box {
     /**
      * Outputs the Tax category field.
      *
-     * @param int $loop
+     * @param int   $loop
      * @param array $variation_data
      * @param array $variation
      */
