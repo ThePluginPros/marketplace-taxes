@@ -26,6 +26,12 @@ class MT_API {
      * @return array
      */
     public function register_api_class( $classes ) {
+    	$api_version = defined( 'WC_API_REQUEST_VERSION' ) ? WC_API_REQUEST_VERSION : '';
+
+    	if ( 2 !== $api_version ) {
+    	    return $classes;
+	    }
+
         $key = array_search( 'WC_API_Orders', $classes );
 
         if ( false !== $key ) {
