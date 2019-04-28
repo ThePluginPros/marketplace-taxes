@@ -377,7 +377,7 @@ class MT_Refund_Uploader extends WP_Background_Process {
      *
      * @param WC_Order_Refund $refund
      */
-    protected function increment_upload_attempts( &$refund ) {
+    protected function increment_upload_attempts( $refund ) {
         $current_attempts = $refund->get_meta( '_mt_upload_attempts', true );
 
         if ( ! is_numeric( $current_attempts ) ) {

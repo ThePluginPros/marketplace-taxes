@@ -77,7 +77,7 @@ class MT_WC_Vendors_Order_Manager {
      *
      * @param WC_Order $order
      */
-    protected function add_shipping_lines( &$order ) {
+    protected function add_shipping_lines( $order ) {
         // Bail if shipping lines were already added
         if ( 0 < sizeof( $order->get_items( 'shipping' ) ) ) {
             return;
@@ -167,7 +167,7 @@ class MT_WC_Vendors_Order_Manager {
      * @param WC_Order $order     Parent order.
      * @param WC_Order $sub_order Vendor sub order.
      */
-    protected function set_inherited_properties( &$order, &$sub_order ) {
+    protected function set_inherited_properties( $order, $sub_order ) {
         foreach ( self::$inherited_props as $prop ) {
             $sub_order->{"set_$prop"}( $order->{"get_$prop"}() );
         }
