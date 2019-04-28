@@ -25,7 +25,7 @@ class MT_WC_Vendors_Order_API {
      *
      * @param WP_Query $query
      */
-    public function filter_order_query( &$query ) {
+    public function filter_order_query( $query ) {
         $meta_query = $query->get( 'meta_query' );
 
         if ( ! is_array( $meta_query ) ) {
