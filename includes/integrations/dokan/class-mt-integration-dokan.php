@@ -146,6 +146,10 @@ class MT_Integration_Dokan extends MT_Integration {
     public function is_vendor( $user_id ) {
         $user = get_user_by( 'id', $user_id );
 
+        if ( ! $user ) {
+            return false;
+        }
+
         return count( array_intersect( $this->get_vendor_roles(), $user->roles ) ) > 0;
     }
 
