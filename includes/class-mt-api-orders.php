@@ -101,27 +101,22 @@ class MT_API_Orders extends WC_API_Orders {
      * @param WP_Query $query
      */
     public function filter_order_query( &$query ) {
-        $meta_query = $query->get( 'meta_query' );
-
-        if ( ! is_array( $meta_query ) ) {
-            $meta_query = [];
-        }
-
-        $id_key = apply_filters( 'mt_vendor_order_vendor_key', '_vendor_id' );
-
         if ( $this->is_user_vendor ) {
+            $meta_query = $query->get( 'meta_query' );
+
+            if ( ! is_array( $meta_query ) ) {
+                $meta_query = [];
+            }
+
             $meta_query[] = [
-                'key'   => $id_key,
+                'key'   => apply_filters( 'mt_vendor_order_vendor_key', '_vendor_id' ),
                 'value' => get_current_user_id(),
             ];
-        } else {
-            $meta_query[] = [
-                'key'     => $id_key,
-                'compare' => 'NOT EXISTS',
-            ];
-        }
 
-        $query->set( 'meta_query', $meta_query );
+            $query->set( 'meta_query', $meta_query );
+        } else {
+            $query->set( 'post_parent', 0 );
+        }
 
         if ( $this->is_user_vendor ) {
             do_action( 'mt_pre_get_vendor_orders', $query );
