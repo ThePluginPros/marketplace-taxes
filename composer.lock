@@ -48,14 +48,14 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:bporcelli/wordframe.git",
-                "reference": "8113405b372e70471fa0ed47ffbfe17c2fb40516"
+                "reference": "f6115f4e0143da9c82b0cd8a87cd80663ecf2488"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "WordFrame\\": "src/",
-                    "WordFrame\\v1_1_0\\": "src/",
-                    "WordFrame\\v1_1_0\\Updates\\": "src/updates/"
+                    "WordFrame\\v1_1_3\\": "src/",
+                    "WordFrame\\v1_1_3\\Updates\\": "src/updates/"
                 }
             },
             "license": [
@@ -68,7 +68,7 @@
                 }
             ],
             "description": "A simple WordPress plugin development framework.",
-            "time": "2018-08-17T03:27:37+00:00"
+            "time": "2019-05-08T22:27:48+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -76,15 +76,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "2798c457a4fc5a9bda4587ea0da9b177e22aff5a"
+                "reference": "bf595424e4d442a190582e088985dc835a789071"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/2798c457a4fc5a9bda4587ea0da9b177e22aff5a",
-                "reference": "2798c457a4fc5a9bda4587ea0da9b177e22aff5a",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/bf595424e4d442a190582e088985dc835a789071",
+                "reference": "bf595424e4d442a190582e088985dc835a789071",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
                 "guzzlehttp/psr7": "^1.4",
                 "php": ">=5.5"
@@ -92,7 +93,7 @@
             "require-dev": {
                 "ext-curl": "*",
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
-                "psr/log": "^1.0"
+                "psr/log": "^1.1"
             },
             "suggest": {
                 "psr/log": "Required for using the Log middleware"
@@ -104,12 +105,12 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "src/functions_include.php"
-                ],
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                }
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -133,7 +134,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-10-08T11:42:37+00:00"
+            "time": "2019-04-15T08:22:37+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -141,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "136531aa4e42f9b1971a47fb0faf60da00d2fefa"
+                "reference": "926eaa3ff73cde2becf652b785831bcb7618568a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/136531aa4e42f9b1971a47fb0faf60da00d2fefa",
-                "reference": "136531aa4e42f9b1971a47fb0faf60da00d2fefa",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/926eaa3ff73cde2becf652b785831bcb7618568a",
+                "reference": "926eaa3ff73cde2becf652b785831bcb7618568a",
                 "shasum": ""
             },
             "require": {
@@ -184,7 +185,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2018-03-25T01:26:01+00:00"
+            "time": "2018-10-30T00:20:04+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -192,24 +193,28 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "4b981cdeb8c13d22a6c193554f8c686f53d5c958"
+                "reference": "a346647434953deb5bd599d92922b2d225e25170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4b981cdeb8c13d22a6c193554f8c686f53d5c958",
-                "reference": "4b981cdeb8c13d22a6c193554f8c686f53d5c958",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/a346647434953deb5bd599d92922b2d225e25170",
+                "reference": "a346647434953deb5bd599d92922b2d225e25170",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5"
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
             },
             "provide": {
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
+                "ext-zlib": "*",
                 "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "suggest": {
+                "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
             },
             "type": "library",
             "extra": {
@@ -244,13 +249,14 @@
             "keywords": [
                 "http",
                 "message",
+                "psr-7",
                 "request",
                 "response",
                 "stream",
                 "uri",
                 "url"
             ],
-            "time": "2018-07-29T08:09:46+00:00"
+            "time": "2019-04-01T06:40:32+00:00"
         },
         {
             "name": "psr/http-message",
@@ -395,12 +401,12 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:thepluginpros/wcv-settings-api.git",
-                "reference": "d2237e2bd4d617daab10cddd7e4461e153fd9031"
+                "reference": "5534cf7c00931536fa5e660b4a3acb6c401dcd0e"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "WCV_Settings\\v1_0_2\\": "/"
+                    "WCV_Settings\\v1_0_5\\": "/"
                 }
             },
             "license": [
@@ -413,7 +419,7 @@
                 }
             ],
             "description": "Backward compatible settings API for WC Vendors.",
-            "time": "2018-08-20T20:42:54+00:00"
+            "time": "2019-04-22T16:43:59+00:00"
         }
     ],
     "packages-dev": [],

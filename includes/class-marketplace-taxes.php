@@ -1,6 +1,6 @@
 <?php
 
-use WordFrame\v1_1_0\Plugin;
+use WordFrame\v1_1_3\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;

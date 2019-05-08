@@ -1,7 +1,7 @@
 <?php
 
-use WCV_Settings\v1_0_2\Legacy_Settings_API;
-use WCV_Settings\v1_0_2\Settings_API;
+use WCV_Settings\v1_0_5\Legacy_Settings_API;
+use WCV_Settings\v1_0_5\Settings_API;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
