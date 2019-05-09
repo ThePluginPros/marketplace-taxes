@@ -203,6 +203,7 @@ class MT_Dokan_Dashboard {
                         'i18n_api_key_required' => __( 'A valid API key is required.', 'marketplace-taxes' ),
                     ],
                 ],
+                'ver'       => '1.0.1',
             ]
         );
     }
@@ -245,12 +246,12 @@ class MT_Dokan_Dashboard {
     /**
      * Outputs the Tax Category dropdown under the Product Tags dropdown.
      *
-     * @todo Ask Dokan devs to add a suitable action
-     *
      * @param string $output Output from `wp_dropdown_categories`
      * @param array  $args   Arguments passed to `wp_dropdown_categories`
      *
      * @return string
+     * @todo Ask Dokan devs to add a suitable action
+     *
      */
     public function maybe_output_tax_category_field( $output, $args ) {
         global $post;

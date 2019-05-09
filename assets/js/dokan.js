@@ -73,6 +73,10 @@ jQuery(function ($) {
             });
         },
         check_setup_status: function (event, xhr, options, data) {
+            if (typeof data.data === 'undefined') {
+                return;
+            }
+
             if (typeof data.data.tax_setup_complete === 'undefined') {
                 return;
             }
