@@ -1,15 +1,15 @@
-# Copyright (C) 2018 The Plugin Pros
+# Copyright (C) 2019 The Plugin Pros
 # This file is distributed under the same license as the Marketplace Taxes package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Marketplace Taxes 1.1.0\n"
+"Project-Id-Version: Marketplace Taxes 1.1.1\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/ThePluginPros/marketplace-taxes/issues\n"
-"POT-Creation-Date: 2018-12-18 15:01:56+00:00\n"
+"POT-Creation-Date: 2019-05-10 18:14:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
-"X-Generator: grunt-wp-i18n1.0.2\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: includes/admin/class-mt-admin-notices.php:98
 msgid "Action failed. Please refresh the page and retry."
@@ -51,85 +51,85 @@ msgid ""
 "href=\"https://thepluginpros.com/documentation/taxjar\">documentation</a>"
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:63
+#: includes/admin/class-mt-wc-integration.php:64
 msgid "Enable"
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:65
+#: includes/admin/class-mt-wc-integration.php:66
 msgid "Enable automated tax calculations"
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:71
+#: includes/admin/class-mt-wc-integration.php:72
 msgid "Your API token will be used to calculate the correct tax rate at checkout."
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:81
+#: includes/admin/class-mt-wc-integration.php:82
 msgid "Seller of record"
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:85
+#: includes/admin/class-mt-wc-integration.php:86
 msgid "Vendor"
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:86
+#: includes/admin/class-mt-wc-integration.php:87
 msgid "Marketplace"
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:89
+#: includes/admin/class-mt-wc-integration.php:90
 msgid ""
 "The seller of record is responsible for collecting and remitting sales tax "
 "for each sale. The tax collected at checkout will be given to the seller of "
 "record."
 msgstr ""
 
-#: includes/admin/class-mt-wc-integration.php:98
+#: includes/admin/class-mt-wc-integration.php:99
 msgid "Business locations"
 msgstr ""
 
-#: includes/admin/views/html-select-category-bulk.php:7
-#: includes/admin/views/html-select-category.php:26
+#: includes/admin/views/html-select-category-bulk.php:9
+#: includes/admin/views/html-select-category.php:28
 msgid "Tax category"
 msgstr ""
 
-#: includes/admin/views/html-select-category-bulk.php:9
+#: includes/admin/views/html-select-category-bulk.php:11
 #: includes/class-mt-assets.php:67
 msgid "No change"
 msgstr ""
 
 #: includes/admin/views/html-select-category-bulk.php:14
-#: includes/admin/views/html-select-category.php:43
-#: includes/integrations/dokan/templates/tax-category-dropdown.php:38
-#: includes/integrations/wc-vendors/views/html-field-tax-category.php:26
+#: includes/admin/views/html-select-category.php:44
+#: includes/integrations/dokan/templates/tax-category-dropdown.php:39
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:27
 msgid "Change"
 msgstr ""
 
-#: includes/admin/views/html-select-category-bulk.php:18
+#: includes/admin/views/html-select-category-bulk.php:17
 #: includes/admin/views/html-select-category.php:48
 #: includes/integrations/dokan/templates/tax-category-dropdown.php:42
 #: includes/integrations/wc-vendors/views/html-field-tax-category.php:31
 msgid "Reset"
 msgstr ""
 
-#: includes/admin/views/html-select-category.php:29
+#: includes/admin/views/html-select-category.php:31
 msgid ""
 "Used for products that are either exempt from tax in some jurisdictions or "
 "are taxed at reduced rates. "
 msgstr ""
 
-#: includes/admin/views/html-select-category.php:37
+#: includes/admin/views/html-select-category.php:40
 #: includes/class-mt-assets.php:66
 msgid "None"
 msgstr ""
 
-#: includes/admin/views/html-tax-category-modal.php:13
+#: includes/admin/views/html-tax-category-modal.php:16
 msgid "Select"
 msgstr ""
 
-#: includes/admin/views/html-tax-category-modal.php:26
+#: includes/admin/views/html-tax-category-modal.php:27
 msgid "Select tax category"
 msgstr ""
 
-#: includes/admin/views/html-tax-category-modal.php:28
+#: includes/admin/views/html-tax-category-modal.php:30
 msgid "Close modal panel"
 msgstr ""
 
@@ -139,32 +139,32 @@ msgstr ""
 
 #: includes/admin/views/notices/html-notice-custom.php:19
 #: includes/integrations/wc-vendors/views/notices/html-notice-update.php:33
-#: includes/integrations/wc-vendors/views/notices/html-notice-updated.php:19
+#: includes/integrations/wc-vendors/views/notices/html-notice-updated.php:20
 msgid "Dismiss"
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:142
+#: includes/class-marketplace-taxes.php:144
 #. translators: 1: required plugin name, 2: minimum version
 msgid ""
 "<strong>%1$s needs to be updated.</strong> Marketplace Taxes requires %1$s "
 "%2$s+."
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:153
+#: includes/class-marketplace-taxes.php:155
 #. translators: 1: required plugin name
 msgid ""
 "<strong>%1$s not detected.</strong> Please install or activate %1$s to use "
 "Marketplace Taxes."
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:177
+#: includes/class-marketplace-taxes.php:180
 #. translators: 1 - list of required PHP extensions
 msgid ""
 "<strong>Required PHP extensions are missing.</strong> Marketplace Taxes "
 "requires %1$s."
 msgstr ""
 
-#: includes/class-marketplace-taxes.php:186
+#: includes/class-marketplace-taxes.php:189
 #. translators: 1 - required php version
 msgid ""
 "<strong>PHP needs to be updated.</strong> Marketplace Taxes requires PHP "
@@ -214,8 +214,8 @@ msgid ""
 msgstr ""
 
 #: includes/class-mt-assets.php:65
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:323
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:350
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:456
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:484
 msgid "Same as parent"
 msgstr ""
 
@@ -275,11 +275,11 @@ msgstr ""
 msgid "Once monthly"
 msgstr ""
 
-#: includes/class-mt-tax-categories.php:110
+#: includes/class-mt-tax-categories.php:111
 msgid "Products that don't fall into other categories"
 msgstr ""
 
-#: includes/class-mt-tax-categories.php:111
+#: includes/class-mt-tax-categories.php:112
 msgid "General"
 msgstr ""
 
@@ -381,12 +381,12 @@ msgstr ""
 msgid "Inherited from your store settings."
 msgstr ""
 
-#: includes/integrations/dokan/class-mt-integration-dokan.php:184
+#: includes/integrations/dokan/class-mt-integration-dokan.php:188
 #: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:299
 msgid "Enter a complete store address"
 msgstr ""
 
-#: includes/integrations/dokan/class-mt-integration-dokan.php:191
+#: includes/integrations/dokan/class-mt-integration-dokan.php:195
 #: includes/integrations/wc-vendors/class-mt-integration-wc-vendors.php:312
 msgid "Review your tax settings"
 msgstr ""
@@ -433,40 +433,40 @@ msgstr ""
 msgid "Settings saved."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:149
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:150
 msgid ""
 "A custom product variation template is in use. Tax category assignment "
 "won't work for variations."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:231
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:234
 msgid "Store Country"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:247
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:250
 msgid "Store Address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:248
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:251
 msgid "Street Address"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:260
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:263
 msgid "Apartment, unit, suite etc."
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:272
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:273
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:275
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:276
 msgid "City / Town"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:285
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:286
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:288
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:289
 msgid "State / County"
 msgstr ""
 
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:298
-#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:299
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:301
+#: includes/integrations/wc-vendors/class-mt-wc-vendors-dashboard.php:302
 msgid "Postcode / Zip"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 msgid "This field is disabled while Marketplace Taxes is active."
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/html-field-tax-category.php:41
+#: includes/integrations/wc-vendors/views/html-field-tax-category.php:39
 msgid ""
 "Used for products that are either exempt from tax in some jurisdictions or "
 "are taxed at reduced rates."
@@ -506,7 +506,7 @@ msgid ""
 "be able to import new orders into TaxJar."
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/notices/html-notice-updated.php:21
+#: includes/integrations/wc-vendors/views/notices/html-notice-updated.php:23
 msgid ""
 "Marketplace Taxes data update complete. The updated orders will be imported "
 "into TaxJar within 24 hours."
@@ -524,120 +524,120 @@ msgstr ""
 msgid "Taking a while? Click here to run it now."
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:49
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:63
 msgid "Any"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:73
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:99
 msgid "Remove"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:96
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:131
 msgid "SKU"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:124
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:168
 msgid "Enabled"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:130
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:178
 msgid "Downloadable"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:136
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:188
 msgid "Virtual"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:143
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:199
 msgid "Manage stock?"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:163
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:219
 msgid "Regular Price:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:165
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:227
 msgid "Variation price (required)"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:173
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:235
 msgid "Sale Price:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:177
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:243
 msgid "Schedule"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:186
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:253
 msgid "Sale start date:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:195
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:271
 msgid "Sale end date:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:199
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:286
 msgid "Cancel schedule"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:213
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:302
 msgid "Stock Qty:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:223
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:315
 msgid "Allow Backorders?"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:243
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:340
 msgid "Stock status"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:268
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:373
 msgid "Weight"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:282
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:397
 msgid "Dimensions (L&times;W&times;H)"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:317
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:450
 msgid "Shipping class:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:347
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:480
 msgid "Tax class:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:370
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:512
 msgid "Variation Description:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:387
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:541
 msgid "Downloadable Files"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:392
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:547
 msgid "Name"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:393
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:550
 msgid "File URL"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:433
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:594
 msgid "Add File"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:449
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:610
 msgid "Download Limit:"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:451
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:461
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:615
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:629
 msgid "Unlimited"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:459
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:624
 msgid "Download Expiry:"
 msgstr ""
 
@@ -650,17 +650,17 @@ msgid "Country"
 msgstr ""
 
 #: includes/views/html-field-address-table.php:34
-#: includes/views/html-field-address-table.php:89
+#: includes/views/html-field-address-table.php:91
 msgid "State"
 msgstr ""
 
 #: includes/views/html-field-address-table.php:35
-#: includes/views/html-field-address-table.php:95
+#: includes/views/html-field-address-table.php:97
 msgid "City"
 msgstr ""
 
 #: includes/views/html-field-address-table.php:36
-#: includes/views/html-field-address-table.php:100
+#: includes/views/html-field-address-table.php:102
 msgid "Postcode"
 msgstr ""
 
@@ -668,19 +668,19 @@ msgstr ""
 msgid "Add Address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:62
+#: includes/views/html-field-address-table.php:63
 msgid "No addresses entered."
 msgstr ""
 
-#: includes/views/html-field-address-table.php:63
+#: includes/views/html-field-address-table.php:64
 msgid "Add one."
 msgstr ""
 
-#: includes/views/html-field-address-table.php:74
+#: includes/views/html-field-address-table.php:76
 msgid "Street address"
 msgstr ""
 
-#: includes/views/html-field-address-table.php:230
+#: includes/views/html-field-address-table.php:232
 msgid "At least one business address is required."
 msgstr ""
 
@@ -692,7 +692,7 @@ msgstr ""
 msgid "Tax setup incomplete."
 msgstr ""
 
-#: templates/address-notice.php:19
+#: templates/address-notice.php:20
 msgid ""
 "Please complete the following steps to ensure your customers are taxed "
 "correctly:"
@@ -777,12 +777,12 @@ msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:188
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:260
 msgctxt "placeholder"
 msgid "From&hellip;"
 msgstr ""
 
-#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:197
+#: includes/integrations/wc-vendors/views/partials/wcvendors-pro-product-variation.php:278
 msgctxt "placeholder"
 msgid "To&hellip;"
 msgstr ""

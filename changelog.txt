@@ -1,5 +1,19 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+= [1.1.1] - 2019-05-10 =
+
+Fixed:
+- Fatal error when accessing WC REST API v1 endpoints
+- Vendors can't update their store state in WP admin (WC Vendors)
+- Parent orders are uploaded to vendors' TaxJar accounts when PHP < 7 is installed
+- PHP notices preventing TaxJar from importing Dokan transactions
+- Single vendor parent/top level orders are not imported into TaxJar
+- JS error when running alongside MarketShip
+
+Changed:
+- Update tested WP version to 5.2.0
+- Update tested WC version to 3.6.0
+
 = [1.1.0] - 2018-12-18 =
 
 Added:
