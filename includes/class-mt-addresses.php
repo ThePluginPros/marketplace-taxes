@@ -365,8 +365,8 @@ class MT_Addresses {
 
         $states = WC()->countries->get_states( $address['country'] );
 
-        if ( ! $states || ! isset( $states[ $address['state'] ] ) ) {
-            return false;
+        if ( $states ) {
+            return isset( $states[ $address['state'] ] );
         }
 
         return true;
