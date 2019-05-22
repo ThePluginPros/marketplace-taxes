@@ -1,6 +1,6 @@
 {
   "name": "marketplace-taxes",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Make your WooCommerce marketplace more attractive with sales tax automation by TaxJar.",
   "main": "Gruntfile.js",
   "scripts": {

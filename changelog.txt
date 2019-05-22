@@ -1,5 +1,10 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+= [1.1.2] - 2019-05-22 =
+
+Fixed:
+- "Enter a complete store address" warning doesn't disappear
+
 = [1.1.1] - 2019-05-10 =
 
 Fixed:
