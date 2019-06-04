@@ -359,7 +359,9 @@ class MT_WC_Vendors_Dashboard {
             ]
         );
 
-        if ( ! get_user_meta( get_current_user_id(), 'tax_settings_reviewed', true ) ) {
+        $tax_settings_reviewed = get_user_meta( get_current_user_id(), 'tax_settings_reviewed', true );
+
+        if ( 'settings' === get_query_var( 'object' ) && ! $tax_settings_reviewed ) {
             MT()->assets->enqueue(
                 'script',
                 'marketplace-taxes.wcv-tax-setup',
