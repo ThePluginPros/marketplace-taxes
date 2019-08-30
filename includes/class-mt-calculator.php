@@ -47,7 +47,7 @@ class MT_Calculator {
      * Registers required action hooks and filters.
      */
     private function hooks() {
-        add_filter( 'woocommerce_cart_shipping_packages', array( $this, 'split_cart_shipping_packages' ) );
+        add_filter( 'woocommerce_cart_shipping_packages', array( $this, 'split_cart_shipping_packages' ), 20 );
         add_filter( 'woocommerce_shipping_package_name', array( $this, 'rename_vendor_shipping_package' ), 10, 3 );
         add_action( 'woocommerce_calculate_totals', array( $this, 'calculate_tax_for_cart' ) );
         add_filter( 'woocommerce_calculated_total', array( $this, 'add_tax_to_cart_total' ) );
@@ -65,7 +65,17 @@ class MT_Calculator {
      * @return array
      */
     public function split_cart_shipping_packages( $packages ) {
-        if ( apply_filters( 'mt_cart_packages_split', class_exists( 'WCVendors_Pro' ), $packages ) ) {
+        // Bail if the cart packages have already been split by vendor
+        $packages_already_split = false;
+
+        foreach ( $packages as $package ) {
+            if ( $this->get_package_vendor_id( $package ) ) {
+                $packages_already_split = true;
+                break;
+            }
+        }
+
+        if ( apply_filters( 'mt_cart_packages_split', $packages_already_split, $packages ) ) {
             return $packages;
         }
 
@@ -89,6 +99,7 @@ class MT_Calculator {
                 'contents_cost'   => $contents_cost,
                 'applied_coupons' => WC()->cart->applied_coupons,
                 'vendor_id'       => $vendor_id,
+                'created_by'      => 'marketplace-taxes',
                 'destination'     => [
                     'country'   => WC()->customer->get_shipping_country(),
                     'state'     => WC()->customer->get_shipping_state(),
@@ -106,8 +117,6 @@ class MT_Calculator {
     /**
      * Renames the shipping packages based on the vendor sold by.
      *
-     * Pulled from WC Vendors Pro.
-     *
      * @param string $title   The shipping package title
      * @param int    $count   The shipping package position
      * @param array  $package The package from the cart
@@ -115,11 +124,11 @@ class MT_Calculator {
      * @return string $title The modified shipping package title
      */
     public function rename_vendor_shipping_package( $title, $count, $package ) {
-        if ( isset( $package['vendor_id'] ) ) {
+        if ( isset( $package['created_by'] ) && 'marketplace-taxes' === $package['created_by'] ) {
             $vendor_sold_by = MT()->integration->get_vendor_sold_by( $package['vendor_id'] );
             $title          = sprintf( __( '%s Shipping', 'marketplace-taxes' ), $vendor_sold_by );
             $title          = apply_filters(
-                'wcv_vendor_shipping_package_title',
+                'mt_vendor_shipping_package_title',
                 $title,
                 $count,
                 $package,
@@ -289,7 +298,7 @@ class MT_Calculator {
         $vendor_packages = [];
 
         foreach ( $cart->get_shipping_packages() as $key => $package ) {
-            $vendor_id = isset( $package['vendor_id'] ) ? $package['vendor_id'] : '';
+            $vendor_id = $this->get_package_vendor_id( $package );
 
             if ( empty( $vendor_id ) ) {
                 continue;
@@ -363,6 +372,25 @@ class MT_Calculator {
         }
 
         return $vendor_items;
+    }
+
+    /**
+     * Gets the vendor ID from a WooCommerce shipping package.
+     *
+     * Dokan uses the key `seller_id` for the vendor ID whereas WC Vendors Pro uses `vendor_id`.
+     *
+     * @param array $package
+     *
+     * @return int
+     */
+    private function get_package_vendor_id( $package ) {
+        if ( isset( $package['vendor_id'] ) ) {
+            return $package['vendor_id'];
+        } else if ( isset( $package['seller_id'] ) ) {
+            return $package['seller_id'];
+        }
+
+        return 0;
     }
 
     /**
