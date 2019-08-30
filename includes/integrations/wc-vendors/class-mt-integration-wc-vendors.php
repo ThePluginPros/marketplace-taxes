@@ -92,11 +92,6 @@ class MT_Integration_WC_Vendors extends MT_Integration {
      * @return array
      */
     public function get_default_vendor_addresses( $addresses, $vendor_id ) {
-        // There are no store address fields in WC Vendors free
-        if ( ! $this->is_pro ) {
-            return $addresses;
-        }
-
         // Store address
         $addresses[] = [
             'description' => __( 'Inherited from your store settings', 'marketplace-taxes' ),
