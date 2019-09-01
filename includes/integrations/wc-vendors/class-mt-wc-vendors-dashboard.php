@@ -27,7 +27,7 @@ class MT_WC_Vendors_Dashboard {
         add_filter( 'pre_option_wcvendors_hide_settings_store_address', 'mt_return_yes' );
 
         if ( is_admin() ) {
-            add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
+            add_action( 'wcvendors_settings_after_shop_name', array( $this, 'output_address_fields' ) );
         } else {
             add_action( 'template_redirect', array( $this, 'address_fields_hook' ) );
         }
@@ -47,9 +47,9 @@ class MT_WC_Vendors_Dashboard {
      */
     public function address_fields_hook() {
         if ( mt_wcv_is_dashboard_page() ) {
-            add_action( 'wcv_form_input_after__wcv_store_phone', array( $this, 'output_address_fields' ) );
+            add_action( 'wcvendors_settings_after_store_phone', array( $this, 'output_address_fields' ) );
         } else {
-            add_action( 'wcvendors_settings_after_shop_description', array( $this, 'output_address_fields' ) );
+            add_action( 'wcvendors_settings_after_shop_name', array( $this, 'output_address_fields' ) );
         }
     }
 

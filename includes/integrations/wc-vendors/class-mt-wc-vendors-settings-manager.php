@@ -98,6 +98,7 @@ class MT_WC_Vendors_Settings_Manager {
                 '#hide_product_general_tax',
                 '#hide_product_variations_tax_class',
                 '#wcv_give_vendor_tax',
+                '#wcvendors_hide_settings_store_address',
             ];
             $selector        = implode( ', ', $disabled_fields );
             ?>
