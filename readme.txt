@@ -4,7 +4,7 @@ Donate link: https://paypal.me/ThePluginPros
 Tags: wc vendors tax, dokan tax, wc marketplace tax, wooocommerce marketplace tax, marketplace tax, marketplace sales tax, marketplace taxes
 Requires at least: 4.4
 Tested up to: 5.2
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -104,10 +104,15 @@ You can submit a question on the [support tab](https://wordpress.org/support/plu
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-= [1.1.3] - 2019-06-06 =
+= [1.1.4] - 2019-09-18 =
 
 Fixed:
-- JS error when the "Enter a complete store address" warning appears in WC Vendors
+- Marketplace Taxes breaks the Dokan Pro shipping system
+- Store address isn't used as a business address in WC Vendors
+- Store address fields are hidden when the Store Phone field is hidden in WC Vendors
+
+Changed:
+- Update tested WC version to 3.7.0
 
 == Upgrade Notice ==
 

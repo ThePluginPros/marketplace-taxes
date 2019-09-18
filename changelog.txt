@@ -1,5 +1,15 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+= [1.1.4] - 2019-09-18 =
+
+Fixed:
+- Marketplace Taxes breaks the Dokan Pro shipping system
+- Store address isn't used as a business address in WC Vendors
+- Store address fields are hidden when the Store Phone field is hidden in WC Vendors
+
+Changed:
+- Update tested WC version to 3.7.0
+
 = [1.1.3] - 2019-06-06 =
 
 Fixed:

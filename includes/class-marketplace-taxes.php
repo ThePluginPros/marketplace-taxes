@@ -16,7 +16,7 @@ final class Marketplace_Taxes extends Plugin {
     /**
      * @var string Current plugin version.
      */
-    public $version = '1.1.3';
+    public $version = '1.1.4';
 
     /**
      * @var MT_Settings Settings instance.
