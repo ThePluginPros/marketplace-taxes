@@ -50,7 +50,7 @@ function mt_wcv_get_shipped_product_ids( $shipping_item ) {
         $order = $shipping_item->get_order();
 
         foreach ( $order->get_items() as $item ) {
-            $product_id = $item->get_product()->get_id();
+            $product_id = $item->get_product_id();
 
             // Map item name to item ID
             $item_map[ $item->get_name() ] = $product_id;

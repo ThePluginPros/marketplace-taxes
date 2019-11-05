@@ -88,7 +88,7 @@ class MT_WC_Vendors_Order_Manager {
         $item_map = [];
 
         foreach ( $order->get_items() as $item ) {
-            $product_id = $item->get_product()->get_id();
+            $product_id = $item->get_product_id();
             $item_id    = $item->get_meta( '_vendor_order_item_id', true );
             if ( ( $original_item = WC_Order_Factory::get_order_item( $item_id ) ) ) {
                 $item_map[ $product_id ] = $original_item;
