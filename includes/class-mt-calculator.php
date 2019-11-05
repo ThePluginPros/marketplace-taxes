@@ -169,6 +169,10 @@ class MT_Calculator {
                     if ( isset( $cart_keys[ $line_item['id'] ] ) ) {
                         $this->cart->set_cart_item_tax( $cart_keys[ $line_item['id'] ], $line_item['tax'] );
                         $cart_tax += $line_item['tax'];
+                    } elseif ( 0 === strpos( $line_item['id'], 'fee-' ) ) {
+                        $fee_id = substr( $line_item['id'], strlen( 'fee-' ) );
+                        $this->cart->set_fee_item_tax( $fee_id, $line_item['tax'] );
+                        $cart_tax += $line_item['tax'];
                     }
                 }
 
@@ -557,7 +561,7 @@ class MT_Calculator {
      */
     private function set_line_item_taxes( $line_items ) {
         foreach ( $line_items as $line_item ) {
-            $item  = new WC_Order_Item_Product( $line_item['id'] );
+            $item  = WC_Order_Factory::get_order_item( $line_item['id'] );
             $taxes = $item->get_taxes();
 
             if ( ! is_array( $taxes['total'] ) ) {
