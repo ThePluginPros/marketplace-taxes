@@ -4,7 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-require_once WC()->plugin_path() . '/includes/api/legacy/v2/class-wc-api-orders.php';
+if ( version_compare( WC()->version, '3.7.0', '>=' ) ) {
+    require_once WC()->plugin_path() . '/includes/legacy/api/v2/class-wc-api-orders.php';
+} else {
+    require_once WC()->plugin_path() . '/includes/api/legacy/v2/class-wc-api-orders.php';
+}
 
 /**
  * WC REST API Orders Controller.
