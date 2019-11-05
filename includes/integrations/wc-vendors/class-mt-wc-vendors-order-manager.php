@@ -46,6 +46,7 @@ class MT_WC_Vendors_Order_Manager {
         add_action( 'mt_vendor_order_created', array( $this, 'on_order_created' ) );
         add_action( 'woocommerce_before_order_object_save', array( $this, 'update_sub_orders' ) );
         add_filter( 'mt_refund_uploader_orders_query', array( $this, 'filter_refund_query' ) );
+        add_filter( 'woocommerce_my_account_my_orders_query', array( $this, 'filter_my_account_orders_query' ) );
     }
 
     /**
@@ -196,6 +197,27 @@ class MT_WC_Vendors_Order_Manager {
         }
 
         return $query;
+    }
+
+    /**
+     * Filters the query for generating the My Account > Orders page to exclude vendor sub orders.
+     *
+     * @param array $query_args
+     *
+     * @return array
+     */
+    public function filter_my_account_orders_query( $query_args ) {
+        if ( ! isset( $query_args['type'] ) ) {
+            $query_args['type'] = wc_get_order_types( 'view-orders' );
+        }
+
+        $sub_order_index = array_search( 'shop_order_vendor', $query_args['type'] );
+
+        if ( false !== $sub_order_index ) {
+            unset( $query_args['type'][ $sub_order_index ] );
+        }
+
+        return $query_args;
     }
 
 }
