@@ -1,5 +1,20 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+= [1.1.5] - 2019-11-13 =
+
+Added:
+- Add support for calculating sales tax for fees
+
+Fixed:
+- Product tax categories can no longer be bulk edited in WP admin
+- Fatal error when accessing the WC REST API v2 orders endpoint (WC 3.7+)
+- Vendor sub orders appear under My Account > Orders (WC Vendors)
+- Fatal error when updating vendor sub orders containing deleted products (WC Vendors)
+
+Changed:
+- Update tested WC version to 3.8.0
+- Update tested WP version to 5.3.0
+
 = [1.1.4] - 2019-09-18 =
 
 Fixed:
