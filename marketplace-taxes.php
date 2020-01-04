@@ -13,10 +13,10 @@
  * Requires at least:    4.4.0
  * Tested up to:         5.3.0
  * WC requires at least: 3.0.0
- * WC tested up to:      3.8.0
+ * WC tested up to:      3.9.0
  *
  * @category             Plugin
- * @copyright            Copyright © 2019 The Plugin Pros, LLC
+ * @copyright            Copyright © 2020 The Plugin Pros, LLC
  * @author               Brett Porcelli
  * @license              GPL2
  *
