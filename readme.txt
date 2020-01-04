@@ -4,7 +4,7 @@ Donate link: https://paypal.me/ThePluginPros
 Tags: wc vendors tax, dokan tax, wc marketplace tax, wooocommerce marketplace tax, marketplace tax, marketplace sales tax, marketplace taxes
 Requires at least: 4.4
 Tested up to: 5.3
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -104,20 +104,10 @@ You can submit a question on the [support tab](https://wordpress.org/support/plu
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-= [1.1.5] - 2019-11-13 =
-
-Added:
-- Add support for calculating sales tax for fees
-
-Fixed:
-- Product tax categories can no longer be bulk edited in WP admin
-- Fatal error when accessing the WC REST API v2 orders endpoint (WC 3.7+)
-- Vendor sub orders appear under My Account > Orders (WC Vendors)
-- Fatal error when updating vendor sub orders containing deleted products (WC Vendors)
+= [1.1.6] - 2020-01-04 =
 
 Changed:
-- Update tested WC version to 3.8.0
-- Update tested WP version to 5.3.0
+- Updated tested WC version to 3.9.0
 
 == Upgrade Notice ==
 
