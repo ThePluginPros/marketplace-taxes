@@ -3,7 +3,7 @@ Contributors: bporcelli
 Donate link: https://paypal.me/ThePluginPros
 Tags: wc vendors tax, dokan tax, wc marketplace tax, wooocommerce marketplace tax, marketplace tax, marketplace sales tax, marketplace taxes
 Requires at least: 4.4
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 1.1.6
 Requires PHP: 5.6
 License: GPLv2 or later
