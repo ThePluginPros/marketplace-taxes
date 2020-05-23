@@ -16,7 +16,7 @@ $nonce_url = wp_nonce_url( add_query_arg( 'mt-hide-notice', $notice ), 'mt_hide_
 ?>
 <div id="message" class="updated mt-message">
     <a class="mt-message-close notice-dismiss" href="<?php echo esc_url( $nonce_url ); ?>">
-        <?php _e( 'Dismiss', 'marketplace-taxes' ); ?>
+        <span class="screen-reader-text"><?php _e( 'Dismiss', 'marketplace-taxes' ); ?></span>
     </a>
     <?php echo wp_kses_post( wpautop( $notice_html ) ); ?>
 </div>

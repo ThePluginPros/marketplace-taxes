@@ -81,14 +81,6 @@ div.mt-message {
     border-left-color: #005580 !important;
 }
 
-div.mt-message p {
-    max-width: 700px;
-}
-
-div.mt-message p:last-child {
-    max-width: inherit;
-}
-
 p.mt-actions .button-primary, .mt-message .button-primary {
     background: #005580;
     border-color: #005580;
@@ -118,7 +110,7 @@ p.mt-actions a.mt-message-close, .mt-message a.mt-message-close {
 p.mt-actions a.mt-message-close::before, .mt-message a.mt-message-close::before {
     position: absolute;
     top: 8px;
-    left: 0;
+    right: 10px;
     -webkit-transition: all 0.1s ease-in-out;
     transition: all 0.1s ease-in-out;
 }
@@ -135,4 +127,9 @@ p.mt-actions .twitter-share-button, .mt-message .twitter-share-button {
 
 p.mt-actions, .mt-about-text {
     margin-bottom: 1em !important;
+}
+
+.mt-message .mt-message-close ~ p {
+    max-width: 700px;
+    padding-right: 46px;
 }

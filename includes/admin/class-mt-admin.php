@@ -27,6 +27,7 @@ class MT_Admin {
         add_action( 'all_admin_notices', array( $this, 'display_notices' ) );
         add_action( 'admin_init', array( $this, 'init' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_stylesheet' ) );
+        add_action( 'admin_init', array( $this, 'maybe_show_discontinuation_notice' ) );
     }
 
     /**
@@ -95,6 +96,21 @@ class MT_Admin {
     public function enqueue_stylesheet() {
         MT()->assets->enqueue( 'style', 'marketplace-taxes.admin' );
         MT()->assets->enqueue( 'style', 'marketplace-taxes.tax-setup' );
+    }
+
+    /**
+     * Adds the plugin discontinuation notice if it hasn't been displayed already.
+     */
+    public function maybe_show_discontinuation_notice() {
+        $doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+        if ( ! get_option( 'mt_discontinuation_notice_displayed' ) && ! $doing_ajax ) {
+            $notice_html = __(
+                "<strong>Marketplace Taxes is being discontinued.</strong> Recent changes in TaxJar's pricing have made TaxJar cost prohibitive for our target audience, so we are ending support for Marketplace Taxes on <strong>August 21, 2020</strong>. Please read <a href='https://thepluginpros.com/2020/05/23/were-ending-support-for-marketplace-taxes-heres-what-you-can-do/' target='_blank'>our blog article</a> for more information and for advice on what you can do. We apologize for any inconvenience this may cause.",
+                'marketplace-taxes'
+            );
+            MT_Admin_Notices::add_custom_notice( 'discontinuation-notice', $notice_html );
+            update_option( 'mt_discontinuation_notice_displayed', true );
+        }
     }
 
 }
