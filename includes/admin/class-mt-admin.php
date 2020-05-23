@@ -94,7 +94,7 @@ class MT_Admin {
      * Enqueues the admin stylesheet.
      */
     public function enqueue_stylesheet() {
-        MT()->assets->enqueue( 'style', 'marketplace-taxes.admin' );
+        MT()->assets->enqueue( 'style', 'marketplace-taxes.admin', [ 'ver' => '20200523' ] );
         MT()->assets->enqueue( 'style', 'marketplace-taxes.tax-setup' );
     }
 
